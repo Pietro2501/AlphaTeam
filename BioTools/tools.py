@@ -83,38 +83,15 @@ def hard_trimming(sequence:str, qualList: list[int], qs: int, len_s:int):
     return sequence, qualList
 
 
-def dinamic_trimming(quality: list[int], treshold=25):
-    list_mean = []
-    list_index = []
-    list_index_tot = []
-
-    for value in range(len(quality)):
-        if (sum(list_mean) + quality[value]) / (len(list_mean) + 1) < treshold:
-            list_mean.append(quality[value])
-            list_index.append(value)
-        else:
-            list_mean = []
-
-    return list_index
-
-'''
-dict_dinamic_trimmed = {}
-for keys in dict_fastq.keys():
-    dict_dinamic_trimmed[keys] = {}
-    dict_dinamic_trimmed[keys]["qual_trimmed"] = []
-    dict_dinamic_trimmed[keys]["seq_trimmed"] = []
-    dict_dinamic_trimmed[keys]["ascii_trimmed"] = []
-    for indice, value in enumerate(dict_fastq[keys]["qual"]):
-        if indice not in dinamic_trimming(dict_fastq[keys]["qual"]):
-            dict_dinamic_trimmed[keys]["qual_trimmed"].append(value)
-    for indice, value in enumerate(dict_fastq[keys]["seq"]):
-        if indice not in dinamic_trimming(dict_fastq[keys]["qual"]):
-            dict_dinamic_trimmed[keys]["seq_trimmed"].append(value)
-    for indice, value in enumerate(dict_fastq[keys]["ASCII_qual"]):
-        if indice not in dinamic_trimming(dict_fastq[keys]["qual"]):
-            dict_dinamic_trimmed[keys]["ascii_trimmed"].append(value)
-
-for keys in dict_fastq.keys():
-    dict_dinamic_trimmed[keys]["seq_trimmed"] = "".join(dict_dinamic_trimmed[keys]["seq_trimmed"])
-    dict_dinamic_trimmed[keys]["ascii_trimmed"] = "".join(dict_dinamic_trimmed[keys]["ascii_trimmed"])
-'''
+def dinamic_trimming(quality: list[int], treshold=25, window=1):
+    quality_inv = quality[::-1]
+    list_mean = quality_inv[:window]
+    if sum(list_mean)/len(list_mean) < treshold:
+        for value in range(len(list_mean), len(quality_inv)):
+            if (sum(list_mean)+quality_inv[value])/(len(list_mean)+1) < treshold:
+                list_mean.append(quality_inv[value])
+            else:
+                break
+        quality_inv_trim = quality_inv[len(list_mean):]
+    else: quality_inv_trim = quality_inv
+    return quality_inv_trim[::-1]
