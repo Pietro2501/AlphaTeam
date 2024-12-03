@@ -83,15 +83,35 @@ def hard_trimming(sequence:str, qualList: list[int], qs: int, len_s:int):
     return sequence, qualList
 
 
-def dinamic_trimming(quality: list[int], treshold=25, window=1):
-    quality_inv = quality[::-1]
-    list_mean = quality_inv[:window]
-    if sum(list_mean)/len(list_mean) < treshold:
-        for value in range(len(list_mean), len(quality_inv)):
-            if (sum(list_mean)+quality_inv[value])/(len(list_mean)+1) < treshold:
-                list_mean.append(quality_inv[value])
-            else:
-                break
-        quality_inv_trim = quality_inv[len(list_mean):]
-    else: quality_inv_trim = quality_inv
-    return quality_inv_trim[::-1]
+def dynamic_trimming(seq: str, qscore: list[int], threshold_q: int = 20, min_length: float = 0.8) -> tuple[str, list[int]]:
+    """Dynamic trimming using a sliding calculation."""
+    len_seq = len(seq)
+    if not len_seq:
+        return "", []
+
+    min_length_abs = round(len_seq*min_length)
+
+    filter_list = [True] * len_seq
+    i = 0
+
+    while i < len_seq:
+        if qscore[i] < threshold_q:
+            filter_list[i] = False
+            j = i + 1
+            window_sum = qscore[i]
+            window_size = 1
+
+            while j < len_seq and (window_sum / window_size) < threshold_q:
+                window_sum += qscore[j]
+                window_size += 1
+                filter_list[j] = False
+                j += 1
+
+            i = j
+        else:
+            i += 1
+
+    if sum(filter_list) >= min_length_abs:
+        return (''.join(s for s, f in zip(seq, filter_list) if f),
+                [q for q, f in zip(qscore, filter_list) if f])
+    return "", []
