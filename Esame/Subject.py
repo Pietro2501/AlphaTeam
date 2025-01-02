@@ -65,8 +65,8 @@ class Subject:
                 self.subject_file = extracted_file
             except Exception as e:
                 raise ErroriPersonalizzati.Error(f"File non trovato:{self.subject_file}")
-        elif not self.subject_file.endswith('.fasta'):
-            raise ErroriPersonalizzati.FileTypeError()
+        #elif not self.subject_file.endswith('.fasta'):
+            #raise ErroriPersonalizzati.FileTypeError()
         else:
             print("Il file è già nell'estensione .fasta!")
             self.subject_file = self.subject_file
@@ -126,7 +126,7 @@ class Subject:
             complete_dict[header] = divide_into_kmer(tools.fn_comp_rev(sequence)[1],22)
         return complete_dict
 
-sub = Subject('esempioFASTA.fa')
+sub = Subject('/Users/pietrodispaldro/Documents/GitHub/AlphaTeam/esempioFASTA.fa')
 sub.parse_file()
 print(sub.subject_indexing())
 print(sub.subject_indexing_comp_rev())

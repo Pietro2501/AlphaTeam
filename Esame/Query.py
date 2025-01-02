@@ -1,16 +1,23 @@
 import os
 import ErroriPersonalizzati
 from BioTools import tools
+from settings import nucleotides_scoring_matrix
+import tools
+
 
 
 
 # OopCompanion:suppressRename
 
 class Query:
-    def __init__(self, query_file):
+    def __init__(self, query_file,scoring_matrix = None):
         if not os.path.isfile(query_file):
            raise ErroriPersonalizzati.FileNotFoundError(f"File non trovato: {query_file}")
         self.query_file = query_file
+        if scoring_matrix is None:
+            self.scoring_matrix = nucleotides_scoring_matrix
+        else:
+            self.scoring_matrix = scoring_matrix
 
     def parse_file(self):
         """
@@ -86,10 +93,31 @@ class Query:
         self.kmer_set_comp_rev = kmer_set_comp_rev
         return kmer_set_comp_rev
 
+    def generate_word_diz(self,k:int,threshold = 0,max_words = None) -> dict:
+        #if not self.kmer_set:
+           #self.kmer_indexing(k)
+
+        words_diz = {}
+        for kmer in self.kmer_set:
+            words_list = tools.generate_words(
+                kmer = kmer,
+                scoring_matrix= self.scoring_matrix,
+                threshold=threshold,
+                max_words=max_words
+            )
+            words_diz[kmer] = words_list
+
+        self.words_diz = words_diz
+        return words_diz
+
+
+
 
 query = Query('query.txt')
 query.parse_file()
 print("Stampo i kmer della query")
 print(query.kmer_indexing(11))
 print("Stampo i kmer della query del complementare revertito")
-print(query.kmer_indexing_comp_rev(11))
+#print(query.kmer_indexing_comp_rev(11))
+
+print(query.generate_word_diz(22,20,10))
