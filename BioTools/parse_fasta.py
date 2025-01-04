@@ -3,7 +3,7 @@ import sys
 sys.path.append("C:/Users/Melania/Desktop/program_vsc/biotools")
 #os.chdir('C:/Users/Melania/Desktop/program_vsc/biotools')
 # biotools.tools import check_file
-from tools import check_file
+from Esame.tools1 import check_file
 
 def parse_fasta(fileFasta: str) -> dict:
     """

@@ -1,11 +1,10 @@
 import os
 import ErroriPersonalizzati
-from BioTools import tools
+#from BioTools import tools
 from settings import nucleotides_scoring_matrix
+import tools1 
 import tools
-
-
-
+import parserFasta 
 
 # OopCompanion:suppressRename
 
@@ -33,13 +32,13 @@ class Query:
         """
         if self.query_file.endswith('.gz') or self.query_file.endswith('.gzip'):
             try:
-                tools.extract_info(self.query_file, 'query.txt')
+                tools1.extract_info(self.query_file, 'Query')
             except Exception as e:
-                raise ErroriPersonalizzati.QueryError(f"Errore durante l'estrazione del file compresso: {e}")
-        elif not self.query_file.endswith('.txt'):
+                raise ErroriPersonalizzati.QueryError()
+        elif not self.query_file.endswith('.fasta'):
             raise ErroriPersonalizzati.FileTypeError()
         else:
-            print("Il file è già nell'estensione .txt!")
+            print("Il file è già nell'estensione .fasta/.fa!")
             return self.query_file
 
     def kmer_indexing(self, k: int) -> set:
@@ -55,17 +54,15 @@ class Query:
                     kmer_set: set
                     Set contenente i kmer estratti dalla sequenza query
                 """
-        if k <= 0:
-            raise ErroriPersonalizzati.KmerError()
-        with open(self.query_file, 'r') as seq:
-            seq = seq.readlines()
-            seq = ''.join(seq)
-            if k > len(seq):
-                raise ErroriPersonalizzati.KmerTooLong()
-        kmer_set = set([seq[i:i + k] for i in range(len(seq) - k + 1)])
-        self.kmer_set = kmer_set
-        return kmer_set
-
+        try:
+            diz = parserFasta.parse_fasta(self.query_file)
+            complete_dict = diz
+        except Exception as e:
+            raise ErroriPersonalizzati.FastaParsingError()
+        for header, sequence in complete_dict.items():
+            complete_dict[header] = tools.divide_into_kmer(sequence,22)
+        return complete_dict
+       
     def kmer_indexing_comp_rev(self, k: int) -> set:
         """
                          Divide il complementare revertito della query
@@ -81,18 +78,15 @@ class Query:
                             Set contenente i kmer estratti dalla sequenza query,
                             lavorando sul complementare revertito
                         """
-        if k <= 0:
-            raise ErroriPersonalizzati.KmerError()
-        with open(self.query_file, 'r') as seq:
-            seq = seq.readlines()
-            seq = ''.join(seq)
-            if k > len(seq):
-                raise ErroriPersonalizzati.KmerTooLong()
-            seq_comp_rev = tools.fn_comp_rev(seq)[1]
-        kmer_set_comp_rev = set([seq_comp_rev[i:i + k] for i in range(len(seq_comp_rev) - k + 1)])
-        self.kmer_set_comp_rev = kmer_set_comp_rev
-        return kmer_set_comp_rev
-
+        try:
+            diz = parserFasta.parse_fasta(self.query_file)
+            complete_dict = diz
+        except Exception as e:
+            raise ErroriPersonalizzati.FastaParsingError()
+        for header, sequence in complete_dict.items():
+            complete_dict[header] = tools.divide_into_kmer(tools1.fn_comp_rev(sequence)[1],22)
+        return complete_dict
+    '''
     def generate_word_diz(self,k:int,threshold = 0,max_words = None) -> dict:
         #if not self.kmer_set:
            #self.kmer_indexing(k)
@@ -109,15 +103,13 @@ class Query:
 
         self.words_diz = words_diz
         return words_diz
+        '''
 
 
-
-
-query = Query('query.txt')
+query = Query('C:/Users/verak/OneDrive - Università degli Studi di Bari/Documenti/GitHub/AlphaTeam/Esame/query.fasta')
 query.parse_file()
 print("Stampo i kmer della query")
 print(query.kmer_indexing(11))
 print("Stampo i kmer della query del complementare revertito")
-#print(query.kmer_indexing_comp_rev(11))
-
-print(query.generate_word_diz(22,20,10))
+print(query.kmer_indexing_comp_rev(11))
+#print(query.generate_word_diz(22,20,10))

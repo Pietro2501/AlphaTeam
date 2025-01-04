@@ -1,12 +1,15 @@
-#import sys
-#print(sys.path)
-#sys.path.append('c:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam')
-#import os
-#os.chdir ('c:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam')
-from BioTools import parserFasta
-from BioTools import tools
+import sys
+print(sys.path)
+#sys.path.append('C:\Users\\verak\\OneDrive - Università degli Studi di Bari\\Documenti\\GitHub\\AlphaTeam\\Esame')
+#os.chdir ('C:\Users\verak\OneDrive - Università degli Studi di Bari\\Documenti\\GitHub\\AlphaTeam\\Esame')
+#from BioTools import parserFasta
+#from BioTools import tools
 import ErroriPersonalizzati
 import os
+print(os.path.exists("C:/Users/verak/OneDrive - Università degli Studi di Bari/Documenti/GitHub/AlphaTeam/Esame"))
+
+import tools1 as tools1
+import parserFasta
 
 
 def divide_into_kmer(sequence,k):
@@ -61,14 +64,14 @@ class Subject:
         """
         if self.subject_file.endswith('.gz') or self.subject_file.endswith('.gzip'):
             try:
-                extracted_file = tools.extract_info(self.subject_file, 'subject')
+                extracted_file = tools1.extract_info(self.subject_file,'Subject')
                 self.subject_file = extracted_file
             except Exception as e:
                 raise ErroriPersonalizzati.Error(f"File non trovato:{self.subject_file}")
-        #elif not self.subject_file.endswith('.fasta'):
-            #raise ErroriPersonalizzati.FileTypeError()
+        elif not self.subject_file.endswith('.fa') or self.subject_file.endswith('.fasta'):
+            raise ErroriPersonalizzati.FileTypeError()
         else:
-            print("Il file è già nell'estensione .fasta!")
+            print("Il file è già nell'estensione .fasta/.fa!")
             self.subject_file = self.subject_file
 
     #def subject_indexing(self):
@@ -123,13 +126,10 @@ class Subject:
             raise ErroriPersonalizzati.FastaParsingError()
         for header, sequence in complete_dict.items():
             #CHIEDERE A MELANIA
-            complete_dict[header] = divide_into_kmer(tools.fn_comp_rev(sequence)[1],22)
+            complete_dict[header] = divide_into_kmer(tools1.fn_comp_rev(sequence)[1],22)
         return complete_dict
 
-sub = Subject('/Users/pietrodispaldro/Documents/GitHub/AlphaTeam/esempioFASTA.fa')
+sub = Subject('C:/Users/verak/OneDrive - Università degli Studi di Bari/Documenti/GitHub/AlphaTeam/Esame/ref.fa')
 sub.parse_file()
 print(sub.subject_indexing())
 print(sub.subject_indexing_comp_rev())
-
-
-

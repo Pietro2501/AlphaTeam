@@ -3,7 +3,7 @@ class Error(Exception):
     pass
 
 class FileTypeError(Error):
-    def __init__(self, message="Il file deve avere estensione .txt, .gz, o .gzip"):
+    def __init__(self, message="Il file deve avere estensione .fa, .fasta, .gz, o .gzip"):
         super().__init__(message)
 
 class FileNotFoundError(Error):
@@ -20,4 +20,8 @@ class KmerTooLong(Error):
 
 class FastaParsingError(Error):
     def __init__(self, message="Errore nel parsing del file FASTA"):
+        super().__init__(message)
+
+class QueryError(Error):
+    def __init__(self, message="Errore durante l'estrazione del file"):
         super().__init__(message)
