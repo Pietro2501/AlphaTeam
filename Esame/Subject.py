@@ -1,12 +1,12 @@
 import sys
-print(sys.path)
+#print(sys.path)
 #sys.path.append('C:\Users\\verak\\OneDrive - Università degli Studi di Bari\\Documenti\\GitHub\\AlphaTeam\\Esame')
 #os.chdir ('C:\Users\verak\OneDrive - Università degli Studi di Bari\\Documenti\\GitHub\\AlphaTeam\\Esame')
 #from BioTools import parserFasta
 #from BioTools import tools
 import ErroriPersonalizzati
 import os
-print(os.path.exists("C:/Users/verak/OneDrive - Università degli Studi di Bari/Documenti/GitHub/AlphaTeam/Esame"))
+#print(os.path.exists("C:/Users/verak/OneDrive - Università degli Studi di Bari/Documenti/GitHub/AlphaTeam/Esame"))
 
 import tools1 as tools1
 import parserFasta
@@ -85,7 +85,7 @@ class Subject:
     #            kmer_diz[header][kmer] = i*k
     #    return kmer_diz
 
-    def subject_indexing(self):
+    def subject_indexing(self,k):
         """
         Effettua il parsing del file FASTA e divide ogni sequenza in kmer di lunghezza 22.
 
@@ -103,10 +103,10 @@ class Subject:
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
         for header, sequence in complete_dict.items():
-            complete_dict[header] = divide_into_kmer(sequence,22)
+            complete_dict[header] = divide_into_kmer(sequence,k)
         return complete_dict
 
-    def subject_indexing_comp_rev(self):
+    def subject_indexing_comp_rev(self,k):
         """
                 Effettua il parsing del file FASTA e divide ogni sequenza in kmer di lunghezza 22 e
                 applica il complementare revertito della sequenza, prima di suddividerla.
@@ -126,10 +126,10 @@ class Subject:
             raise ErroriPersonalizzati.FastaParsingError()
         for header, sequence in complete_dict.items():
             #CHIEDERE A MELANIA
-            complete_dict[header] = divide_into_kmer(tools1.fn_comp_rev(sequence)[1],22)
+            complete_dict[header] = divide_into_kmer(tools1.fn_comp_rev(sequence)[1],k)
         return complete_dict
 
-sub = Subject('C:/Users/verak/OneDrive - Università degli Studi di Bari/Documenti/GitHub/AlphaTeam/Esame/ref.fa')
-sub.parse_file()
-print(sub.subject_indexing())
-print(sub.subject_indexing_comp_rev())
+#sub = Subject('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\ref.fa')
+#sub.parse_file()
+#print(sub.subject_indexing())
+#print(sub.subject_indexing_comp_rev())

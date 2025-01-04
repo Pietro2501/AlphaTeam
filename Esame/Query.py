@@ -1,10 +1,11 @@
 import os
 import ErroriPersonalizzati
-#from BioTools import tools
 from settings import nucleotides_scoring_matrix
-import tools1 
-import tools
-import parserFasta 
+import tools, tools1
+import parserFasta
+
+
+
 
 # OopCompanion:suppressRename
 
@@ -32,13 +33,13 @@ class Query:
         """
         if self.query_file.endswith('.gz') or self.query_file.endswith('.gzip'):
             try:
-                tools1.extract_info(self.query_file, 'Query')
+                tools.extract_info(self.query_file, 'query.txt')
             except Exception as e:
-                raise ErroriPersonalizzati.QueryError()
+                raise ErroriPersonalizzati.QueryError(f"Errore durante l'estrazione del file compresso: {e}")
         elif not self.query_file.endswith('.fasta'):
             raise ErroriPersonalizzati.FileTypeError()
         else:
-            print("Il file è già nell'estensione .fasta/.fa!")
+            print("Il file è già nell'estensione .txt!")
             return self.query_file
 
     def kmer_indexing(self, k: int) -> set:
@@ -62,7 +63,7 @@ class Query:
         for header, sequence in complete_dict.items():
             complete_dict[header] = tools.divide_into_kmer(sequence,22)
         return complete_dict
-       
+
     def kmer_indexing_comp_rev(self, k: int) -> set:
         """
                          Divide il complementare revertito della query
@@ -84,9 +85,11 @@ class Query:
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
         for header, sequence in complete_dict.items():
+            #CHIEDERE A MELANIA
             complete_dict[header] = tools.divide_into_kmer(tools1.fn_comp_rev(sequence)[1],22)
         return complete_dict
-    '''
+
+    """
     def generate_word_diz(self,k:int,threshold = 0,max_words = None) -> dict:
         #if not self.kmer_set:
            #self.kmer_indexing(k)
@@ -103,13 +106,16 @@ class Query:
 
         self.words_diz = words_diz
         return words_diz
-        '''
+    """
 
 
-query = Query('C:/Users/verak/OneDrive - Università degli Studi di Bari/Documenti/GitHub/AlphaTeam/Esame/query.fasta')
-query.parse_file()
-print("Stampo i kmer della query")
-print(query.kmer_indexing(11))
-print("Stampo i kmer della query del complementare revertito")
-print(query.kmer_indexing_comp_rev(11))
+
+
+#query = Query('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\query.fasta')
+#query.parse_file()
+#print("Stampo i kmer della query")
+#print(query.kmer_indexing(11))
+#print("Stampo i kmer della query del complementare revertito")
+#print(query.kmer_indexing_comp_rev(11))
+
 #print(query.generate_word_diz(22,20,10))
