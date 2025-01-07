@@ -1,17 +1,29 @@
 from Query import Query
 from Subject import Subject
+import ErroriPersonalizzati
 
-query = Query('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\query.fasta')
+query = Query('query.fasta')
 query.parse_file()
 kmer_query_dict = query.kmer_indexing(22)
-kmer_comprev_query_dict = query.kmer_indexing_comp_rev(22)    
+kmer_comprev_query_dict = query.kmer_indexing_comp_rev(22)
 
-sub = Subject('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\ref.fa')
+if kmer_query_dict is None and kmer_comprev_query_dict is None:
+    raise ErroriPersonalizzati.EmptyDict()
+if not isinstance(kmer_query_dict,dict) or not isinstance(kmer_comprev_query_dict,dict):
+    raise ErroriPersonalizzati.NotADict()
+
+sub = Subject('ref.fa')
 sub.parse_file()
 kmer_subject_dict = sub.subject_indexing(22)
 kmer_comprev_subject_dict = sub.subject_indexing_comp_rev(22)
 
+if kmer_subject_dict is None and kmer_comprev_subject_dict is None:
+    raise ErroriPersonalizzati.EmptyDict()
+if not isinstance(kmer_query_dict,dict) or not isinstance(kmer_comprev_query_dict,dict):
+    raise ErroriPersonalizzati.NotADict()
+
 def find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict:
+
     seed_dict = {}
     for key1,inner_dict in kmer_query_dict.items():
         for kmer1,pos1 in inner_dict.items():
@@ -74,5 +86,6 @@ def find_comprev_seed(kmer_comprev_query_dict,kmer_subject_dict,kmer_comprev_sub
     return seed_comprev_dict
 
 b = find_comprev_seed(kmer_comprev_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)
+print(a)
 print(b)
-print(len(b))
+#print(len(b))

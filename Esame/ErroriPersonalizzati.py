@@ -25,3 +25,11 @@ class FastaParsingError(Error):
 class QueryError(Error):
     def __init__(self, message="Errore durante l'estrazione del file"):
         super().__init__(message)
+
+class EmptyDict(Error):
+    def __init__(self, message="Il dizionario è vuoto"):
+        super().__init__(message)
+
+class NotADict(Error):
+    def __init__(self, message="Questo non è un dizionario"):
+        super().__init__(message)
