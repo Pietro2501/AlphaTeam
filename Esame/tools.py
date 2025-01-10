@@ -63,7 +63,7 @@ def divide_into_kmer(sequence,k):
     if k > len(sequence):
         raise ErroriPersonalizzati.KmerTooLong()
     kmer_diz = {}
-    for i in range(0, len(sequence)-k+1,k-2):
+    for i in range(0, len(sequence)-k+1,k):
         kmer = sequence[i:i+k]
         kmer_diz.setdefault(kmer, [])
         kmer_diz[kmer].append(i)

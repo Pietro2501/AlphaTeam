@@ -7,13 +7,13 @@ import sys
 import ErroriPersonalizzati
 import os
 #print(os.path.exists("C:/Users/verak/OneDrive - Università degli Studi di Bari/Documenti/GitHub/AlphaTeam/Esame"))
-
+import tools
 import tools1 as tools1
 import parserFasta
 
-
+"""
 def divide_into_kmer(sequence,k):
-    """
+
     Divide la sequenza in kmer di lunghezza k, restituendo un dizionario
     dove la chiave sono i kmer e il valore è una lista di posizioni.
 
@@ -31,7 +31,7 @@ def divide_into_kmer(sequence,k):
     kmer_diz: dict
         Un dizionario in cui le chiavi sono i kmer e i valori sono
         le liste di posizioni.
-    """
+
     if k <= 0:
         raise ErroriPersonalizzati.KmerError()
     if k > len(sequence):
@@ -42,6 +42,7 @@ def divide_into_kmer(sequence,k):
         kmer_diz.setdefault(kmer, [])
         kmer_diz[kmer].append(i)
     return kmer_diz
+"""
 
 # OopCompanion:suppressRename
 class Subject:
@@ -99,12 +100,13 @@ class Subject:
         """
         try:
             diz = parserFasta.parse_fasta(self.subject_file)
-            complete_dict = diz
+            complete_dict_sub = diz
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
-        for header, sequence in complete_dict.items():
-            complete_dict[header] = divide_into_kmer(sequence,k)
-        return complete_dict
+        for header, sequence in complete_dict_sub.items():
+            complete_dict_sub[header] = tools.divide_into_kmer(sequence,k)
+        self.complete_dict_sub = complete_dict_sub
+        return complete_dict_sub
 
     def subject_indexing_comp_rev(self,k):
         """
@@ -126,10 +128,10 @@ class Subject:
             raise ErroriPersonalizzati.FastaParsingError()
         for header, sequence in complete_dict.items():
             #CHIEDERE A MELANIA
-            complete_dict[header] = divide_into_kmer(tools1.fn_comp_rev(sequence)[1],k)
+            complete_dict[header] = tools.divide_into_kmer(tools1.fn_comp_rev(sequence)[1],k)
         return complete_dict
 
 #sub = Subject('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\ref.fa')
 #sub.parse_file()
-#print(sub.subject_indexing())
+#print(sub.subject_indexing(22))
 #print(sub.subject_indexing_comp_rev())

@@ -40,6 +40,7 @@ class Query:
             raise ErroriPersonalizzati.FileTypeError()
         else:
             print("Il file è già nell'estensione .txt!")
+        
             return self.query_file
 
     def kmer_indexing(self, k: int) -> set:
@@ -61,7 +62,8 @@ class Query:
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
         for header, sequence in complete_dict.items():
-            complete_dict[header] = tools.divide_into_kmer(sequence,22)
+            complete_dict[header] = tools.divide_into_kmer(sequence,k)
+        self.complete_dict = complete_dict
         return complete_dict
 
     def kmer_indexing_comp_rev(self, k: int) -> set:
@@ -86,7 +88,7 @@ class Query:
             raise ErroriPersonalizzati.FastaParsingError()
         for header, sequence in complete_dict.items():
             #CHIEDERE A MELANIA
-            complete_dict[header] = tools.divide_into_kmer(tools1.fn_comp_rev(sequence)[1],22)
+            complete_dict[header] = tools.divide_into_kmer(tools1.fn_comp_rev(sequence)[1],k)
         return complete_dict
 
     """
