@@ -22,6 +22,7 @@ if kmer_query_dict is None and kmer_comprev_query_dict is None:
 if not isinstance(kmer_query_dict,dict) or not isinstance(kmer_comprev_query_dict,dict):
     raise ErroriPersonalizzati.NotADict()
 
+
 sub = Subject('Esame\\ref.fa')
 sub.parse_file()
 kmer_subject_dict = sub.subject_indexing(22)
@@ -115,10 +116,10 @@ def find_comprev_seed(kmer_comprev_query_dict,kmer_subject_dict,kmer_comprev_sub
     return seed_comprev_dict
 
 #def extend_seed(seed_dict,query,subject):
-print(a)
+#print(a)
 #print(len(a))
 
-"""
+
 s = 38
 x = 6
 schema = []
@@ -136,6 +137,11 @@ for kmer, inner_dict in a.items():
 
 #print(schema)
 
+#def extend_seed(schema,query.diz,):
+
+#    return
+
+"""
 lista_utile=[]
 for i,j in kmer_query_dict['b6635d67cb594473ddba9f8cfba5d13d'].items():
     if j == [176]:
@@ -177,10 +183,10 @@ for a in range(0,len(seq_utile)):
 
 
 print(score)
-
+"""
         
 
-"""
+
 
 
 

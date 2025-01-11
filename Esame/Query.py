@@ -38,12 +38,11 @@ class Query:
                 raise ErroriPersonalizzati.QueryError(f"Errore durante l'estrazione del file compresso: {e}")
         elif not self.query_file.endswith('.fasta'):
             raise ErroriPersonalizzati.FileTypeError()
-        else:
-            print("Il file è già nell'estensione .txt!")
         
-            return self.query_file
+        self.diz = parserFasta.parse_fasta(self.query_file)
+        return self.diz
 
-    def kmer_indexing(self, k: int) -> set:
+    def kmer_indexing(self, k: int) -> dict:
         """
                  Divide la query in kmer di lunghezza 22.
 
@@ -57,8 +56,8 @@ class Query:
                     Set contenente i kmer estratti dalla sequenza query
                 """
         try:
-            diz = parserFasta.parse_fasta(self.query_file)
-            complete_dict = diz
+            #diz = parserFasta.parse_fasta(self.query_file)
+            complete_dict = self.diz
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
         for header, sequence in complete_dict.items():
@@ -82,13 +81,15 @@ class Query:
                             lavorando sul complementare revertito
                         """
         try:
-            diz = parserFasta.parse_fasta(self.query_file)
-            complete_dict = diz
+            #diz = parserFasta.parse_fasta(self.query_file)
+            complete_dict = self.diz
+            print(type(complete_dict))
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
         for header, sequence in complete_dict.items():
-            #CHIEDERE A MELANIA
-            complete_dict[header] = tools.divide_into_kmer(tools1.fn_comp_rev(sequence)[1],k)
+            print(type(sequence))
+            sequence_comp_rev = tools1.fn_comp_rev(sequence)[1]
+            complete_dict[header] = tools.divide_into_kmer(sequence_comp_rev,k)
         return complete_dict
 
     """
@@ -113,11 +114,12 @@ class Query:
 
 
 
-#query = Query('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\query.fasta')
-#query.parse_file()
+query = Query('Esame\\query.fasta')
+query.parse_file()
+print(query.diz)
 #print("Stampo i kmer della query")
 #print(query.kmer_indexing(11))
 #print("Stampo i kmer della query del complementare revertito")
-#print(query.kmer_indexing_comp_rev(11))
+print(query.kmer_indexing_comp_rev(22))
 
 #print(query.generate_word_diz(22,20,10))

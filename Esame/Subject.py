@@ -73,7 +73,9 @@ class Subject:
             raise ErroriPersonalizzati.FileTypeError()
         else:
             print("Il file è già nell'estensione .fasta/.fa!")
-            self.subject_file = self.subject_file
+        
+        self.sub_diz = parserFasta.parse_fasta(self.subject_file)
+
 
     #def subject_indexing(self):
     #    diz = parserFasta.parse_fasta(self.subject_file)
@@ -99,8 +101,8 @@ class Subject:
             sono dizionari di kmer di lunghezza 22, con le posizioni in cui ciascun k-mer appare.
         """
         try:
-            diz = parserFasta.parse_fasta(self.subject_file)
-            complete_dict_sub = diz
+            #diz = parserFasta.parse_fasta(self.subject_file)
+            complete_dict_sub = self.sub_diz
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
         for header, sequence in complete_dict_sub.items():
@@ -122,8 +124,8 @@ class Subject:
                     sono dizionari di kmer di lunghezza 22 , con le posizioni in cui ciascun k-mer appare.
                 """
         try:
-            diz = parserFasta.parse_fasta(self.subject_file)
-            complete_dict = diz
+            #diz = parserFasta.parse_fasta(self.subject_file)
+            complete_dict = self.sub_diz
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
         for header, sequence in complete_dict.items():
@@ -134,4 +136,4 @@ class Subject:
 #sub = Subject('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\ref.fa')
 #sub.parse_file()
 #print(sub.subject_indexing(22))
-#print(sub.subject_indexing_comp_rev())
+#print(sub.subject_indexing_comp_rev(22))
