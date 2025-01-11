@@ -3,7 +3,6 @@ import ErroriPersonalizzati
 def calculate_score(kmer1: str, kmer2: str,scoring_matrix) -> int:
     if len(kmer1) != len(kmer2):
         raise ValueError("I due kmer devono avere la stessa lunghezza!")
-
     score = 0
     for i in range(len(kmer1)):
         base1, base2 = kmer1[i], kmer2[i]

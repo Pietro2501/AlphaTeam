@@ -50,6 +50,9 @@ class Subject:
         if not os.path.isfile(subject_file):
             raise ErroriPersonalizzati.FileNotFoundError()
         self.subject_file = subject_file
+        self.sub_diz = None
+        self.forward_kmers = None
+        self.comp_rev_kmers = None
 
     def parse_file(self):
         """
@@ -63,6 +66,7 @@ class Subject:
         Return:
         Nessuno.
         """
+        self.sub_diz = parserFasta.parse_fasta(self.subject_file)
         if self.subject_file.endswith('.gz') or self.subject_file.endswith('.gzip'):
             try:
                 extracted_file = tools1.extract_info(self.subject_file,'Subject')
@@ -74,7 +78,7 @@ class Subject:
         else:
             print("Il file è già nell'estensione .fasta/.fa!")
         
-        self.sub_diz = parserFasta.parse_fasta(self.subject_file)
+        return self.sub_diz
 
 
     #def subject_indexing(self):
@@ -102,12 +106,12 @@ class Subject:
         """
         try:
             #diz = parserFasta.parse_fasta(self.subject_file)
-            complete_dict_sub = self.sub_diz
+            complete_dict_sub = {}
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
-        for header, sequence in complete_dict_sub.items():
+        for header, sequence in self.sub_diz.items():
             complete_dict_sub[header] = tools.divide_into_kmer(sequence,k)
-        self.complete_dict_sub = complete_dict_sub
+        self.forward_kmers = complete_dict_sub
         return complete_dict_sub
 
     def subject_indexing_comp_rev(self,k):
@@ -125,13 +129,14 @@ class Subject:
                 """
         try:
             #diz = parserFasta.parse_fasta(self.subject_file)
-            complete_dict = self.sub_diz
+            complete_dict_comp_rev = {}
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
-        for header, sequence in complete_dict.items():
+        for header, sequence in self.sub_diz.items():
             #CHIEDERE A MELANIA
-            complete_dict[header] = tools.divide_into_kmer(tools1.fn_comp_rev(sequence)[1],k)
-        return complete_dict
+            complete_dict_comp_rev[header] = tools.divide_into_kmer(tools1.fn_comp_rev(sequence)[1],k)
+            self.comp_rev_kmers = complete_dict_comp_rev
+        return complete_dict_comp_rev
 
 #sub = Subject('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\ref.fa')
 #sub.parse_file()

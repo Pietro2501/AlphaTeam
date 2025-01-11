@@ -18,6 +18,9 @@ class Query:
             self.scoring_matrix = nucleotides_scoring_matrix
         else:
             self.scoring_matrix = scoring_matrix
+        self.diz = None
+        self.forward_kmers = None
+        self.comp_rev_kmers = None
 
     def parse_file(self):
         """
@@ -31,6 +34,8 @@ class Query:
                 Return:
                 Nessuno.
         """
+        self.diz = parserFasta.parse_fasta(self.query_file)
+
         if self.query_file.endswith('.gz') or self.query_file.endswith('.gzip'):
             try:
                 tools.extract_info(self.query_file, 'query.txt')
@@ -38,8 +43,6 @@ class Query:
                 raise ErroriPersonalizzati.QueryError(f"Errore durante l'estrazione del file compresso: {e}")
         elif not self.query_file.endswith('.fasta'):
             raise ErroriPersonalizzati.FileTypeError()
-        
-        self.diz = parserFasta.parse_fasta(self.query_file)
         return self.diz
 
     def kmer_indexing(self, k: int) -> dict:
@@ -57,15 +60,16 @@ class Query:
                 """
         try:
             #diz = parserFasta.parse_fasta(self.query_file)
-            complete_dict = self.diz
+            complete_dict = {}
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
-        for header, sequence in complete_dict.items():
+        for header, sequence in self.diz.items():
             complete_dict[header] = tools.divide_into_kmer(sequence,k)
-        self.complete_dict = complete_dict
+        self.forward_kmers = complete_dict
         return complete_dict
 
-    def kmer_indexing_comp_rev(self, k: int) -> set:
+
+    def kmer_indexing_comp_rev(self, k: int) -> dict:
         """
                          Divide il complementare revertito della query
                          in kmer di lunghezza fissa 22.
@@ -82,15 +86,15 @@ class Query:
                         """
         try:
             #diz = parserFasta.parse_fasta(self.query_file)
-            complete_dict = self.diz
-            print(type(complete_dict))
+            complete_dict_comp_rev = {}
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
-        for header, sequence in complete_dict.items():
-            print(type(sequence))
+        for header,sequence in self.diz.items():
+            #print(type(abc))
             sequence_comp_rev = tools1.fn_comp_rev(sequence)[1]
-            complete_dict[header] = tools.divide_into_kmer(sequence_comp_rev,k)
-        return complete_dict
+            complete_dict_comp_rev[header] = tools.divide_into_kmer(sequence_comp_rev,k)
+            self.comp_rev_kmers = complete_dict_comp_rev
+        return complete_dict_comp_rev
 
     """
     def generate_word_diz(self,k:int,threshold = 0,max_words = None) -> dict:
@@ -114,12 +118,15 @@ class Query:
 
 
 
-query = Query('Esame\\query.fasta')
-query.parse_file()
-print(query.diz)
+#query = Query('query.fasta')
+#print(f"prova{query.parse_file()}")
+#query.kmer_indexing(22)
+#print(query.complete_dict)
 #print("Stampo i kmer della query")
-#print(query.kmer_indexing(11))
+#print(query.kmer_indexing(22))
 #print("Stampo i kmer della query del complementare revertito")
-print(query.kmer_indexing_comp_rev(22))
+#print(query.kmer_indexing_comp_rev(22))
+
+#print(f"ciao{query.prova()}")
 
 #print(query.generate_word_diz(22,20,10))

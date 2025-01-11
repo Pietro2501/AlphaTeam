@@ -36,8 +36,8 @@ def findCompRev(sequence:str)->str:
     comp_rev = comp[::-1]
     return comp,comp_rev
 
-def fn_comp_rev (nameseq):
-    nameseq = nameseq.strip()
+def fn_comp_rev(nameseq):
+    nameseq = nameseq.replace('\n','')
     #reverso = nameseq[::-1]
     table= str.maketrans('ACTG','TGAC')
     comp = nameseq.translate(table)

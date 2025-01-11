@@ -11,7 +11,7 @@ def parse_args():
     return parser.parse_args()
 
 """
-query = Query('Esame\\query.fasta')
+query = Query('/Users/pietrodispaldro/Documents/GitHub/AlphaTeam/Esame/query.fasta')
 query.parse_file()
 kmer_query_dict = query.kmer_indexing(22)
 kmer_comprev_query_dict = query.kmer_indexing_comp_rev(22)
@@ -23,10 +23,12 @@ if not isinstance(kmer_query_dict,dict) or not isinstance(kmer_comprev_query_dic
     raise ErroriPersonalizzati.NotADict()
 
 
-sub = Subject('Esame\\ref.fa')
+sub = Subject('/Users/pietrodispaldro/Documents/GitHub/AlphaTeam/Esame/ref.fa')
 sub.parse_file()
 kmer_subject_dict = sub.subject_indexing(22)
 kmer_comprev_subject_dict = sub.subject_indexing_comp_rev(22)
+
+
 
 if kmer_subject_dict is None and kmer_comprev_subject_dict is None:
     raise ErroriPersonalizzati.EmptyDict()
