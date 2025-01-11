@@ -1,4 +1,7 @@
 import argparse
+
+from setuptools.dist import sequence
+
 from Query import Query
 from Subject import Subject
 import ErroriPersonalizzati
@@ -12,7 +15,7 @@ def parse_args():
 
 """
 query = Query('/Users/pietrodispaldro/Documents/GitHub/AlphaTeam/Esame/query.fasta')
-query.parse_file()
+diz_partenza_query =query.parse_file()
 kmer_query_dict = query.kmer_indexing(22)
 kmer_comprev_query_dict = query.kmer_indexing_comp_rev(22)
 
@@ -24,7 +27,7 @@ if not isinstance(kmer_query_dict,dict) or not isinstance(kmer_comprev_query_dic
 
 
 sub = Subject('/Users/pietrodispaldro/Documents/GitHub/AlphaTeam/Esame/ref.fa')
-sub.parse_file()
+diz_partenza_subject = sub.parse_file()
 kmer_subject_dict = sub.subject_indexing(22)
 kmer_comprev_subject_dict = sub.subject_indexing_comp_rev(22)
 
@@ -59,7 +62,7 @@ def find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict
                                 for p in pos2:
                                     if p not in seed_dict[kmer1]['subject'][key2]:
                                         seed_dict[kmer1]['subject'][key2].append(p)
-
+    '''
     for key1,inner_dict in kmer_query_dict.items():
         for kmer1,pos1 in inner_dict.items():
             for key2,sub_dict in kmer_comprev_subject_dict.items():
@@ -81,6 +84,7 @@ def find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict
                                 for p in pos2:
                                     if p not in seed_dict[kmer1]['subject'][key2]:
                                         seed_dict[kmer1]['subject'][key2].append(p)
+                                        '''
                         
 
     return seed_dict
@@ -143,50 +147,54 @@ for kmer, inner_dict in a.items():
 
 #    return
 
-"""
-lista_utile=[]
-for i,j in kmer_query_dict['b6635d67cb594473ddba9f8cfba5d13d'].items():
-    if j == [176]:
-        lista_utile.append(i)
-seq_utile = ''.join(lista_utile) 
-print(seq_utile)
-
-lista_confronto=[]
-for x,y in kmer_subject_dict['MJ030-2-barcode67-umi101484bins-ubs-3'].items():
-    if y == [506]:
-        lista_confronto.append(x)
-seq_confronto = ''.join(lista_confronto)
-print(seq_confronto)
-
 transizione = {'A':'G','G':'A','C':'T','T':'C'}
 trasversione = {'A':'C','A':'T','C':'A','C':'G','G':'C','G':'T','T':'A','T':'G'}
+def extend_seed(schema,diz_partenza_query,diz_partenza_subject,k,x_max):
+    score = 0
+    match_consecutivi = 0
 
-score=22
-x=0
+    for i in range(0,len(schema),3):
+        prova = schema[i:i+3]
+        query = prova[1][0]
+        subject = prova[2][0]
+        pos_query = prova[1][1]
+        pos_sub = prova[2][1]
+        hsp = prova[0]
 
-for a in range(0,len(seq_utile)):
-    if seq_utile[a] == seq_confronto[a]:
-        score += 1
-        print(a)
-        print(seq_utile[a])
-        print(seq_confronto[a])
-        print(score)
-    else:
-        chiave = seq_utile[a]
-        if transizione[chiave] == seq_confronto[a]:
-            x+=1
-        if trasversione[chiave] == seq_confronto[a]:
-            score -= 1
-            x+=1
-        print(a)
-        print(seq_utile[a])
-        print(seq_confronto[a])
-        print(score)
+        for j in diz_partenza_query.keys():
+            if query == j:
+                sequence_query = diz_partenza_query[j]
+
+        for z in diz_partenza_subject.keys():
+            if subject == z:
+                sequence_sub = diz_partenza_subject[z]
+        sequence_query = sequence_query[pos_query[0] + k:]
+        sequence_sub = sequence_sub[pos_sub[0] + k:]
+
+    for a in range(0, len(sequence_query)):
+        if sequence_query[a] == sequence_sub[a]:
+            match_consecutivi = 0
+            score += 1
+        else:
+            match_consecutivi += 1
+            chiave = sequence_query[a]
+            if transizione[chiave] == sequence_sub[a]:
+                score -= 1
+            elif trasversione[chiave] == sequence_sub[a]:
+                score -= 1
+            if match_consecutivi == x_max:
+                print(f"Mi sono fermato in posizione {a}")
+                print(f"Sequenz: {sequence_query[0:a-5]}")
+                print(f"Subject: {sequence_sub[0:a-5]}")
+                break
+    hsp += sequence_query[0:a-(x_max-1)]
+    score = score+k
+    return hsp,len(hsp),score
 
 
-print(score)
+print(extend_seed(schema,diz_partenza_query,diz_partenza_subject,22,6))
+
 """
-        
 
 
 
@@ -195,6 +203,7 @@ print(score)
 
 #return
 
+"""
 """
 def main():
     args = parse_args()
@@ -239,3 +248,4 @@ if __name__ == "__main__":
 #print(len(a))
 #print(b)
 #print(len(b))
+
