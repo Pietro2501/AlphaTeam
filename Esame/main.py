@@ -173,36 +173,6 @@ def extend_seed_right(schema,diz_partenza_query,diz_partenza_subject,k,x_max):
             if subject == z:
                 sequence_sub = diz_partenza_subject[z]
 
-
-        '''
-        estensione_sinistra = ""
-        mismatch_consecutivi = 0
-
-        sequence_query_left = sequence_query[:start_query-k]
-        sequence_subject_left = sequence_sub[:start_subject-k]
-
-    for b in range(0,len(sequence_query_left)):
-        if sequence_query_left[b] == sequence_subject_left[b]:
-            estensione_sinistra = sequence_query_left[b] + estensione_sinistra
-            mismatch_consecutivi = 0
-            score +=1
-        else:
-            mismatch_consecutivi += 1
-            chiave = sequence_query_left[b]
-            if transizione[chiave] == sequence_subject_left[b]:
-                score -= 1
-            elif trasversione[chiave] == sequence_subject_left[b]:
-                score -= 1
-            if mismatch_consecutivi == x_max:
-                print(f"Estensione a sinistra: Mi sono fermato in posizione : {b}")
-                print(f"Sequenz: {sequence_query[0:b + 5]}")
-                print(f"Subject: {sequence_sub[0:b + 5]}")
-                break
-
-
-        hsp = estensione_sinistra + hsp
-        '''
-
         sequence_query = sequence_query[start_query + k:]
         sequence_sub = sequence_sub[start_subject + k:]
 
