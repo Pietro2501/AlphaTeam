@@ -1,6 +1,5 @@
 import argparse
 
-from setuptools.dist import sequence
 
 from Query import Query
 from Subject import Subject
@@ -90,6 +89,7 @@ def find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict
     return seed_dict
 
 a = find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)
+print(a)
 
 def find_comprev_seed(kmer_comprev_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict:
     seed_comprev_dict = {}
@@ -149,7 +149,9 @@ for kmer, inner_dict in a.items():
 
 transizione = {'A':'G','G':'A','C':'T','T':'C'}
 trasversione = {'A':'C','A':'T','C':'A','C':'G','G':'C','G':'T','T':'A','T':'G'}
-def extend_seed(schema,diz_partenza_query,diz_partenza_subject,k,x_max):
+
+
+def extend_seed_right(schema,diz_partenza_query,diz_partenza_subject,k,x_max):
     score = 0
     match_consecutivi = 0
 
@@ -160,6 +162,8 @@ def extend_seed(schema,diz_partenza_query,diz_partenza_subject,k,x_max):
         pos_query = prova[1][1]
         pos_sub = prova[2][1]
         hsp = prova[0]
+        start_query = pos_query[0]
+        start_subject = pos_sub[0]
 
         for j in diz_partenza_query.keys():
             if query == j:
@@ -168,8 +172,40 @@ def extend_seed(schema,diz_partenza_query,diz_partenza_subject,k,x_max):
         for z in diz_partenza_subject.keys():
             if subject == z:
                 sequence_sub = diz_partenza_subject[z]
-        sequence_query = sequence_query[pos_query[0] + k:]
-        sequence_sub = sequence_sub[pos_sub[0] + k:]
+
+
+        '''
+        estensione_sinistra = ""
+        mismatch_consecutivi = 0
+
+        sequence_query_left = sequence_query[:start_query-k]
+        sequence_subject_left = sequence_sub[:start_subject-k]
+
+    for b in range(0,len(sequence_query_left)):
+        if sequence_query_left[b] == sequence_subject_left[b]:
+            estensione_sinistra = sequence_query_left[b] + estensione_sinistra
+            mismatch_consecutivi = 0
+            score +=1
+        else:
+            mismatch_consecutivi += 1
+            chiave = sequence_query_left[b]
+            if transizione[chiave] == sequence_subject_left[b]:
+                score -= 1
+            elif trasversione[chiave] == sequence_subject_left[b]:
+                score -= 1
+            if mismatch_consecutivi == x_max:
+                print(f"Estensione a sinistra: Mi sono fermato in posizione : {b}")
+                print(f"Sequenz: {sequence_query[0:b + 5]}")
+                print(f"Subject: {sequence_sub[0:b + 5]}")
+                break
+
+
+        hsp = estensione_sinistra + hsp
+        '''
+
+        sequence_query = sequence_query[start_query + k:]
+        sequence_sub = sequence_sub[start_subject + k:]
+
 
     for a in range(0, len(sequence_query)):
         if sequence_query[a] == sequence_sub[a]:
@@ -183,16 +219,146 @@ def extend_seed(schema,diz_partenza_query,diz_partenza_subject,k,x_max):
             elif trasversione[chiave] == sequence_sub[a]:
                 score -= 1
             if match_consecutivi == x_max:
-                print(f"Mi sono fermato in posizione {a}")
+                print(f"Estensione a destra: Mi sono fermato in posizione : {a}")
                 print(f"Sequenz: {sequence_query[0:a-5]}")
                 print(f"Subject: {sequence_sub[0:a-5]}")
                 break
-    hsp += sequence_query[0:a-(x_max-1)]
+
+    hsp +=  sequence_query[0:a-(x_max-1)]
     score = score+k
-    return hsp,len(hsp),score
+    return sequence_query[0:a-(x_max-1)],score
+
+def extend_seed_left(schema, diz_partenza_query, diz_partenza_subject, k, x_max):
+        score = 0
+        match_consecutivi = 0
+
+        for i in range(0, len(schema), 3):
+            prova = schema[i:i + 3]
+            hsp = prova[0]
+            query = prova[1][0]
+            subject = prova[2][0]
+            pos_query = prova[1][1]
+            pos_sub = prova[2][1]
+            start_query = pos_query[0]
+            start_subject = pos_sub[0]
 
 
-print(extend_seed(schema,diz_partenza_query,diz_partenza_subject,22,6))
+            for j in diz_partenza_query.keys():
+                if query == j:
+                    sequence_query = diz_partenza_query[j]
+
+            for z in diz_partenza_subject.keys():
+                if subject == z:
+                    sequence_sub = diz_partenza_subject[z]
+
+
+            sequence_query_left = sequence_query[:start_query]
+            sequence_subject_left = sequence_sub[:start_subject]
+
+
+            estensione_sinistra = ""
+            mismatch_consecutivi = 0
+
+            if start_query == 0:
+                estensione_sinistra = ""
+                print("Nessuna estensione possibile a sinistra")
+            else:
+                for queryBase, subjectBase in zip(
+                        reversed(sequence_query_left),
+                        reversed(sequence_subject_left)
+                ):
+                    if queryBase == subjectBase:
+                        score += 1
+                        mismatch_consecutivi = 0
+                    else:
+                        mismatch_consecutivi += 1
+                        chiave = queryBase
+                        if transizione[chiave] == subjectBase:
+                            score -= 1
+                        elif trasversione[chiave] == subjectBase:
+                            score -= 1
+
+                        if mismatch_consecutivi == x_max:
+                            print(f"Estensione a sinistra:  Mi sono fermato dopo {mismatch_consecutivi} mismatch consecutivi.")
+                            break
+
+
+                    estensione_sinistra = queryBase + estensione_sinistra
+
+                hsp = estensione_sinistra + hsp
+                score += k
+
+            return estensione_sinistra, score
+
+
+
+
+
+print(extend_seed_right(schema,diz_partenza_query,diz_partenza_subject,22,6))
+#print(extend_seed_left(schema,diz_partenza_query,diz_partenza_subject,22,6))
+
+
+
+diz_partenza_query_def = diz_partenza_query
+diz_partenza_subject_def = diz_partenza_subject
+
+dizionario_seed = a
+print(dizionario_seed)
+
+
+
+schema = []
+kmer = "TGAGGAATATTGGTCAATGGGC"
+query_header = "b6635d67cb594473ddba9f8cfba5d13d"
+subject_header = "MJ030-2-barcode67-umi101484bins-ubs-3"
+pos_query = [0]
+pos_subject = [330]
+
+schema.append(kmer)
+schema.append((query_header, pos_query))
+schema.append((subject_header, pos_subject))
+
+k = len(kmer)
+x_max = 6
+
+
+hsp_extended,score_extended = extend_seed_left(
+    schema,
+    diz_partenza_query_def,
+    diz_partenza_subject_def,
+    k,
+    x_max
+)
+
+hsp_right,score_right = extend_seed_right(
+    schema,
+    diz_partenza_query,
+    diz_partenza_subject,
+    k,
+    x_max
+)
+print("\nRisultato a sinistra")
+print(kmer)
+print(f"HSP Esteso senza seed: {hsp_extended}")
+print(f"Score: {score_extended}")
+
+print("\nRisultato a destra")
+print(kmer)
+print(f"HSP Esteso senza seed: {hsp_right}")
+print(f"Score: {score_right}")
+
+print("\n=== Risultato finale ===")
+print(kmer)
+print(hsp_extended+f'\033[1m{kmer}\033[0m'+hsp_right)
+print(score_extended+score_right)
+
+
+
+
+
+
+
+
 
 """
 
