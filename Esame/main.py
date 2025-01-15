@@ -4,6 +4,7 @@ import argparse
 from Query import Query
 from Subject import Subject
 import ErroriPersonalizzati
+
 """
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -13,7 +14,7 @@ def parse_args():
     return parser.parse_args()
 
 """
-query = Query('/Users/pietrodispaldro/Documents/GitHub/AlphaTeam/Esame/query.fasta')
+query = Query('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\query.fasta')
 diz_partenza_query =query.parse_file()
 kmer_query_dict = query.kmer_indexing(22)
 kmer_comprev_query_dict = query.kmer_indexing_comp_rev(22)
@@ -25,7 +26,7 @@ if not isinstance(kmer_query_dict,dict) or not isinstance(kmer_comprev_query_dic
     raise ErroriPersonalizzati.NotADict()
 
 
-sub = Subject('/Users/pietrodispaldro/Documents/GitHub/AlphaTeam/Esame/ref.fa')
+sub = Subject('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\ref.fa')
 diz_partenza_subject = sub.parse_file()
 kmer_subject_dict = sub.subject_indexing(22)
 kmer_comprev_subject_dict = sub.subject_indexing_comp_rev(22)
@@ -89,8 +90,9 @@ def find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict
     return seed_dict
 
 a = find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)
-print(a)
+#print(a)
 
+""" #CHIEDERE AL PROF SE è NECESSARIO
 def find_comprev_seed(kmer_comprev_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict:
     seed_comprev_dict = {}
     for key1,inner_dict in kmer_comprev_query_dict.items():
@@ -121,9 +123,7 @@ def find_comprev_seed(kmer_comprev_query_dict,kmer_subject_dict,kmer_comprev_sub
 
     return seed_comprev_dict
 
-#def extend_seed(seed_dict,query,subject):
-#print(a)
-#print(len(a))
+"""
 
 
 s = 38
@@ -143,38 +143,16 @@ for kmer, inner_dict in a.items():
 
 #print(schema)
 
-#def extend_seed(schema,query.diz,):
-
-#    return
 
 transizione = {'A':'G','G':'A','C':'T','T':'C'}
 trasversione = {'A':'C','A':'T','C':'A','C':'G','G':'C','G':'T','T':'A','T':'G'}
 
-
-def extend_seed_right(schema,diz_partenza_query,diz_partenza_subject,k,x_max):
+def extend_seed_right(sequence_query, sequence_sub, start_query, start_subject,k,x_max):
     score = 0
     match_consecutivi = 0
 
-    for i in range(0,len(schema),3):
-        prova = schema[i:i+3]
-        query = prova[1][0]
-        subject = prova[2][0]
-        pos_query = prova[1][1]
-        pos_sub = prova[2][1]
-        hsp = prova[0]
-        start_query = pos_query[0]
-        start_subject = pos_sub[0]
-
-        for j in diz_partenza_query.keys():
-            if query == j:
-                sequence_query = diz_partenza_query[j]
-
-        for z in diz_partenza_subject.keys():
-            if subject == z:
-                sequence_sub = diz_partenza_subject[z]
-
-        sequence_query = sequence_query[start_query + k:]
-        sequence_sub = sequence_sub[start_subject + k:]
+    sequence_query = sequence_query[start_query + k:]
+    sequence_sub = sequence_sub[start_subject + k:]
 
 
     for a in range(0, len(sequence_query)):
@@ -189,92 +167,101 @@ def extend_seed_right(schema,diz_partenza_query,diz_partenza_subject,k,x_max):
             elif trasversione[chiave] == sequence_sub[a]:
                 score -= 1
             if match_consecutivi == x_max:
-                print(f"Estensione a destra: Mi sono fermato in posizione : {a}")
-                print(f"Sequenz: {sequence_query[0:a-5]}")
-                print(f"Subject: {sequence_sub[0:a-5]}")
+                #print(f"Estensione a destra: Mi sono fermato in posizione : {a}")
+                #print(f"Sequenz: {sequence_query[0:a-5]}")
+                #print(f"Subject: {sequence_sub[0:a-5]}")
                 break
+    
+    extension_right = sequence_query[0:a-(x_max-1)]
 
-    hsp +=  sequence_query[0:a-(x_max-1)]
-    score = score+k
-    return sequence_query[0:a-(x_max-1)],score
+    return extension_right,score
 
-def extend_seed_left(schema, diz_partenza_query, diz_partenza_subject, k, x_max):
-        score = 0
-        match_consecutivi = 0
+def extend_seed_left(sequence_query, sequence_sub, start_query, start_subject, k, x_max):
+    score = 0
+    match_consecutivi = 0
 
-        for i in range(0, len(schema), 3):
-            prova = schema[i:i + 3]
-            hsp = prova[0]
-            query = prova[1][0]
-            subject = prova[2][0]
-            pos_query = prova[1][1]
-            pos_sub = prova[2][1]
-            start_query = pos_query[0]
-            start_subject = pos_sub[0]
+    sequence_query_left = sequence_query[:start_query]
+    sequence_subject_left = sequence_sub[:start_subject]
 
 
-            for j in diz_partenza_query.keys():
-                if query == j:
-                    sequence_query = diz_partenza_query[j]
+    estensione_sinistra = ""
+    mismatch_consecutivi = 0
 
-            for z in diz_partenza_subject.keys():
-                if subject == z:
-                    sequence_sub = diz_partenza_subject[z]
-
-
-            sequence_query_left = sequence_query[:start_query]
-            sequence_subject_left = sequence_sub[:start_subject]
-
-
-            estensione_sinistra = ""
-            mismatch_consecutivi = 0
-
-            if start_query == 0:
-                estensione_sinistra = ""
-                print("Nessuna estensione possibile a sinistra")
+    if start_query == 0:
+        estensione_sinistra = ""
+        #print("Nessuna estensione possibile a sinistra")
+    else:
+        for queryBase, subjectBase in zip(
+                reversed(sequence_query_left),
+                reversed(sequence_subject_left)
+        ):
+            if queryBase == subjectBase:
+                score += 1
+                mismatch_consecutivi = 0
             else:
-                for queryBase, subjectBase in zip(
-                        reversed(sequence_query_left),
-                        reversed(sequence_subject_left)
-                ):
-                    if queryBase == subjectBase:
-                        score += 1
-                        mismatch_consecutivi = 0
-                    else:
-                        mismatch_consecutivi += 1
-                        chiave = queryBase
-                        if transizione[chiave] == subjectBase:
-                            score -= 1
-                        elif trasversione[chiave] == subjectBase:
-                            score -= 1
+                mismatch_consecutivi += 1
+                chiave = queryBase
+                if transizione[chiave] == subjectBase:
+                    score -= 1
+                elif trasversione[chiave] == subjectBase:
+                    score -= 1
 
-                        if mismatch_consecutivi == x_max:
-                            print(f"Estensione a sinistra:  Mi sono fermato dopo {mismatch_consecutivi} mismatch consecutivi.")
-                            break
+                if mismatch_consecutivi == x_max:
+                    #print(f"Estensione a sinistra:  Mi sono fermato dopo {mismatch_consecutivi} mismatch consecutivi.")
+                    break
 
 
-                    estensione_sinistra = queryBase + estensione_sinistra
+            estensione_sinistra = queryBase + estensione_sinistra
 
-                hsp = estensione_sinistra + hsp
-                score += k
-
-            return estensione_sinistra, score
+    return estensione_sinistra, score
 
 
+def extend_seed(schema, diz_partenza_query, diz_partenza_subject):
+    """
+    Function that calculate hsp for each seed
+    """ 
+    hsp_dict = {}
+    for i in range(0,len(schema),3):
+
+        prova = schema[i:i+3]
+        query = prova[1][0]
+        subject = prova[2][0]
+        pos_query = prova[1][1]
+        pos_sub = prova[2][1]
+        hsp = prova[0]
+        k = len(hsp)
+        start_query = pos_query[0]
+        start_subject = pos_sub[0]
+
+        for j in diz_partenza_query.keys():
+            if query == j:
+                sequence_query = diz_partenza_query[j]
+
+        for z in diz_partenza_subject.keys():
+            if subject == z:
+                sequence_sub = diz_partenza_subject[z]
+
+        right_ext = extend_seed_right(sequence_query, sequence_sub, start_query, start_subject, k=22, x_max=6)[0]
+        left_ext = extend_seed_left(sequence_query,sequence_sub,start_query,start_subject,k=22,x_max=6)[0]
+        right_score = extend_seed_right(sequence_query, sequence_sub, start_query, start_subject, k=22, x_max=6)[1]
+        left_score = extend_seed_left(sequence_query, sequence_sub, start_query, start_subject, k=22, x_max=6)[1]
+
+        hsp = left_ext+hsp+right_ext
+        score = left_score + k + right_score
+
+        pos_init_hsp_query = start_query- len(left_ext)
+        pos_init_hsp_sub = start_subject - len(left_ext)
+        pos_fin_hsp_query = start_query + k + len(right_ext)
+        pos_fin_hsp_sub = start_subject + k + len(right_ext)
 
 
+        hsp_dict[hsp] = [{query:[pos_init_hsp_query,pos_fin_hsp_query]},{subject:[pos_init_hsp_sub,pos_fin_hsp_sub]},{'score totale': score}]
 
-print(extend_seed_right(schema,diz_partenza_query,diz_partenza_subject,22,6))
-#print(extend_seed_left(schema,diz_partenza_query,diz_partenza_subject,22,6))
+    return hsp_dict
 
+print(extend_seed(schema, diz_partenza_query, diz_partenza_subject))
 
-
-diz_partenza_query_def = diz_partenza_query
-diz_partenza_subject_def = diz_partenza_subject
-
-dizionario_seed = a
-print(dizionario_seed)
-
+"""
 
 
 schema = []
@@ -333,7 +320,7 @@ print(score_extended+score_right)
 """
 
 
-
+"""
 
 
 
@@ -379,9 +366,4 @@ if __name__ == "__main__":
 
 
 """
-#b = find_comprev_seed(kmer_comprev_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)
-
-#print(len(a))
-#print(b)
-#print(len(b))
 

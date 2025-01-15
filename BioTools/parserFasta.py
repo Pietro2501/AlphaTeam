@@ -30,3 +30,5 @@ def parse_fasta(filepath):
             records[current_header] = "".join(current_sequence_lines)
 
     return records
+
+parse_fasta('ref.fa')
