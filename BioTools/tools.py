@@ -45,8 +45,6 @@ def fn_comp_rev (nameseq):
     return comp,comp_rev
 
 
-
-
 def extract_info(filename,nuovo_file):
     if filename.endswith('.gz') or filename.endswith('.gzip'):
         with gzip.open(filename, 'rt') as file:

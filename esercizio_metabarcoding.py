@@ -1,5 +1,5 @@
 from BioTools import tools
-from BioTools import parse_fastq
+from BioTools import FastQParser
 
 
 file_forward = tools.extract_info('BAM_1012_136_R1.fastq.gz','forward')
