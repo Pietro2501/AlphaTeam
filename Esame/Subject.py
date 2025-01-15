@@ -56,16 +56,24 @@ class Subject:
 
     def parse_file(self):
         """
-        Analizza il file. Se questo è compresso (formato .gz o .gzip)
-        ,ne tenta l'estrazione. Se il file non è in formato .fasta,
-        solleva l'eccezione corrispondente.
+            Parses a query file, processes it, and handles compressed files.
 
-        Parametri:
-        Lavora sulla variabile di istanza presente nel self
+            This method reads a query file in FASTA format, processes it using a FASTA parser,
+            and handles cases where the file is compressed. If the file is not in the expected format,
+            it raises custom exceptions.
 
-        Return:
-        Nessuno.
-        """
+            Returns:
+            dict
+                A dictionary where keys are sequence identifiers and values are the corresponding sequences
+                from the parsed FASTA file.
+
+            Raises:
+            ErroriPersonalizzati.QueryError
+                If an error occurs during the extraction of a compressed file.
+
+            ErroriPersonalizzati.FileTypeError
+                If the file is not in a valid FASTA format (e.g., wrong extension).
+            """
         self.sub_diz = parserFasta.parse_fasta(self.subject_file)
         if self.subject_file.endswith('.gz') or self.subject_file.endswith('.gzip'):
             try:
@@ -94,16 +102,24 @@ class Subject:
 
     def subject_indexing(self,k):
         """
-        Effettua il parsing del file FASTA e divide ogni sequenza in kmer di lunghezza 22.
+                    Generates k-mer indexes for all sequences in the parsed FASTA file.
 
-        Parametri:
-        Lavora sulla variabile di istanza presente nel self
+                    This method divides each sequence in the parsed FASTA dictionary into k-mers of specified length
+                    and returns a dictionary mapping sequence headers to their respective k-mers.
 
-        Return:
-            complete_dict: dict
-            Dizionario in cui le chiavi sono gli header del Fasta e i valori
-            sono dizionari di kmer di lunghezza 22, con le posizioni in cui ciascun k-mer appare.
-        """
+                    Parameters:
+                    k : int
+                        The length of the k-mers to generate.
+
+                    Returns:
+                    dict
+                        A dictionary where keys are sequence headers and values are lists of k-mers generated
+                        from the corresponding sequences.
+
+                    Raises:
+                    ErroriPersonalizzati.FastaParsingError
+                        If an error occurs while parsing the FASTA file.
+                    """
         try:
             #diz = parserFasta.parse_fasta(self.subject_file)
             complete_dict_sub = {}
@@ -115,18 +131,26 @@ class Subject:
         return complete_dict_sub
 
     def subject_indexing_comp_rev(self,k):
-        """
-                Effettua il parsing del file FASTA e divide ogni sequenza in kmer di lunghezza 22 e
-                applica il complementare revertito della sequenza, prima di suddividerla.
+        """"
+            Generates k-mer indexes for the reverse complement of all sequences in the parsed FASTA file.
 
-                Parametri:
-                Lavora sulla variabile di istanza presente nel self
+            This method computes the reverse complement of each sequence in the parsed FASTA dictionary,
+            divides it into k-mers of specified length, and returns a dictionary mapping sequence headers
+            to their respective k-mers.
 
-                Return:
-                    complete_dict: dict
-                    Dizionario in cui le chiavi sono gli header del Fasta e i valori
-                    sono dizionari di kmer di lunghezza 22 , con le posizioni in cui ciascun k-mer appare.
-                """
+            Parameters:
+            k : int
+                The length of the k-mers to generate.
+
+            Returns:
+            dict
+                A dictionary where keys are sequence headers and values are lists of k-mers generated
+                from the reverse complement of the corresponding sequences.
+
+            Raises:
+            ErroriPersonalizzati.FastaParsingError
+                If an error occurs while parsing the FASTA file.
+            """
         try:
             #diz = parserFasta.parse_fasta(self.subject_file)
             complete_dict_comp_rev = {}

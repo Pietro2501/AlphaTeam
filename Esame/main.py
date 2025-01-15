@@ -38,7 +38,30 @@ if kmer_subject_dict is None and kmer_comprev_subject_dict is None:
 if not isinstance(kmer_query_dict,dict) or not isinstance(kmer_comprev_query_dict,dict):
     raise ErroriPersonalizzati.NotADict()
 
+
 def find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict:
+    """
+        Identifies common k-mers (seeds) between query and subject dictionaries and organizes their positions.
+
+        This function takes dictionaries representing k-mers from query sequences and subject sequences (including their
+        complementary reverse sequences) and identifies shared k-mers. It organizes the positions of these shared k-mers
+        in both the query and subject sequences into a nested dictionary structure.
+
+        Parameters:
+        kmer_query_dict : dict
+            A dictionary where keys represent query sequence identifiers, and values are dictionaries of k-mers mapped to their positions.
+
+        kmer_subject_dict : dict
+            A dictionary where keys represent subject sequence identifiers, and values are dictionaries of k-mers mapped to their positions.
+
+        kmer_comprev_subject_dict : dict
+            A dictionary where keys represent subject sequence identifiers, and values are dictionaries of reverse-complement k-mers mapped to their positions.
+
+        Returns:
+        dict
+            A dictionary containing shared k-mers (seeds) as keys. The values are nested dictionaries organizing the positions
+            of these k-mers in query and subject sequences.
+        """
 
     seed_dict = {}
     for key1,inner_dict in kmer_query_dict.items():
@@ -85,7 +108,7 @@ def find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict
                                     if p not in seed_dict[kmer1]['subject'][key2]:
                                         seed_dict[kmer1]['subject'][key2].append(p)
                                         '''
-                        
+
 
     return seed_dict
 
@@ -148,12 +171,43 @@ transizione = {'A':'G','G':'A','C':'T','T':'C'}
 trasversione = {'A':'C','A':'T','C':'A','C':'G','G':'C','G':'T','T':'A','T':'G'}
 
 def extend_seed_right(sequence_query, sequence_sub, start_query, start_subject,k,x_max):
+    """
+        Extends a seed alignment to the right between query and subject sequences.
+
+        This function extends a seed match between a query sequence and a subject sequence
+        to the right, while scoring the alignment. It stops the extension if a maximum number
+        of consecutive mismatches (`x_max`) is reached.
+
+        Parameters:
+        sequence_query : str
+            The query sequence in which the seed alignment starts.
+
+        sequence_sub : str
+            The subject sequence in which the seed alignment starts.
+
+        start_query : int
+            The starting position of the seed in the query sequence.
+
+        start_subject : int
+            The starting position of the seed in the subject sequence.
+
+        k : int
+            The length of the initial seed.
+
+        x_max : int
+            The maximum number of consecutive mismatches allowed before terminating the extension.
+
+        Returns:
+        tuple
+            A tuple containing:
+            - extension_right (str): The extended matching sequence to the right.
+            - score (int): The alignment score based on matches, transitions, and transversions.
+        """
     score = 0
     match_consecutivi = 0
 
     sequence_query = sequence_query[start_query + k:]
     sequence_sub = sequence_sub[start_subject + k:]
-
 
     for a in range(0, len(sequence_query)):
         if sequence_query[a] == sequence_sub[a]:
@@ -177,6 +231,40 @@ def extend_seed_right(sequence_query, sequence_sub, start_query, start_subject,k
     return extension_right,score
 
 def extend_seed_left(sequence_query, sequence_sub, start_query, start_subject, k, x_max):
+    """
+        Extends a seed alignment to the left between query and subject sequences.
+
+        This function extends a seed match to the left, starting from specified positions in the query
+        and subject sequences. The extension stops when the maximum number of consecutive mismatches (`x_max`)
+        is reached or when the beginning of either sequence is encountered. The alignment score is computed
+        based on matches, transitions, and transversions.
+
+        Parameters:
+        sequence_query : str
+            The query sequence in which the seed alignment starts.
+
+        sequence_sub : str
+            The subject sequence in which the seed alignment starts.
+
+        start_query : int
+            The starting position of the seed in the query sequence.
+
+        start_subject : int
+            The starting position of the seed in the subject sequence.
+
+        k : int
+            The length of the initial seed.
+
+        x_max : int
+            The maximum number of consecutive mismatches allowed before terminating the extension.
+
+        Returns:
+        tuple
+            A tuple containing:
+            - estensione_sinistra (str): The extended matching sequence to the left.
+            - score (int): The alignment score based on matches, transitions, and transversions.
+
+        """
     score = 0
     match_consecutivi = 0
 
@@ -218,8 +306,33 @@ def extend_seed_left(sequence_query, sequence_sub, start_query, start_subject, k
 
 def extend_seed(schema, diz_partenza_query, diz_partenza_subject):
     """
-    Function that calculate hsp for each seed
-    """ 
+        Extends seed alignments based on a given schema and computes alignment scores and positions.
+
+        This function takes a schema that defines seed alignments between query and subject sequences,
+        extends the alignments both to the right and left, and calculates the resulting alignment scores.
+        It returns a dictionary containing extended alignments, their positions, and scores.
+
+        Parameters:
+        schema : list
+            A list of tuples representing the schema of seed alignments. Each tuple consists of:
+            - hsp (str): The initial seed sequence.
+            - query_info (tuple): A tuple with the query identifier and its seed positions ([start, end]).
+            - subject_info (tuple): A tuple with the subject identifier and its seed positions ([start, end]).
+
+        diz_partenza_query : dict
+            A dictionary where keys are query identifiers and values are the corresponding query sequences.
+
+        diz_partenza_subject : dict
+            A dictionary where keys are subject identifiers and values are the corresponding subject sequences.
+
+        Returns:
+        dict
+            A dictionary where keys are the extended high-scoring pairs (HSPs), and values are lists containing:
+            - Query information: A dictionary with the query identifier and the start and end positions of the extended alignment.
+            - Subject information: A dictionary with the subject identifier and the start and end positions of the extended alignment.
+            - Score information: A dictionary with the total alignment score.
+
+        """
     hsp_dict = {}
     for i in range(0,len(schema),3):
 
