@@ -14,7 +14,7 @@ def parse_args():
     return parser.parse_args()
 
 """
-query = Query('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\query.fasta')
+query = Query('C:\\Users\\rossa\\OneDrive\\Documenti\\GitHub\\AlphaTeam\\Esame\\query.fasta')
 diz_partenza_query =query.parse_file()
 kmer_query_dict = query.kmer_indexing(22)
 kmer_comprev_query_dict = query.kmer_indexing_comp_rev(22)
@@ -26,7 +26,7 @@ if not isinstance(kmer_query_dict,dict) or not isinstance(kmer_comprev_query_dic
     raise ErroriPersonalizzati.NotADict()
 
 
-sub = Subject('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\ref.fa')
+sub = Subject('C:\\Users\\rossa\\OneDrive\\Documenti\\GitHub\\AlphaTeam\\Esame\\ref.fa')
 diz_partenza_subject = sub.parse_file()
 kmer_subject_dict = sub.subject_indexing(22)
 kmer_comprev_subject_dict = sub.subject_indexing_comp_rev(22)
@@ -204,23 +204,23 @@ def extend_seed_right(sequence_query, sequence_sub, start_query, start_subject,k
             - score (int): The alignment score based on matches, transitions, and transversions.
         """
     score = 0
-    match_consecutivi = 0
+    mismatch_consecutivi = 0
 
     sequence_query = sequence_query[start_query + k:]
     sequence_sub = sequence_sub[start_subject + k:]
 
     for a in range(0, len(sequence_query)):
         if sequence_query[a] == sequence_sub[a]:
-            match_consecutivi = 0
+            mismatch_consecutivi = 0
             score += 1
         else:
-            match_consecutivi += 1
+            mismatch_consecutivi += 1
             chiave = sequence_query[a]
             if transizione[chiave] == sequence_sub[a]:
                 score -= 1
             elif trasversione[chiave] == sequence_sub[a]:
                 score -= 1
-            if match_consecutivi == x_max:
+            if mismatch_consecutivi == x_max:
                 #print(f"Estensione a destra: Mi sono fermato in posizione : {a}")
                 #print(f"Sequenz: {sequence_query[0:a-5]}")
                 #print(f"Subject: {sequence_sub[0:a-5]}")

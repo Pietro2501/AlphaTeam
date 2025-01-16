@@ -40,6 +40,12 @@ def parse_fasta(filepath):
         
     return records 
 
+#header=[]
+#valid_nucleotide=['A','T','C','G']
+#for current_header,current_sequencce_lines in records.items():
+    #for nucleotide in current_sequence_lines:
+        # if nucleotide not in valid_nucleotide:   
+            #header.append(current_header)       
+#for current_header in header:
+    #del records[current_header]    
 
-a=parse_fasta('C:\\Users\\rossa\\OneDrive\\Documenti\\GitHub\\AlphaTeam\\Esame\\ref.fa')
-print(a)
