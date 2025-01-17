@@ -1,35 +1,36 @@
 
-class Error(Exception):
-    pass
 
-class FileTypeError(Error):
+
+# OopCompanion:suppressRename
+
+class FileTypeError(Exception):
     def __init__(self, message="Il file deve avere estensione .fa, .fasta, .gz, o .gzip"):
         super().__init__(message)
 
-class FileNotFoundError(Error):
+class FileNotFoundError(Exception):
     def __init__(self, message="File non trovato o percorso errato"):
         super().__init__(message)
 
-class KmerError(Error):
+class KmerError(Exception):
     def __init__(self, message="Il valore di k deve essere un intero positivo"):
         super().__init__(message)
 
-class KmerTooLong(Error):
+class KmerTooLong(Exception):
     def __init__(self,message="Il valore di k è superiore alla lunghezza della sequenza"):
         super().__init__(message)
 
-class FastaParsingError(Error):
+class FastaParsingError(Exception):
     def __init__(self, message="Errore nel parsing del file FASTA"):
         super().__init__(message)
 
-class QueryError(Error):
+class SequenceError(Exception):
     def __init__(self, message="Errore durante l'estrazione del file"):
         super().__init__(message)
 
-class EmptyDict(Error):
+class EmptyDict(Exception):
     def __init__(self, message="Il dizionario è vuoto"):
         super().__init__(message)
 
-class NotADict(Error):
+class NotADict(Exception):
     def __init__(self, message="Questo non è un dizionario"):
         super().__init__(message)

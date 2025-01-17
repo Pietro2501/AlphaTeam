@@ -5,15 +5,15 @@ import tools, tools1
 import parserFasta
 
 
-
-
 # OopCompanion:suppressRename
 
-class Query:
-    def __init__(self, query_file,scoring_matrix = None):
-        if not os.path.isfile(query_file):
-           raise ErroriPersonalizzati.FileNotFoundError(f"File non trovato: {query_file}")
-        self.query_file = query_file
+
+
+class Sequence:
+    def __init__(self, sequence_file,scoring_matrix = None):
+        if not os.path.isfile(sequence_file):
+           raise ErroriPersonalizzati.FileNotFoundError(f"File non trovato: {sequence_file}")
+        self.sequence_file = sequence_file
         if scoring_matrix is None:
             self.scoring_matrix = nucleotides_scoring_matrix
         else:
@@ -40,16 +40,16 @@ class Query:
                 If an error occurs during the extraction of a compressed file.
 
             ErroriPersonalizzati.FileTypeError
-                If the file is not in a valid FASTA format (e.g., wrong extension).
+                If the file is not in a valid FASTA format
             """
-        self.diz = parserFasta.parse_fasta(self.query_file)
+        self.diz = parserFasta.parse_fasta(self.sequence_file)
 
-        if self.query_file.endswith('.gz') or self.query_file.endswith('.gzip'):
+        if self.sequence_file.endswith('.gz') or self.sequence_file.endswith('.gzip'):
             try:
-                tools.extract_info(self.query_file, 'query.txt')
+                tools.extract_info(self.sequence_file, 'query.txt')
             except Exception as e:
-                raise ErroriPersonalizzati.QueryError(f"Errore durante l'estrazione del file compresso: {e}")
-        elif not self.query_file.endswith('.fasta'):
+                raise ErroriPersonalizzati.SequenceError(f"Errore durante l'estrazione del file compresso: {e}")
+        elif not self.sequence_file.endswith('.fasta') and not self.sequence_file.endswith('.fa'):
             raise ErroriPersonalizzati.FileTypeError()
         return self.diz
 
@@ -117,24 +117,7 @@ class Query:
             self.comp_rev_kmers = complete_dict_comp_rev
         return complete_dict_comp_rev
 
-    """
-    def generate_word_diz(self,k:int,threshold = 0,max_words = None) -> dict:
-        #if not self.kmer_set:
-           #self.kmer_indexing(k)
 
-        words_diz = {}
-        for kmer in self.kmer_set:
-            words_list = tools.generate_words(
-                kmer = kmer,
-                scoring_matrix= self.scoring_matrix,
-                threshold=threshold,
-                max_words=max_words
-            )
-            words_diz[kmer] = words_list
-
-        self.words_diz = words_diz
-        return words_diz
-    """
 
 
 

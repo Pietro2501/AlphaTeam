@@ -1,8 +1,7 @@
 import argparse
 
 
-from Query import Query
-from Subject import Subject
+from Sequence import Sequence
 import ErroriPersonalizzati
 
 """
@@ -14,7 +13,7 @@ def parse_args():
     return parser.parse_args()
 
 """
-query = Query('C:\\Users\\rossa\\OneDrive\\Documenti\\GitHub\\AlphaTeam\\Esame\\query.fasta')
+query = Sequence('query.fasta')
 diz_partenza_query =query.parse_file()
 kmer_query_dict = query.kmer_indexing(22)
 kmer_comprev_query_dict = query.kmer_indexing_comp_rev(22)
@@ -26,10 +25,10 @@ if not isinstance(kmer_query_dict,dict) or not isinstance(kmer_comprev_query_dic
     raise ErroriPersonalizzati.NotADict()
 
 
-sub = Subject('C:\\Users\\rossa\\OneDrive\\Documenti\\GitHub\\AlphaTeam\\Esame\\ref.fa')
+sub = Sequence('ref.fa')
 diz_partenza_subject = sub.parse_file()
-kmer_subject_dict = sub.subject_indexing(22)
-kmer_comprev_subject_dict = sub.subject_indexing_comp_rev(22)
+kmer_subject_dict = sub.kmer_indexing(22)
+kmer_comprev_subject_dict = sub.kmer_indexing_comp_rev(22)
 
 
 
@@ -41,7 +40,7 @@ if not isinstance(kmer_query_dict,dict) or not isinstance(kmer_comprev_query_dic
 
 def find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict:
     """
-        Identifies common k-mers (seeds) between query and subject dictionaries and organizes their positions.
+        Identifies seeds between query and subject dictionaries and organizes their positions.
 
         This function takes dictionaries representing k-mers from query sequences and subject sequences (including their
         complementary reverse sequences) and identifies shared k-mers. It organizes the positions of these shared k-mers
@@ -59,7 +58,7 @@ def find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict
 
         Returns:
         dict
-            A dictionary containing shared k-mers (seeds) as keys. The values are nested dictionaries organizing the positions
+            A dictionary containing seeds as keys. The values are nested dictionaries organizing the positions
             of these k-mers in query and subject sequences.
         """
 
@@ -417,7 +416,7 @@ print(kmer)
 print(f"HSP Esteso senza seed: {hsp_right}")
 print(f"Score: {score_right}")
 
-print("\n=== Risultato finale ===")
+print("\nRisultato finale")
 print(kmer)
 print(hsp_extended+f'\033[1m{kmer}\033[0m'+hsp_right)
 print(score_extended+score_right)
