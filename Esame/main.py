@@ -19,6 +19,9 @@ kmer_query_dict = query.kmer_indexing(22)
 kmer_comprev_query_dict = query.kmer_indexing_comp_rev(22)
 
 
+
+
+
 if kmer_query_dict is None and kmer_comprev_query_dict is None:
     raise ErroriPersonalizzati.EmptyDict()
 if not isinstance(kmer_query_dict,dict) or not isinstance(kmer_comprev_query_dict,dict):
@@ -107,12 +110,35 @@ def find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict
                                     if p not in seed_dict[kmer1]['subject'][key2]:
                                         seed_dict[kmer1]['subject'][key2].append(p)
                                         '''
-
-
     return seed_dict
 
 a = find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)
-#print(a)
+print(a)
+
+schema = []
+for kmer, inner_dict in a.items():
+    for que_sub, sub_dict in inner_dict.items():
+        if que_sub == 'query':
+            for j in sub_dict.items():
+                query = j
+        if que_sub == 'subject':
+            for i in sub_dict.items():
+                subject = i
+                schema.append(kmer)
+                schema.append(query)
+                schema.append(subject)
+
+def find_consecutive_seeds(schema):
+    for i in range(0,len(schema),3):
+        prova = schema[i:i + 3]
+        query = prova[1][0]
+        subject = prova[2][0]
+        pos_query = prova[1][1]
+        pos_sub = prova[2][1]
+        kmer = prova[0]
+
+
+
 
 """ #CHIEDERE AL PROF SE è NECESSARIO
 def find_comprev_seed(kmer_comprev_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict:
@@ -167,7 +193,12 @@ for kmer, inner_dict in a.items():
 
 
 transizione = {'A':'G','G':'A','C':'T','T':'C'}
-trasversione = {'A':'C','A':'T','C':'A','C':'G','G':'C','G':'T','T':'A','T':'G'}
+trasversione = {
+    'A': ['C', 'T'],
+    'C': ['A', 'G'],
+    'G': ['C', 'T'],
+    'T': ['A', 'G']
+}
 
 def extend_seed_right(sequence_query, sequence_sub, start_query, start_subject,k,x_max):
     """
@@ -220,14 +251,66 @@ def extend_seed_right(sequence_query, sequence_sub, start_query, start_subject,k
             elif trasversione[chiave] == sequence_sub[a]:
                 score -= 1
             if mismatch_consecutivi == x_max:
-                #print(f"Estensione a destra: Mi sono fermato in posizione : {a}")
-                #print(f"Sequenz: {sequence_query[0:a-5]}")
-                #print(f"Subject: {sequence_sub[0:a-5]}")
                 break
-    
+
+    finestra_mismatch = sequence_query[a - (x_max - 1):a + 1]
+    pos_iniziale_finestra = finestra_mismatch[0]
+    score_finestra = -x_max
+    score_with_gap,sequences = handle_gaps(finestra_mismatch,3)
+
+    if score_with_gap > score_finestra:
+        new_extension = sequence_query.replace(finestra_mismatch,sequences[0])
+        new_extension = new_extension[pos_iniziale_finestra:]
+
+
     extension_right = sequence_query[0:a-(x_max-1)]
 
     return extension_right,score
+
+def calculate_score(sequence_query,sequence_sub):
+    score = 0
+    for b in range(len(sequence_sub)):
+        if b >= len(sequence_query):
+            score -= 2
+            continue
+        query_char = sequence_query[b]
+        sub_char = sequence_sub[b]
+
+        if query_char == sub_char:
+            score += 1
+        else:
+            if query_char == '_':
+                if b == 0 or sequence_query[b - 1] != '_':
+                    score -= 2
+                else:
+                    score -= 1
+            elif query_char in transizione and transizione[query_char] == sub_char:
+                score -= 1
+            elif query_char in trasversione and sub_char in trasversione[query_char]:
+                score -= 1
+            else:
+                score -= 1
+    return score
+
+
+def handle_gaps(finestra_mismatch, soglia_gap):
+    sequence_sub_finestra = finestra_mismatch
+    gap_scores = []
+    sequence_list = []
+
+    for a in range(soglia_gap):
+        sequence_query_finestra = '_' * (a + 1) + finestra_mismatch
+        sequence_list.append(sequence_query_finestra)
+        gap_score = calculate_score(sequence_query_finestra,sequence_sub_finestra)
+        gap_scores.append(gap_score)
+
+
+    max_score = max(gap_scores)
+    max_indices = [i for i, score in enumerate(gap_scores) if score == max_score]
+    sequences =[sequence_list[i] for i in max_indices]
+    return max_score, sequences
+
+print(handle_gaps('ACGTCG',3))
 
 def extend_seed_left(sequence_query, sequence_sub, start_query, start_subject, k, x_max):
     """
@@ -371,10 +454,11 @@ def extend_seed(schema, diz_partenza_query, diz_partenza_subject):
 
     return hsp_dict
 
-print(extend_seed(schema, diz_partenza_query, diz_partenza_subject))
+#print(extend_seed(schema, diz_partenza_query, diz_partenza_subject))
 
-"""
 
+
+'''
 
 schema = []
 kmer = "TGAGGAATATTGGTCAATGGGC"
@@ -398,11 +482,13 @@ hsp_extended,score_extended = extend_seed_left(
     k,
     x_max
 )
-
+'''
+'''
 hsp_right,score_right = extend_seed_right(
-    schema,
     diz_partenza_query,
     diz_partenza_subject,
+    pos_query,
+    pos_subject,
     k,
     x_max
 )
@@ -429,16 +515,7 @@ print(score_extended+score_right)
 
 
 
-"""
 
-
-"""
-
-
-
-#return
-
-"""
 """
 def main():
     args = parse_args()
@@ -474,8 +551,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-"""
+'''
 

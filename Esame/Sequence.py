@@ -134,3 +134,7 @@ class Sequence:
 #print(f"ciao{query.prova()}")
 
 #print(query.generate_word_diz(22,20,10))
+
+query = Sequence('query.fasta')
+query.parse_file()
+print(query.kmer_indexing(22))
