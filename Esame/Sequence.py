@@ -23,26 +23,7 @@ class Sequence:
         self.comp_rev_kmers = None
 
     def parse_file(self):
-        """
-            Parses a query file, processes it, and handles compressed files.
-
-            This method reads a query file in FASTA format, processes it using a FASTA parser,
-            and handles cases where the file is compressed. If the file is not in the expected format,
-            it raises custom exceptions.
-
-            Returns:
-            dict
-                A dictionary where keys are sequence identifiers and values are the corresponding sequences
-                from the parsed FASTA file.
-
-            Raises:
-            ErroriPersonalizzati.QueryError
-                If an error occurs during the extraction of a compressed file.
-
-            ErroriPersonalizzati.FileTypeError
-                If the file is not in a valid FASTA format
-            """
-        self.diz = parserFasta.parse_fasta(self.sequence_file)
+        self.list = list(parserFasta.parse_fasta(self.sequence_file).items())
 
         if self.sequence_file.endswith('.gz') or self.sequence_file.endswith('.gzip'):
             try:
@@ -51,71 +32,36 @@ class Sequence:
                 raise ErroriPersonalizzati.SequenceError(f"Errore durante l'estrazione del file compresso: {e}")
         elif not self.sequence_file.endswith('.fasta') and not self.sequence_file.endswith('.fa'):
             raise ErroriPersonalizzati.FileTypeError()
-        return self.diz
+        return self.list
 
-    def kmer_indexing(self, k: int) -> dict:
-        """
-            Generates k-mer indexes for all sequences in the parsed FASTA file.
-
-            This method divides each sequence in the parsed FASTA dictionary into k-mers of specified length
-            and returns a dictionary mapping sequence headers to their respective k-mers.
-
-            Parameters:
-            k : int
-                The length of the k-mers to generate.
-
-            Returns:
-            dict
-                A dictionary where keys are sequence headers and values are lists of k-mers generated
-                from the corresponding sequences.
-
-            Raises:
-            ErroriPersonalizzati.FastaParsingError
-                If an error occurs while parsing the FASTA file.
-            """
+    def kmer_indexing(self, k: int) -> list:
         try:
             #diz = parserFasta.parse_fasta(self.query_file)
-            complete_dict = {}
+            complete_list = []
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
-        for header, sequence in self.diz.items():
-            complete_dict[header] = tools.divide_into_kmer(sequence,k)
-        self.forward_kmers = complete_dict
-        return complete_dict
+        for element in self.list:
+            #print(element[1])
+            kmer_seq = tools.divide_into_kmer(element[1], k)
+            complete_list.append(element[0])
+            complete_list.append(kmer_seq)
+        self.forward_kmers = complete_list
+        return complete_list
 
-
-    def kmer_indexing_comp_rev(self, k: int) -> dict:
-        """
-            Generates k-mer indexes for the reverse complement of all sequences in the parsed FASTA file.
-
-            This method computes the reverse complement of each sequence in the parsed FASTA dictionary,
-            divides it into k-mers of specified length, and returns a dictionary mapping sequence headers
-            to their respective k-mers.
-
-            Parameters:
-            k : int
-                The length of the k-mers to generate.
-
-            Returns:
-            dict
-                A dictionary where keys are sequence headers and values are lists of k-mers generated
-                from the reverse complement of the corresponding sequences.
-
-            Raises:
-            ErroriPersonalizzati.FastaParsingError
-                If an error occurs while parsing the FASTA file.
-            """
+    def kmer_indexing_comp_rev(self, k: int) -> list:
         try:
             #diz = parserFasta.parse_fasta(self.query_file)
-            complete_dict_comp_rev = {}
+            complete_list_comp_rev = []
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
-        for header,sequence in self.diz.items():
+        for element in self.list:
             #print(type(abc))
-            sequence_comp_rev = tools1.fn_comp_rev(sequence)[1]
-            complete_dict_comp_rev[header] = tools.divide_into_kmer(sequence_comp_rev,k)
-            self.comp_rev_kmers = complete_dict_comp_rev
-        return complete_dict_comp_rev
+            sequence_comp_rev = tools1.fn_comp_rev(element[1])[1]
+            kmer_seq_comp_rev = tools.divide_into_kmer(sequence_comp_rev,k)
+            complete_list_comp_rev.append(element[0])
+            complete_list_comp_rev.append(kmer_seq_comp_rev)
+            self.comp_rev_kmers = kmer_seq_comp_rev
+        return complete_list_comp_rev
 
 
 
@@ -135,6 +81,8 @@ class Sequence:
 
 #print(query.generate_word_diz(22,20,10))
 
-query = Sequence('query.fasta')
-query.parse_file()
-print(query.kmer_indexing(22))
+#query = Sequence('query.fasta')
+#query.parse_file()
+#print(query.kmer_indexing(22))
+#print(len(query.kmer_indexing(22)))
+#print(query.kmer_indexing_comp_rev(22))
