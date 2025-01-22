@@ -1,5 +1,5 @@
 import ErroriPersonalizzati
-
+import pandas as pd
 def calculate_score(kmer1: str, kmer2: str,scoring_matrix) -> int:
     if len(kmer1) != len(kmer2):
         raise ValueError("I due kmer devono avere la stessa lunghezza!")
@@ -20,4 +20,8 @@ def divide_into_kmer(sequence,k):
         #kmer_diz.setdefault(kmer, [])
         kmer_list.append(kmer)
     return kmer_list
+
+def load_table(csv_path):
+    df = pd.read_csv(csv_path)
+    return df
 
