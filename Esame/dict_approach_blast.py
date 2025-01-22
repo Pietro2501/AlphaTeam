@@ -16,28 +16,7 @@ def parse_args():
 
 """
 def find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict:
-    """
-        Identifies seeds between query and subject dictionaries and organizes their positions.
-
-        This function takes dictionaries representing k-mers from query sequences and subject sequences (including their
-        complementary reverse sequences) and identifies shared k-mers. It organizes the positions of these shared k-mers
-        in both the query and subject sequences into a nested dictionary structure.
-
-        Parameters:
-        kmer_query_dict : dict
-            A dictionary where keys represent query sequence identifiers, and values are dictionaries of k-mers mapped to their positions.
-
-        kmer_subject_dict : dict
-            A dictionary where keys represent subject sequence identifiers, and values are dictionaries of k-mers mapped to their positions.
-
-        kmer_comprev_subject_dict : dict
-            A dictionary where keys represent subject sequence identifiers, and values are dictionaries of reverse-complement k-mers mapped to their positions.
-
-        Returns:
-        dict
-            A dictionary containing seeds as keys. The values are nested dictionaries organizing the positions
-            of these k-mers in query and subject sequences.
-        """
+    
 
     seed_dict = {}
     for key1,inner_dict in kmer_query_dict.items():
