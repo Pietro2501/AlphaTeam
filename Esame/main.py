@@ -1,5 +1,5 @@
 import argparse
-
+import time
 
 import pandas as pd
 
@@ -39,7 +39,6 @@ if not isinstance(kmer_query_list,list) or not isinstance(kmer_comprev_query_lis
 sub = Sequence('ref.fa')
 list_partenza_subject = sub.parse_file()
 kmer_subject_list = sub.kmer_indexing(22)
-#print(kmer_subject_list)
 kmer_comprev_subject_list = sub.kmer_indexing_comp_rev(22)
 
 
@@ -74,63 +73,35 @@ def create_sub_df(kmer_sub_list):
     df = df.reset_index()
     df.columns.values[0] = 'kmer'
     return df
-'''
+
+
 def fill_sub_df(df,kmer_subject_list):
+    total_header = len(kmer_subject_list) // 2
+    completed_headers = 0
     for i in range(0,len(kmer_subject_list),2):
         coppia = kmer_subject_list[i:i+2]
         header = coppia[0]
         kmer_list = coppia[1]
+        print(f"Inizio elaborazione: {completed_headers + 1} su {total_header} - Header: {header}")
+        start_time = time.time()
         if header in df.columns[1:].tolist():
-            for kmer in df['kmer']:
+            for kmer in df['kmer'].tolist():
                 if kmer in kmer_list:
                     if kmer_list.count(kmer) == 1:
-                        df.at[kmer,header] = kmer_list.index(kmer)
+                        #print(kmer_list.index(kmer))
+                        index = kmer_list.index(kmer)
+                        df.loc[df['kmer'] == kmer,header] = index
                     elif kmer_list.count(kmer) > 1:
                         raise ValueError("aaaaa") # da rivedere
                 else:
-                    df.at[kmer,header] = None
+                    df.loc[df['kmer'] == kmer,header] = None
+        completed_headers += 1
+        tempo = time.time() - start_time
+        print(f"Completamento: {completed_headers} su {total_header} - Tempo Impiegato {tempo:.2f} secondi")
     return df
-    '''
 
-
-def process_header(args):
-    """
-    Elaborazione per un singolo header.
-    """
-    header, kmer_list, df = args
-    if header in df.columns[1:].tolist():  # Controlla se l'header è una colonna del DataFrame
-        for kmer in df['kmer']:
-            if kmer in kmer_list:
-                if kmer_list.count(kmer) == 1:
-                    df.at[kmer, header] = kmer_list.index(kmer)
-                else:
-                    raise ValueError("Il k-mer si ripete più di una volta in kmer_list.")
-            else:
-                df.at[kmer, header] = None
-    return df[header]
-
-
-# Funzione principale per parallelizzare il lavoro
-def parallel_fill_sub_df(df, kmer_subject_list):
-    """
-    Parallelizza l'elaborazione del riempimento delle celle.
-    """
-    # Crea una lista di argomenti per ogni header
-    tasks = []
-    for i in range(0, len(kmer_subject_list), 2):
-        coppia = kmer_subject_list[i:i + 2]
-        header = coppia[0]
-        kmer_list = coppia[1]
-        tasks.append((header, kmer_list, df.copy()))
-
-    # Usa il pool di processi per parallelizzare il lavoro
-    with Pool(processes=cpu_count()) as pool:
-        results = pool.map(process_header, tasks)
-
-    # Combina i risultati delle colonne elaborate
-    for i, header in enumerate(df.columns[1:]):  # Escludi la colonna 'kmer'
-        df[header] = results[i]
-
+def load_table(csv_path):
+    df = pd.read_csv(csv_path)
     return df
 
 
@@ -141,71 +112,71 @@ datafr1 = create_query_df(query1r)
 datafr2 = create_query_df(query2r)
 
 dataf1_fill = fill_df_query(dataf1,"b6635d67cb594473ddba9f8cfba5d13d")
+dataf1_fill.to_csv('dataf1_fill.csv')
 dataf2_fill = fill_df_query(dataf2,"4516aa60a483dd8c7bbc57098c45f1a5")
 datafr1_fill = fill_df_query(datafr1,"b6635d67cb594473ddba9f8cfba5d13d")
 datafr2_fill = fill_df_query(datafr2,"4516aa60a483dd8c7bbc57098c45f1a5")
 
+print("Sto creando il subject")
 datasub = create_sub_df(kmer_subject_list)
+print(datasub.shape)
+datasub.to_csv('prova.csv')
 #c = fill_sub_df(datasub,kmer_subject_list)
 
-#filled_sub_df = parallel_fill_sub_df(datasub,kmer_subject_list)
-
-def main():
-    query = Sequence('query.fasta')
-    list_partenza_query = query.parse_file()
-    kmer_query_list = query.kmer_indexing(22)
-    kmer_comprev_query_list = query.kmer_indexing_comp_rev(22)
-
-    query_1 = kmer_query_list[0:2]
-    query2 = kmer_query_list[2:]
-    query1r = kmer_comprev_query_list[0:2]
-    query2r = kmer_comprev_query_list[2:]
-    # print(query1,query2)
-
-    if kmer_query_list is None and kmer_comprev_query_list is None:
-        raise ErroriPersonalizzati.EmptyDict()
-    if not isinstance(kmer_query_list, list) or not isinstance(kmer_comprev_query_list, list):
-        raise ErroriPersonalizzati.NotADict()
-
-    sub = Sequence('ref.fa')
-    list_partenza_subject = sub.parse_file()
-    kmer_subject_list = sub.kmer_indexing(22)
-    # print(kmer_subject_list)
-    kmer_comprev_subject_list = sub.kmer_indexing_comp_rev(22)
-
-    dataf1 = create_query_df(query_1)
-    dataf2 = create_query_df(query2)
-    datafr1 = create_query_df(query1r)
-    datafr2 = create_query_df(query2r)
-
-    dataf1_fill = fill_df_query(dataf1, "b6635d67cb594473ddba9f8cfba5d13d")
-    dataf2_fill = fill_df_query(dataf2, "4516aa60a483dd8c7bbc57098c45f1a5")
-    datafr1_fill = fill_df_query(datafr1, "b6635d67cb594473ddba9f8cfba5d13d")
-    datafr2_fill = fill_df_query(datafr2, "4516aa60a483dd8c7bbc57098c45f1a5")
-
-    datasub = create_sub_df(kmer_subject_list)
-    filled_sub_df = parallel_fill_sub_df(datasub, kmer_subject_list)
-if __name__ == '__main__':
-    main()
+#print("Sto iniziando a fillare")
+#filled_sub_df = fill_sub_df(datasub,kmer_subject_list)
+#filled_sub_df.to_csv('filled_sub_df.csv')
+data = load_table('filled_sub_df.csv')
 
 
+def perform_join_and_populate(df_main, df_other, kmer_subject_list):
+    """
+    Effettua il join tra df_main e df_other e popola le posizioni nelle colonne appropriate.
+
+    :param df_main: DataFrame principale con kmers e headers.
+    :param df_other: DataFrame secondario con posizioni dei kmers.
+    :param kmer_subject_list: Lista piatta di header e kmers.
+    :return: DataFrame unito con posizioni popolate.
+    """
+    # Verifica che 'kmer' sia l'indice in entrambi i DataFrame
+    if df_main.index.name != 'kmer' or df_other.index.name != 'kmer':
+        raise ValueError("Entrambi i DataFrame devono avere 'kmer' come indice.")
+
+    # Estrai gli headers dalla lista
+    headers = kmer_subject_list[::2]
+
+    for header in headers:
+        pos_query_col = f"{header}_pos_query"
+        pos_subject_col = f"{header}_pos_subject"
+
+        print(f"Aggiunta delle colonne: {pos_query_col}, {pos_subject_col}")
+
+        # Inizializza le nuove colonne con valori None
+        df_main[pos_query_col] = None
+        df_main[pos_subject_col] = None
+
+        # Trova i kmers presenti in questo header
+        kmers_present = df_main[header].dropna().index.tolist()
+
+        # Assegna le posizioni dalla tabella df_other
+        df_main.loc[kmers_present, pos_query_col] = df_other.loc[kmers_present, 'pos_query']
+        df_main.loc[kmers_present, pos_subject_col] = df_other.loc[kmers_present, 'pos_subject']
 
 
+#final_df = perform_join_and_populate(data,dataf1_fill,kmer_subject_list)
+
+final_df = data.merge(dataf1_fill,on='kmer',how='inner')
+final_df.to_csv('final_df.csv')
 
 
 #final_df = filled_sub_df.merge(dataf1_fill,on='kmer',how='on')
 
-
-
-
-
-'''
 if kmer_subject_list is None and kmer_comprev_subject_list is None:
     raise ErroriPersonalizzati.EmptyDict()
 if not isinstance(kmer_subject_list,list) or not isinstance(kmer_comprev_subject_list,list):
     raise ErroriPersonalizzati.NotADict()
 
-
+'''
 def find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict:
     """
         Identifies seeds between query and subject dictionaries and organizes their positions.
@@ -252,8 +223,7 @@ def find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict
                                 for p in pos2:
                                     if p not in seed_dict[kmer1]['subject'][key2]:
                                         seed_dict[kmer1]['subject'][key2].append(p)
-    '''
-'''
+    
     for key1,inner_dict in kmer_query_dict.items():
         for kmer1,pos1 in inner_dict.items():
             for key2,sub_dict in kmer_comprev_subject_dict.items():
@@ -275,10 +245,7 @@ def find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)->dict
                                 for p in pos2:
                                     if p not in seed_dict[kmer1]['subject'][key2]:
                                         seed_dict[kmer1]['subject'][key2].append(p)
-                                        
-    return seed_dict
-    '''
-
+                                        '''
 '''
 def build_seed_list_from_seed_dict(seed_dict):
     """
@@ -333,9 +300,8 @@ def build_seed_list_from_seed_dict(seed_dict):
                         seed_list.append(seed_tuple)
 
     return seed_list
-
-
-
+'''
+'''
 a = find_seed(kmer_query_dict,kmer_subject_dict,kmer_comprev_subject_dict)
 #print(a)
 
@@ -364,7 +330,6 @@ def find_consecutive_seeds(schema):
         pos_sub = prova[2][1]
         kmer = prova[0]
 
-'''
 
 
 
@@ -400,7 +365,6 @@ def find_comprev_seed(kmer_comprev_query_dict,kmer_subject_dict,kmer_comprev_sub
     return seed_comprev_dict
 
 """
-'''
 
 
 s = 38
