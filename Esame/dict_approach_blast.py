@@ -564,3 +564,180 @@ def main():
 if __name__ == "__main__":
     main()
 '''
+
+import pandas as pd
+
+def extend_seed(df_seeds, query_partenza, list_partenza_subject, kmer_length=22, x_max=3):
+    
+    query_header = query_partenza[0]
+    sequence_query = query_partenza[1]
+    
+    extended_seeds_dict = {}
+    scores_dict = {}
+
+    # Itera attraverso ogni colonna del DataFrame
+    for col in df_seeds.columns:
+        seeds = df_seeds[col].dropna().tolist()  # Ottieni la lista di seed, escludendo None
+        extended_seeds = []
+        scores = []
+
+        # Recupera la sequenza del subject corrente
+        sequence_sub = get_sequence(col, list_partenza_subject)
+        if sequence_sub is None:
+            # Se la sequenza non è trovata, salta questa colonna
+            extended_seeds_dict[col] = extended_seeds
+            scores_dict[col] = scores
+            continue
+
+        if len(seeds) > 0:
+            # Itera attraverso ogni seed nella colonna
+            for i in range(len(seeds)):
+                current_seed = seeds[i]
+                if isinstance(current_seed, tuple):
+                    start_q, start_s, end_q, end_s = map(int, current_seed)
+                else:
+                    start_q, start_s, end_q, end_s = map(int, current_seed.split(","))
+
+                # Estensione iniziale
+                hsp_query = sequence_query[start_q:end_q]
+                hsp_sub = sequence_sub[start_s:end_s]
+
+                # Se non ci sono altri seed successivi o siamo sull'ultimo seed
+                if i == len(seeds) - 1:
+                    extended_seeds.append((start_q, start_s, end_q, end_s))
+                    scores.append(len(hsp_query))  # Usa la lunghezza come score (adatta secondo le tue esigenze)
+                    continue
+
+                # Recupera il prossimo seed
+                next_seed = seeds[i + 1]
+                if isinstance(next_seed, tuple):
+                    next_start_q, next_start_s, next_end_q, next_end_s = map(int, next_seed)
+                else:
+                    next_start_q, next_start_s, next_end_q, next_end_s = map(int, next_seed.split(","))
+
+                # Calcola le differenze tra la fine del seed corrente e l'inizio del successivo
+                diff_q = next_start_q - end_q
+                diff_s = next_start_s - end_s
+
+                if diff_q == diff_s:
+                    # Nessun gap, estendi direttamente
+                    sequence_query_ext = sequence_query[end_q:next_start_q]
+                    sequence_sub_ext = sequence_sub[end_s:next_start_s]
+
+                else:
+                    # Gap presente, determina dove inserirlo
+                    gap_size = abs(diff_q - diff_s)
+
+                    if diff_q < diff_s:
+                        # Gap nella query
+                        sequence_query_ext = sequence_query[end_q:]
+                        sequence_sub_ext = sequence_sub[end_s:end_s + gap_size] + sequence_sub[end_s + gap_size:next_start_s]
+
+                    else:
+                        # Gap nel subject
+                        sequence_query_ext = sequence_query[end_q:end_q + gap_size] + sequence_query[end_q + gap_size:next_start_q]
+                        sequence_sub_ext = sequence_sub[end_s:]
+
+                # Prova l'estensione verso destra
+                extension_query = sequence_query[end_q:next_start_q]
+                extension_sub = sequence_sub[end_s:next_start_s]
+
+                if len(extension_query) == len(extension_sub):
+                    hsp_query += extension_query
+                    hsp_sub += extension_sub
+
+                # Calcola il nuovo HSP
+                new_end_q = end_q + len(extension_query)
+                new_end_s = end_s + len(extension_sub)
+
+                extended_seeds.append((start_q, start_s, new_end_q, new_end_s))
+                scores.append(len(hsp_query))  # Usa la lunghezza come score
+
+        extended_seeds_dict[col] = extended_seeds
+        scores_dict[col] = scores
+
+    # Creazione del DataFrame finale
+    max_rows = max(len(extended_seeds_dict[col]) for col in extended_seeds_dict)
+
+    # Unisci HSP e scores in un unico DataFrame
+    new_df_data = {}
+    for col in df_seeds.columns:
+        extended_seeds = extended_seeds_dict.get(col, [])
+        scores = scores_dict.get(col, [])
+
+        # Allinea la lunghezza delle liste
+        extended_seeds += [None] * (max_rows - len(extended_seeds))
+        scores += [None] * (max_rows - len(scores))
+
+        new_df_data[col] = extended_seeds
+        new_df_data[f"{col}_score"] = scores
+
+    new_df = pd.DataFrame(new_df_data)
+    return new_df
+
+# Funzioni placeholder per get_sequence e calculate_score (da implementare secondo il tuo contesto)
+def get_sequence(header, list_subjects):
+    for subject in list_subjects:
+        if subject[0] == header:
+            return subject[1]
+    return None
+
+def calculate_score(query, subject):
+    # Calcola lo score come lunghezza dell'HSP (puoi sostituire con il tuo metodo di scoring)
+    return len(query)
+
+import pandas as pd
+
+def test_extend_seed_realistic():
+    print("Running realistic test cases for `extend_seed`...\n")
+    
+    # Caso 1: Seed semplice con estensione su regioni non identiche
+    print("Caso 1: Seed semplice con estensione su regioni non identiche")
+    df_case1 = pd.DataFrame({
+        "subject_1": [["10,20,20,30"]],  # Seed iniziale
+    })
+    query_case1 = ["query_1", "ACGTTGACCTAGCGTAGCTAGCGTTAGCGTACGTA"]
+    list_subjects_case1 = [["subject_1", "TGCATGACCTAGGGTAGCCCGGTAGCGTCCGTACG"]]
+    result1 = extend_seed(df_case1, query_case1, list_subjects_case1)
+    print(result1, "\n")
+    
+    # Caso 2: Due seed distanti con possibili gap su query e subject
+    print("Caso 2: Due seed distanti con gap su query e subject")
+    df_case2 = pd.DataFrame({
+        "subject_1": [["5,15,10,20", "30,40,35,45"]],  # Seed con gap
+    })
+    query_case2 = ["query_2", "AGCTTAGCGTTAGCCCGTACCGTAGCTAGCTAGCTGCTG"]
+    list_subjects_case2 = [["subject_1", "AGGTTAGCGTGGCCTCGTACCATTAGGTAGCTAGC"]]
+    result2 = extend_seed(df_case2, query_case2, list_subjects_case2)
+    print(result2, "\n")
+    
+    # Caso 3: Seed multipli, con estensioni sovrapposte
+    print("Caso 3: Seed multipli, con estensioni sovrapposte")
+    df_case3 = pd.DataFrame({
+        "subject_1": [["10,20,20,30", "25,35,35,45"]],  # Overlapping seeds
+    })
+    query_case3 = ["query_3", "TGCATAGCGTTAGCTAGCCCTTACGATGCCGATAC"]
+    list_subjects_case3 = [["subject_1", "TACGTAGCGTTCGCTAGCCCTTGGTGCCGATAGCC"]]
+    result3 = extend_seed(df_case3, query_case3, list_subjects_case3)
+    print(result3, "\n")
+    
+    # Caso 4: Seed con estensione parziale su regioni divergenti
+    print("Caso 4: Seed con estensione parziale su regioni divergenti")
+    df_case4 = pd.DataFrame({
+        "subject_1": [["0,0,5,5"]],  # Estensione in regioni non perfette
+    })
+    query_case4 = ["query_4", "AACGTAGTTACGGGTACGATTAGCCTGACCTGAC"]
+    list_subjects_case4 = [["subject_1", "AACGTACTTACGCGGACGCTTAGGATGACATGAC"]]
+    result4 = extend_seed(df_case4, query_case4, list_subjects_case4)
+    print(result4, "\n")
+    
+    # Caso 5: Nessun seed presente (controllo su input vuoti)
+    print("Caso 5: Nessun seed presente (input vuoti)")
+    df_case5 = pd.DataFrame({
+        "subject_1": [[]],  # Nessun seed
+    })
+    query_case5 = ["query_5", "AGCTTAGCGTTAGCCCGTACCGTAGCTAGCTAGCTGCTG"]
+    list_subjects_case5 = [["subject_1", "AGGTTAGCGTGGCCTCGTACCATTAGGTAGCTAGC"]]
+    result5 = extend_seed(df_case5, query_case5, list_subjects_case5)
+    print(result5)
+  
