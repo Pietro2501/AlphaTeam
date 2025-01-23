@@ -131,6 +131,7 @@ df_final_1 = create_df_with_positions(dataf1_fill,data,'final1_df')
 
 df_final_2 = create_df_with_positions(dataf2_fill,data,'final2_df')
 
+
 def find_seeds(df,filename,kmer_length=22):
 
     df = df.map(lambda x: x if isinstance(x, tuple) else None)
@@ -201,17 +202,19 @@ def get_sequence(header, list_partenza_subject):
             return list(item[1])  # Converti la stringa in lista di caratteri
     print(f"Errore: Subject '{header}' non trovato in list_partenza_subject.")
     return None
-def calculate_score(sequence_query,sequence_sub):
+
+def calculate_score(sequence_1,sequence_2):
     score = 0
-    for b in range(len(sequence_sub)):
-        query_char = sequence_query[b]
-        sub_char = sequence_sub[b]
+    stop_calc = min(len(sequence_1),len(sequence_2))
+    for b in range(stop_calc):
+        query_char = sequence_1[b]
+        sub_char = sequence_2[b]
 
         if query_char == sub_char:
             score += 1
         else:
-            if query_char == '_':
-                if b == 0 or sequence_query[b - 1] != '_':
+            if query_char == '_' or sub_char == '_':
+                if b == 0 or (query_char[b - 1] != '_' and sub_char[b-1] != '_'):
                     score -= 2
                 else:
                     score -= 1
@@ -219,27 +222,37 @@ def calculate_score(sequence_query,sequence_sub):
                 score -= 1
             elif query_char in trasversione and sub_char in trasversione[query_char]:
                 score -= 1
-            else:
-                score -= 1
     return score
+  
 
-def handle_gaps(finestra_mismatch, gap_size, x_max = 6, max_gap = 3):
-    sequence_finestra = finestra_mismatch
-    gap_scores = []
-    sequence_list = []
+def handle_gaps(finestra_mismatch_query, finestra_mismatch_sub, gap_size, x_max = 6, max_gap = 3, gap_target='unknown'):
+    """
+    La funzione gestisce i gap. Se sappiamo che sono sulla query, li aggiunge lì; se sono sulla subject, il contrario; altrimenti prova su entrambi.
+    """
+    sequence_query_list = []
+    sequence_sub_list = []
     gap_numbers = min(gap_size,max_gap)
 
-    for a in range(gap_numbers):
-        sequence_finestra_gap = '_' * (a + 1) + finestra_mismatch
-        gap_score = calculate_score(sequence_finestra, sequence_finestra_gap)
-        if gap_score >= -x_max:
-            sequence_list.append(sequence_finestra_gap)
-            gap_scores.append(gap_score)
+    if gap_target in ['query', 'unknown']:
+        for a in range(gap_numbers):
+            sequence_finestra_gap = '_' * (a + 1) + finestra_mismatch_query  # Gap a sinistra (query)
+            gap_score = calculate_score(sequence_finestra_gap, finestra_mismatch_sub)
+            if gap_score >= -x_max:
+                sequence_query_list.append(sequence_finestra_gap)
 
-    return gap_scores, sequence_list
+    if gap_target in ['subject', 'unknown']:
+        for a in range(gap_numbers):
+            sequence_finestra_gap = '_' * (a + 1) + finestra_mismatch_sub   # Gap a destra (subject)
+            gap_score = calculate_score(sequence_finestra_gap, finestra_mismatch_query)
+            if gap_score >= -x_max:
+                sequence_sub_list.append(sequence_finestra_gap)       
 
-def extend_seed_right(sequence_query_ext, sequence_sub_ext, k, x_max, perform_gap):
+    return sequence_query_list, sequence_sub_list
+
+
+def extend_seed_right(sequence_query_ext, sequence_sub_ext, k, x_max, perform_gap,gap_size): ###FUNZIONA MA CERCHIAMO DI IMPLEMENTARLA
     mismatch_consecutivi = 0
+    last_valid_index = 0
 
     for a in range(len(sequence_query_ext)):# a indice per l'estensione
         if a >= len(sequence_sub_ext):
@@ -251,28 +264,44 @@ def extend_seed_right(sequence_query_ext, sequence_sub_ext, k, x_max, perform_ga
             mismatch_consecutivi += 1
             
             if mismatch_consecutivi == x_max:
-                print(f"Interruzione per mismatch consecutivi a posizione {a}")
+                #print(f"Interruzione per mismatch consecutivi a posizione {a}")
+                last_valid_index = a
                 break
 
     # Calcola la finestra di mismatch se query e subject hanno lunghezze differenti
-    extension_right=[]
+    extension_right_query=[]
+    extension_right_subject = []
+
     if perform_gap:
-        finestra_mismatch = sequence_query_ext [a - (x_max - 1) : a + 1]
-        print(f"Finestra mismatch: {finestra_mismatch}")
-        score_with_gap, sequences = handle_gaps(finestra_mismatch, gap_size)
-        if len(sequences) > 0:
-            for i in range(len(sequences)):
-                extension_right.append(sequence_query_ext[:a - (x_max - 1)] + sequences[i])
-        print(f"Estensione con gap: {extension_right}")
+        finestra_mismatch_query = sequence_query_ext [last_valid_index - (x_max-1) : last_valid_index + 1]
+        finestra_mismatch_subject = sequence_sub_ext [last_valid_index - (x_max-1) : last_valid_index + 1]
+        #print(f"Finestra mismatch: {finestra_mismatch_query},{finestra_mismatch_subject}")
+        sequences_query, sequences_subject = handle_gaps(finestra_mismatch_query, finestra_mismatch_subject, gap_size)
+        #print(sequences_query,sequences_subject)
+        if len(sequences_query) > 0:
+            for i in range(len(sequences_query)):
+                extension_right_query.append(sequence_query_ext[:last_valid_index - (x_max - 1)] + sequences_query[i])
+        #print(f"Estensione query con gap: {extension_right_query}")
+        if len(sequences_subject) > 0:
+            for i in range(len(sequences_subject)):
+                extension_right_subject.append(sequence_sub_ext[:last_valid_index - (x_max - 1)] + sequences_subject[i])
+        #print(f"Estensione subject con gap: {extension_right_subject}")
+        return extension_right_query,extension_right_subject
    
     else:
-        if a >= (x_max - 1):
-            extension_right = sequence_query_ext[:a - (x_max - 1)]
+        if last_valid_index >= (x_max - 1):
+            extension_withoutgap_right_query = sequence_query_ext[:last_valid_index - (x_max - 1)]
+            extension_withoutgap_right_sub = sequence_sub_ext[:last_valid_index - (x_max - 1)]
         else:
-            extension_right = sequence_query_ext[:a + 1]
-        print(f"Estensione senza gap: {extension_right}")
+            extension_withoutgap_right_query = sequence_query_ext[:last_valid_index + 1]
+            extension_withoutgap_right_sub = sequence_sub_ext[:last_valid_index + 1]
 
-    return extension_right
+        #print(f"Estensione senza gap: {extension_withoutgap_right_query, extension_withoutgap_right_sub}")
+    return extension_withoutgap_right_query, extension_withoutgap_right_sub
+
+
+
+
 
 
 def extend_seed(df_seeds, query_partenza, list_partenza_subject, kmer_length=22, x_max=3,):
@@ -453,6 +482,8 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, kmer_length=22,
     new_df.index = range(1, len(new_df) + 1)
 
     return new_df
+
+
 
 #extended_seeds = extend_seed(seeds1,query_partenza,list_partenza_subject,22,6)
 
