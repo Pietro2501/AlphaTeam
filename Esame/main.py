@@ -236,11 +236,12 @@ def calculate_score(sequence_1,sequence_2):
         #print(f'score= {score}')
     return score
  
-  
+
+
 def handle_gaps(finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub, finestra_mismatch_query, finestra_mismatch_sub, gap_size, gap_target, x_max):
     """
     La funzione gestisce i gap. Se sappiamo che sono sulla query, li aggiunge lì; se sono sulla subject, il contrario; altrimenti prova su entrambi.
-    """
+    """   
     max_gap = 3
     sequence_query_list = []
     sequence_sub_list = []
@@ -252,9 +253,9 @@ def handle_gaps(finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub, finestra
             sequence_finestra_gap = '_' * (a + 1) + finestra_mismatch_query  # Gap a sinistra (query)
             gap_score = calculate_score(sequence_finestra_gap, finestra_mismatch_sub)
             if gap_score >= -x_max:
-                sequence_finestra_gap = '_' * (a + 1) + finestra_aggiunta_gap_query
-                gap_score = calculate_score(sequence_finestra_gap, finestra_aggiunta_gap_sub)
-                sequence_query_list.append(sequence_finestra_gap)
+                finestra_aggiunta_gap_query = '_' * (a + 1) + finestra_aggiunta_gap_query
+                gap_score = calculate_score(finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub)
+                sequence_query_list.append(finestra_aggiunta_gap_query)
                 score_list.append(gap_score)
         if len(score_list) > 0 and len(sequence_query_list) > 0:
             maximum = max(score_list)
@@ -263,16 +264,16 @@ def handle_gaps(finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub, finestra
         else:
             #print('i gap non riesco a migliorare')
             sequence_query_seq = '*'
-        sequence_sub_seq = finestra_aggiunta_gap_query          
+            sequence_query_seq = finestra_aggiunta_gap_query
 
     if gap_target == 'subject':
         for a in range(gap_numbers):
             sequence_finestra_gap = '_' * (a + 1) + finestra_mismatch_sub   # Gap a destra (subject)
             gap_score = calculate_score(sequence_finestra_gap, finestra_mismatch_query)
             if gap_score >= -x_max:
-                sequence_finestra_gap = '_' * (a + 1) + finestra_aggiunta_gap_sub 
-                gap_score = calculate_score(sequence_finestra_gap, finestra_aggiunta_gap_query)
-                sequence_sub_list.append(sequence_finestra_gap)
+                finestra_aggiunta_gap_sub  = '_' * (a + 1) + finestra_aggiunta_gap_sub
+                gap_score = calculate_score(finestra_aggiunta_gap_sub , finestra_aggiunta_gap_query)
+                sequence_sub_list.append(finestra_aggiunta_gap_sub )
                 score_list.append(gap_score)
         if len(score_list) > 0 and len(sequence_sub_list) > 0:
             maximum = max(score_list)
@@ -281,11 +282,11 @@ def handle_gaps(finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub, finestra
         else:
             #print('i gap non riesco a migliorare')
             sequence_sub_seq = '*'
-        sequence_query_seq = finestra_aggiunta_gap_query
+            sequence_sub_seq = finestra_aggiunta_gap_sub
         #print(f'gap inseriti = {len(sequence_sub_list)}')
         #print(f'sequenza con gap: {finestra_mismatch_query,finestra_mismatch_sub}')    
 
-    return sequence_query_seq, sequence_sub_seq
+    return finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub
 
 def find_mismatch_window(sequence_query_ext, sequence_sub_ext, x_max):
 
@@ -413,15 +414,13 @@ def extend_seed_right(sequence_query_ext, sequence_sub_ext, gap_size,perform_gap
 #print(score)
 
 
+import time
+
 def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
-    print('ho iniziato')
+    print('Ho iniziato il processo')
     contenitore_hsp_query = []
     contenitore_hsp_sub = []
     contenitore_score = []
-
-    hsp_query = ''
-    hsp_sub = ''
-    score = 0
 
     query_header = query_partenza[0]
     sequence_query = query_partenza[1]
@@ -430,26 +429,37 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
 
     # Itera attraverso ogni colonna del DataFrame
     for col in df_seeds.columns:
+        print(f"\nProcessando la colonna: {col}")
         seeds = df_seeds[col].dropna().tolist()  # Ottieni la lista di seed, escludendo None
-        print(f'Devo processare{len(seeds)}')
+        print(f"Numero di seed da processare: {len(seeds)}")
+
+        start_time_col = time.time()  # Inizio del timer per la colonna
+
         extended_seeds = []
 
         # Recupera la sequenza del subject corrente utilizzando la funzione get_sequence
         sequence_sub = get_sequence(col, list_partenza_subject)
         if sequence_sub is None:
-            # Se la sequenza non è trovata, salta questa colonna
+            print(f"La sequenza per il soggetto {col} non è stata trovata. Passo alla colonna successiva.")
             extended_seeds_dict[col] = extended_seeds
             continue
 
-        if len(seeds) > 1:
-            # Itera attraverso ogni seed nella colonna
-            for i in range(len(seeds)):
-                current_seed = seeds[i]
+        list_inner_hsp_q = []
+        list_inner_hsp_s = []
+        list_inner_score = []
+
+        if len(seeds) > 0:
+            for i, current_seed in enumerate(seeds):
+                
+                print(f"  Processando il seed {i + 1} di {len(seeds)} nella colonna {col}.")
+
                 if not current_seed:
-                    continue  # Salta seed vuoti
+                    continue
+
+                start_time_seed = time.time()  # Inizio del timer per il seed
 
                 start_q, start_s, end_q, end_s = current_seed
-                
+
                 # Assicurati che start_q, start_s, end_q, end_s siano interi
                 try:
                     start_q = int(start_q)
@@ -462,15 +472,17 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
 
                 hsp_query = sequence_query[start_q:end_q]
                 hsp_sub = sequence_sub[start_s:end_s]
-                score = end_q-start_q
+                score = end_q - start_q
+                print(f'valori al seed corrente: {hsp_query,hsp_sub,score}')
+
+
 
                 # Controlla se c'è un seed successivo
-                if i < len(seeds) - 1:
+                if i < len(seeds)-1:
                     next_seed = seeds[i + 1]
                     if next_seed:
                         next_start_q, next_start_s, next_end_q, next_end_s = next_seed
-                        
-                        # Assicurati che anche il next_seed abbia valori interi
+
                         try:
                             next_start_q = int(next_start_q)
                             next_start_s = int(next_start_s)
@@ -480,65 +492,42 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
                             print(f"Errore: I valori di next_start_q, next_start_s, next_end_q, next_end_s devono essere interi. Seed: {next_seed}")
                             continue
 
-                        # Calcola le differenze
                         diff_q = next_start_q - end_q
                         diff_s = next_start_s - end_s
 
                         if diff_q == diff_s:
-                            # Nessun gap, estendi il seed
-
-                            #print(f'sto valutando questa query: {query_header} con posizione iniziale: {start_q} e finale: {end_q} e la sto confrontando con {col} con posizione iniziale: {start_s} e finale: {end_s} ')
-                            
                             sequence_query_ext = sequence_query[end_q:next_start_q]
-                            sequence_sub_ext = sequence_sub[end_s:next_start_s]                            
-                            extension_right_query,extension_right_sub = extend_seed_right(
+                            sequence_sub_ext = sequence_sub[end_s:next_start_s]
+
+                            extension_right_query, extension_right_sub = extend_seed_right(
                                 sequence_query_ext,
                                 sequence_sub_ext,
-                                gap_size = 0,
-                                gap_target = None,
-                                perform_gap = False,
-                                x_max = 6,
+                                gap_size=0,
+                                gap_target=None,
+                                perform_gap=False,
+                                x_max=6,
                             )
-                            #print(sequence_query[start_q:end_q], sequence_query[next_start_q:next_end_q])
-                            #print(sequence_query[start_q:next_end_q])
-                            #print(sequence_sub[start_s:end_s], sequence_sub[next_start_s:next_end_s])
-                            #print(sequence_sub[start_s:next_end_s])
-                            #print(extension_right_query,extension_right_sub)
-
-                            # Aggiorna end_q e end_s
+                            """
                             new_start_q = end_q
                             new_start_s = end_s
-                            new_end_q = end_q + len(extension_right_query[0])
-                            new_end_s = end_s + len(extension_right_sub[0])
+                            new_end_q = end_q + len(extension_right_query)
+                            new_end_s = end_s + len(extension_right_sub)
+
                             hsp_query += sequence_query[new_start_q:new_end_q]
                             hsp_sub += sequence_sub[new_start_s:new_end_s]
-                            #print(hsp_query,hsp_sub)
-                            #print(len(hsp_query),len(hsp_sub))
-                            score_extension = calculate_score(extension_right_query,extension_right_sub) 
-                            #print(score_extension)
+
+                            score_extension = calculate_score(extension_right_query, extension_right_sub)
                             score += score_extension
-                            #print(score)
-                            
+                            print(hsp_query,hsp_sub,score)
+                            """
+
                         else:
-                            # Gestisci i gap
-                            if diff_q < diff_s:
-                                #print(col, current_seed, next_seed)
-                                
+                            if diff_q < diff_s:                                
                                 # Gap nella query
                                 gap_size = diff_s - diff_q
-                                #print(gap_size)
                                 
-                                #print(current_seed)
-                                #print(next_seed)
-                                #print(sequence_query[:end_q])
-                                #print(sequence_sub[:end_s])
-                                #print(len(sequence_query[:end_q]))
-                                #print(len(sequence_sub[:end_s]))
                                 sequence_query_ext = sequence_query[end_q:next_start_q]
-                                sequence_sub_ext = sequence_sub[end_s:next_start_s]
-                                #print(sequence_query_ext)
-                                #print(sequence_sub_ext)
-                                #print(len(sequence_query_ext), len(sequence_sub_ext))                             
+                                sequence_sub_ext = sequence_sub[end_s:next_start_s]                            
                                 
                                 extension_right_query,extension_right_sub = extend_seed_right(
                                     sequence_query_ext,
@@ -548,31 +537,22 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
                                     perform_gap=True,
                                     x_max = 6
                                     )
-                                #print(len(extension_right_query[0]),len(extension_right_sub[0]))
-                                #print(hsp_query,hsp_sub)
-                                #print(len(hsp_query),len(hsp_sub))
+                                """
                                 # Aggiorna end_q e end_s
-                                hsp_query += extension_right_query[0]
-                                hsp_sub += extension_right_sub[0]
-                                #print(hsp_query,hsp_sub)
-                                #print(len(hsp_query),len(hsp_sub))
-                                #print(extension_right_query[0],extension_right_sub[0])
-                                score_extension = calculate_score(extension_right_query[0],extension_right_sub[0]) 
-                                #print(score_extension)
+                                hsp_query += extension_right_query
+                                hsp_sub += extension_right_sub
+                                
+                                score_extension = calculate_score(extension_right_query,extension_right_sub) 
                                 score += score_extension
-                                #print(current_seed,next_seed)
-                                #print(score)
-                                    
-
+                                print(hsp_query,hsp_sub,score)
+                                """
                             else:
-                                # Gap nel subject
+                                #Gap nella subject
                                 gap_size = diff_q - diff_s
-                                #print(col, current_seed, next_seed)
-                                #print(gap_size)
+                                
                                 sequence_query_ext = sequence_query[end_q:next_start_q]
-                                sequence_sub_ext = sequence_sub[end_s:next_start_s]
-                                #print(sequence_query_ext)
-                                #print(sequence_sub_ext)
+                                sequence_sub_ext = sequence_sub[end_s:next_start_s]                            
+                                
                                 extension_right_query,extension_right_sub = extend_seed_right(
                                     sequence_query_ext,
                                     sequence_sub_ext,
@@ -581,29 +561,56 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
                                     perform_gap=True,
                                     x_max = 6
                                     )
-                                #print(len(extension_right_query[0]),len(extension_right_sub[0]))
-                                #print(hsp_query,hsp_sub)
-                                #print(len(hsp_query),len(hsp_sub))
-                                hsp_query += extension_right_query[0]
-                                hsp_sub += extension_right_sub[0]
-                                score_extension = calculate_score(extension_right_query[0],extension_right_sub[0]) 
+                                """
+                                # Aggiorna end_q e end_s
+                                hsp_query += extension_right_query
+                                hsp_sub += extension_right_sub
+                                
+                                score_extension = calculate_score(extension_right_query,extension_right_sub) 
                                 score += score_extension
+                                print(hsp_query,hsp_sub,score)
+                                """
+                        hsp_query += extension_right_query
+                        hsp_sub += extension_right_sub
+                                
+                        score_extension = calculate_score(extension_right_query,extension_right_sub) 
+                        score += score_extension
+                        print(f' valori al seed aggiornato con ext: {hsp_query,hsp_sub,score}')
+                        list_inner_hsp_q.append(hsp_query)
+                        list_inner_hsp_s.append(hsp_sub)
+                        list_inner_score.append(score)
 
                 else:
-                    # Seed finale, potrebbe non avere un successivo
-                    hsp_query = sequence_query[start_q:end_q]
-                    hsp_sub = sequence_sub[start_s:end_s]
-                    score = calculate_score(hsp_query,hsp_sub)
-                    break
+                    #hsp_query += sequence_query[start_q:end_q]
+                    #hsp_sub += sequence_sub[start_s:end_s]
+                    #score = calculate_score(hsp_query, hsp_sub)
+                    print(f'valori del seed finale: {hsp_query,hsp_sub,score}')
+                    list_inner_hsp_q.append(hsp_query)
+                    list_inner_hsp_s.append(hsp_sub)
+                    list_inner_score.append(score)
 
-        contenitore_hsp_query.append(hsp_query)
-        contenitore_hsp_sub.append(hsp_sub)
-        contenitore_score.append(score)
+                end_time_seed = time.time()
+                print(f"    Tempo impiegato per il seed {i + 1}: {end_time_seed - start_time_seed:.2f} secondi.")
 
-        print('Ho finito. Passo al prossimo')        
+                print(f'liste per ogni seed processato: {list_inner_hsp_q,list_inner_hsp_s,list_inner_score}')
+        
+        end_time_col = time.time()
+        print(f"Colonna {col} completata. Tempo totale: {end_time_col - start_time_col:.2f} secondi.")
 
-    
-    return contenitore_hsp_query,contenitore_hsp_sub,contenitore_score
+        hsp_query_completo = ''.join(list_inner_hsp_q)
+        hsp_sub_completo = ''.join(list_inner_hsp_s)
+        score_completo = sum(list_inner_score)
+        print(f' hsp completi con annessi score: {hsp_query_completo,hsp_sub_completo,score_completo}')
+
+        contenitore_hsp_query.append(hsp_query_completo)
+        contenitore_hsp_sub.append(hsp_sub_completo)
+        contenitore_score.append(score_completo)
+
+        
+
+    print("\nHo terminato l'elaborazione di tutte le colonne.")
+    return contenitore_hsp_query, contenitore_hsp_sub, contenitore_score
+
 """
 # Aggiungi i seed estesi alla lista del dizionario
 extended_seeds_dict[col] = extended_seeds
@@ -629,9 +636,9 @@ new_df.index = range(1, len(new_df) + 1)
 
 
 a = extend_seed(seeds1,query_partenza,list_partenza_subject,6)
-#print(a[1])
-b = extend_seed(seeds2, query_partenza2,list_partenza_subject,6)
-print(b[2])
+print(len(a[1]))
+#b = extend_seed(seeds2, query_partenza2,list_partenza_subject,6)
+#print(b[2])
 
 
 
