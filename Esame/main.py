@@ -1,13 +1,15 @@
 import argparse
 import time
 import pandas as pd
+from numpy.ma.core import identity
+
 import tools
 from Sequence import Sequence
 import ErroriPersonalizzati
 import os
 
 
-query = Sequence('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\query.fasta')
+query = Sequence('query.fasta')
 list_partenza_query =query.parse_file()
 kmer_query_list = query.kmer_indexing(22)
 kmer_comprev_query_list = query.kmer_indexing_comp_rev(22)
@@ -15,6 +17,7 @@ kmer_comprev_query_list = query.kmer_indexing_comp_rev(22)
 query_partenza = list_partenza_query[0]
 #print(query_partenza)
 query_partenza2 = list_partenza_query[1]
+
 #print(query_partenza2)
 
 query_1 = kmer_query_list[0:2]
@@ -29,7 +32,7 @@ if not isinstance(kmer_query_list,list) or not isinstance(kmer_comprev_query_lis
     raise ErroriPersonalizzati.NotADict()
 
 
-sub = Sequence('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\ref.fa')
+sub = Sequence('ref.fa')
 list_partenza_subject = sub.parse_file()
 #print(list_partenza_subject)
 kmer_subject_list = sub.kmer_indexing(22)
@@ -124,12 +127,13 @@ dataf1_fill.to_csv('data1fill.csv')
 dataf2_fill = fill_df_query(dataf2,"4516aa60a483dd8c7bbc57098c45f1a5")
 datafr1_fill = fill_df_query(datafr1,"b6635d67cb594473ddba9f8cfba5d13d")
 datafr2_fill = fill_df_query(datafr2,"4516aa60a483dd8c7bbc57098c45f1a5")
+dataf2_fill.to_csv('data2fill.csv')
 
 ########## CREAZIONE SUB DF #############
 datasub = create_sub_df(kmer_subject_list)
 
 ############## CARICAMENTO DF SUB FILLATO
-data = tools.load_table('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\filled_sub_df.csv')
+data = tools.load_table('filled_sub_df.csv')
 
 ################ TABELLE PER RICERCA SEED #########################
 df_final_1 = create_df_with_positions(dataf1_fill,data,'final1_df')
@@ -145,7 +149,6 @@ def find_seeds(df,filename,kmer_length=22):
         column_seeds = []
         col_values = df[col].tolist()
         n = len(col_values)
-
         for i in range(n):
             current_value = col_values[i]
             prev_value = col_values[i - 1] if i > 0 else None
@@ -260,11 +263,10 @@ def handle_gaps(finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub, finestra
         if len(score_list) > 0 and len(sequence_query_list) > 0:
             maximum = max(score_list)
             i = score_list.index(maximum)
-            sequence_query_seq = sequence_query_list[i]
+            finestra_aggiunta_gap_query = sequence_query_list[i]
         else:
             #print('i gap non riesco a migliorare')
-            sequence_query_seq = '*'
-            sequence_query_seq = finestra_aggiunta_gap_query
+            finestra_aggiunta_gap_query = '*'
 
     if gap_target == 'subject':
         for a in range(gap_numbers):
@@ -278,15 +280,14 @@ def handle_gaps(finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub, finestra
         if len(score_list) > 0 and len(sequence_sub_list) > 0:
             maximum = max(score_list)
             i = score_list.index(maximum)
-            sequence_sub_seq = sequence_sub_list[i]
+            finestra_aggiunta_gap_sub = sequence_sub_list[i]
         else:
             #print('i gap non riesco a migliorare')
-            sequence_sub_seq = '*'
-            sequence_sub_seq = finestra_aggiunta_gap_sub
+            finestra_aggiunta_gap_sub = '*'
         #print(f'gap inseriti = {len(sequence_sub_list)}')
         #print(f'sequenza con gap: {finestra_mismatch_query,finestra_mismatch_sub}')    
 
-    return finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub
+    return finestra_aggiunta_gap_query,finestra_aggiunta_gap_sub
 
 def find_mismatch_window(sequence_query_ext, sequence_sub_ext, x_max):
 
@@ -392,26 +393,6 @@ def extend_seed_right(sequence_query_ext, sequence_sub_ext, gap_size,perform_gap
 
     return extension_right_query, extension_right_sub
 
-####ESEMPIO#####
-# Sequenze di esempio
-#sequence_query_ext = "ATCGTACGATCGTTACGATGTA"
-#sequence_sub_ext =   "ATCGTACGATGACGATGTA"  
-
-#print(f'lunghezza di partenza = {len(sequence_query_ext)},{len(sequence_sub_ext)}')
-
-# Parametri
-#x_max = 6
-#perform_gap = False
-#gap_size = 2
-
-# Chiamata della funzione
-#score = calculate_score(sequence_query_ext,sequence_sub_ext)
-#print(score)
-#a,b = extend_seed_right(sequence_query_ext, sequence_sub_ext, gap_size=2,perform_gap=True,gap_target='subject',x_max=4)
-#print("Risultato estensione:", a,b)
-#print(len(a),len(b))
-#score = calculate_score(a,b)
-#print(score)
 
 
 import time
@@ -618,47 +599,119 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
     print("\nHo terminato l'elaborazione di tutte le colonne.")
     return contenitore_hsp_query, contenitore_hsp_sub, contenitore_score, contenitore_ref
 
-"""
-# Aggiungi i seed estesi alla lista del dizionario
-extended_seeds_dict[col] = extended_seeds
+def create_results_table(cont_hsp_query, cont_hsp_sub, cont_hsp_score, col,filename):
+   data = {'hsp_query':cont_hsp_query,
+                'hsp_sub':cont_hsp_sub,
+                'header': col,
+                'hsp_score':cont_hsp_score,
+                }
+   results_df = pd.DataFrame(data)
+   results_df = results_df.sort_values(['hsp_score'], ascending=False)
+   results_df.to_csv(filename + '.csv')
+   return results_df
 
-# Converti il dizionario in un nuovo DataFrame
-# Trova la lunghezza massima tra le colonne
-max_rows = max(len(seeds) for seeds in extended_seeds_dict.values())
+def metrics_for_blast(best_alignment_df,query_partenza,list_partenza_subject):
+    #coverage = lung allineamento / lung query * 100
+    #E-value
+    #E_value = len(query) * len(sbj_seqs) * 2 ** (-score)
+    # Identità = quanti sono i match rispetto all'allineamento
+    query_cov_list = []
+    e_value_list = []
+    identity_list = []
 
-# Uniforma la lunghezza di tutte le colonne aggiungendo righe vuote con un singolo None
-new_df_data = {
-    col: extended_seeds_dict[col] + [None] * (max_rows - len(extended_seeds_dict[col]))
-    for col in df_seeds.columns
-}
+    query_col = best_alignment_df.columns[0]
+    sub_col = best_alignment_df.columns[1]
+    score_col = best_alignment_df.columns[3]
+    header_col = best_alignment_df.columns[2]
+    for q,s in zip(best_alignment_df[query_col].tolist(),best_alignment_df[sub_col].tolist()):
+        match = 0
+        if len(q) == len(s):
+            query_coverage = len(q) / len(query_partenza[1]) * 100
+            query_cov_list.append(query_coverage)
 
-new_df = pd.DataFrame(new_df_data)
+            for base in range(len(q)):
+                query_char = q[base]
+                sub_char = s[base]
+                if query_char == sub_char:
+                    match += 1
+                else:
+                    continue
 
-# Imposta l'indice del nuovo DataFrame
-new_df.index = range(1, len(new_df) + 1)
+            max_identity = round(match/len(q)*100,2)
+            identity_list.append(max_identity)
 
-#return new_df
-"""
+    for score,col in zip(best_alignment_df[score_col].tolist(),best_alignment_df[header_col].tolist()):
+        len_sub = len(get_sequence(col,list_partenza_subject))
+        len_query = len(query_partenza[1])
+        e_value = len_query * len_sub * 2 ** (-score)
+        e_value_list.append(e_value)
 
-
-
-a = extend_seed(seeds1,query_partenza,list_partenza_subject,6)
-#print(a[3])
-#b = extend_seed(seeds2, query_partenza2,list_partenza_subject,6)
-#print(b[2])
-
-
-
-
-
-
+    return query_cov_list,e_value_list,identity_list
 
 
-#p = extend_seed(seeds1,list_partenza_query,list_partenza_subject)
-#final_1
-#(379,52)
-# final_2
-# (381,49)
+
+
+hsp_query,hsp_sub,score,col = extend_seed(seeds1,query_partenza,list_partenza_subject,6)
+hsp_query2,hsp_sub2,score2,col2 = extend_seed(seeds2,query_partenza,list_partenza_subject,6)
+
+all_alignments_query1 = create_results_table(hsp_query,hsp_sub,score,col,'all_alignments_query1')
+all_alignments_query2 = create_results_table(hsp_query2,hsp_sub2,score2,col2,'all_alignments_query2')
+
+best_alignment_query_1 = all_alignments_query1.iloc[2:10].copy()
+best_alignment_query_2 = all_alignments_query2.iloc[2:10].copy()
+
+best_alignment_query_1p = best_alignment_query_1.to_csv('best_alignment_query_1.csv')
+best_alignment_query_2p = best_alignment_query_2.to_csv('best_alignment_query_2.csv')
+
+cov,e_value,identity = metrics_for_blast(best_alignment_query_2,query_partenza2,list_partenza_subject)
+
+def blast_result_df(best_alignment_query,query_partenza,list_partenza_subject,filename):
+    coverage_cont, e_value_cont, identity_cont = metrics_for_blast(best_alignment_query,query_partenza,list_partenza_subject)
+    best_alignment_query = best_alignment_query.drop(['hsp_query','hsp_sub'],axis = 1)
+    best_alignment_query.insert(loc=2, column='query_coverage', value=coverage_cont)
+    best_alignment_query.insert(loc=3, column='E_value', value=e_value_cont)
+    best_alignment_query.insert(loc=4, column='max_identity', value=identity_cont)
+
+    best_alignment_query.to_csv(filename + '.csv')
+
+    return best_alignment_query
+
+metrics_query_1 = metrics_for_blast(best_alignment_query_1,query_partenza,list_partenza_subject)
+metrics_query_2 = metrics_for_blast(best_alignment_query_2,query_partenza2,list_partenza_subject)
+
+blast_result1 = blast_result_df(best_alignment_query_1,query_partenza,list_partenza_subject,'blast_result1')
+blast_result2 = blast_result_df(best_alignment_query_2,query_partenza2,list_partenza_subject,'blast_result2')
+
+def print_alignment(best_alignment_df):
+    query_hsp = best_alignment_df.columns[0]
+    sub_hsp = best_alignment_df.columns[1]
+    middle_line = []
+    for q, s in zip(best_alignment_df[query_hsp].tolist(), best_alignment_df[sub_hsp].tolist()):
+        for base in range(len(q)):
+            query_char = q[base]
+            sub_char = s[base]
+            if query_char == '_' or sub_char == '_':
+                middle_line.append(' ')
+            elif query_char == sub_char:
+                middle_line.append('|')
+            else:
+                middle_line.append('.')
+
+        query_str = ''.join(q)
+        middle_str = ''.join(middle_line)
+        subject_str = ''.join(s)
+
+    print(f"Query:   {query_str}")
+    print(f"         {middle_str}")
+    print(f"Subject: {subject_str}")
+
+
+r = print_alignment(best_alignment_query_1)
+
+
+
+
+
 
 
 
