@@ -9,7 +9,7 @@ import ErroriPersonalizzati
 import os
 
 
-query = Sequence('query.fasta')
+query = Sequence('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\query.fasta')
 list_partenza_query =query.parse_file()
 kmer_query_list = query.kmer_indexing(22)
 kmer_comprev_query_list = query.kmer_indexing_comp_rev(22)
@@ -32,7 +32,7 @@ if not isinstance(kmer_query_list,list) or not isinstance(kmer_comprev_query_lis
     raise ErroriPersonalizzati.NotADict()
 
 
-sub = Sequence('ref.fa')
+sub = Sequence('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\ref.fa')
 list_partenza_subject = sub.parse_file()
 #print(list_partenza_subject)
 kmer_subject_list = sub.kmer_indexing(22)
@@ -133,7 +133,7 @@ dataf2_fill.to_csv('data2fill.csv')
 datasub = create_sub_df(kmer_subject_list)
 
 ############## CARICAMENTO DF SUB FILLATO
-data = tools.load_table('filled_sub_df.csv')
+data = tools.load_table('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\filled_sub_df.csv')
 
 ################ TABELLE PER RICERCA SEED #########################
 df_final_1 = create_df_with_positions(dataf1_fill,data,'final1_df')
@@ -682,32 +682,34 @@ metrics_query_2 = metrics_for_blast(best_alignment_query_2,query_partenza2,list_
 blast_result1 = blast_result_df(best_alignment_query_1,query_partenza,list_partenza_subject,'blast_result1')
 blast_result2 = blast_result_df(best_alignment_query_2,query_partenza2,list_partenza_subject,'blast_result2')
 
-def print_alignment(best_alignment_df):
+def print_alignment(best_alignment_df,output_file):
     query_hsp = best_alignment_df.columns[0]
     sub_hsp = best_alignment_df.columns[1]
-    middle_line = []
-    for q, s in zip(best_alignment_df[query_hsp].tolist(), best_alignment_df[sub_hsp].tolist()):
-        for base in range(len(q)):
-            query_char = q[base]
-            sub_char = s[base]
-            if query_char == '_' or sub_char == '_':
-                middle_line.append(' ')
-            elif query_char == sub_char:
-                middle_line.append('|')
-            else:
-                middle_line.append('.')
+ 
+    with open(output_file, 'w') as f:
+  
+        for q, s in zip(best_alignment_df[query_hsp].tolist(), best_alignment_df[sub_hsp].tolist()):  
+            middle_line = []
+            for base in range(len(q)):
+                query_char = q[base]
+                sub_char = s[base]
+                if query_char == '_' or sub_char == '_':
+                    middle_line.append(' ')
+                elif query_char == sub_char:
+                    middle_line.append('|')
+                else:
+                    middle_line.append('.')
 
-        query_str = ''.join(q)
-        middle_str = ''.join(middle_line)
-        subject_str = ''.join(s)
+            middle_str = ''.join(middle_line)
 
-    print(f"Query:   {query_str}")
-    print(f"         {middle_str}")
-    print(f"Subject: {subject_str}")
+            f.write(f"Query:   {q}\n")
+            f.write(f"         {middle_str}\n")
+            f.write(f"Subject: {s}\n")
+            f.write('\n')
 
 
-r = print_alignment(best_alignment_query_1)
-
+r = print_alignment(best_alignment_query_1,'prova_visual.txt')
+s = print_alignment(best_alignment_query_2,'prova_visual2.txt')
 
 
 
