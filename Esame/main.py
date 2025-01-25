@@ -1,24 +1,22 @@
 import argparse
 import time
 import pandas as pd
-from numpy.ma.core import identity
-
 import tools
 from Sequence import Sequence
 import ErroriPersonalizzati
-import os
 
-
-query = Sequence('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\query.fasta')
+query = Sequence('query.fasta')
 list_partenza_query =query.parse_file()
 kmer_query_list = query.kmer_indexing(22)
 kmer_comprev_query_list = query.kmer_indexing_comp_rev(22)
+if kmer_query_list is None and kmer_comprev_query_list is None:
+    raise ErroriPersonalizzati.EmptyDict()
+if not isinstance(kmer_query_list,list) or not isinstance(kmer_comprev_query_list,list):
+    raise ErroriPersonalizzati.NotADict()
 
 query_partenza = list_partenza_query[0]
-#print(query_partenza)
 query_partenza2 = list_partenza_query[1]
 
-#print(query_partenza2)
 
 query_1 = kmer_query_list[0:2]
 query2 = kmer_query_list[2:]
@@ -26,15 +24,8 @@ query1r = kmer_comprev_query_list[0:2]
 query2r = kmer_comprev_query_list[2:]
 
 
-if kmer_query_list is None and kmer_comprev_query_list is None:
-    raise ErroriPersonalizzati.EmptyDict()
-if not isinstance(kmer_query_list,list) or not isinstance(kmer_comprev_query_list,list):
-    raise ErroriPersonalizzati.NotADict()
-
-
-sub = Sequence('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\ref.fa')
+sub = Sequence('ref.fa')
 list_partenza_subject = sub.parse_file()
-#print(list_partenza_subject)
 kmer_subject_list = sub.kmer_indexing(22)
 kmer_comprev_subject_list = sub.kmer_indexing_comp_rev(22)
 
@@ -56,6 +47,21 @@ def fill_df_query(df,nome_colonna):
     df[nome_colonna] = range(len(df))
     return df
 
+########## CREAZIONE QUERY DF #############
+dataf1 = create_query_df(query_1)
+dataf1.to_csv('a.csv')
+dataf2 = create_query_df(query2)
+datafr1 = create_query_df(query1r)
+datafr2 = create_query_df(query2r)
+
+############## FASE DI FILL DEI QUERY DF ################
+dataf1_fill = fill_df_query(dataf1,"b6635d67cb594473ddba9f8cfba5d13d")
+dataf1_fill.to_csv('data1fill.csv')
+dataf2_fill = fill_df_query(dataf2,"4516aa60a483dd8c7bbc57098c45f1a5")
+datafr1_fill = fill_df_query(datafr1,"b6635d67cb594473ddba9f8cfba5d13d")
+datafr2_fill = fill_df_query(datafr2,"4516aa60a483dd8c7bbc57098c45f1a5")
+dataf2_fill.to_csv('data2fill.csv')
+
 def create_sub_df(kmer_sub_list):
     headers = []
     kmers = set()
@@ -72,29 +78,28 @@ def create_sub_df(kmer_sub_list):
     return df
 
 def fill_sub_df(df,kmer_subject_list):
-    total_header = len(kmer_subject_list) // 2
-    completed_headers = 0
     for i in range(0,len(kmer_subject_list),2):
         coppia = kmer_subject_list[i:i+2]
         header = coppia[0]
         kmer_list = coppia[1]
-        print(f"Inizio elaborazione: {completed_headers + 1} su {total_header} - Header: {header}")
-        start_time = time.time()
         if header in df.columns[1:].tolist():
             for kmer in df['kmer'].tolist():
                 if kmer in kmer_list:
                     if kmer_list.count(kmer) == 1:
-                        #print(kmer_list.index(kmer))
                         index = kmer_list.index(kmer)
                         df.loc[df['kmer'] == kmer,header] = index
                     elif kmer_list.count(kmer) > 1:
-                        raise ValueError("aaaaa") # da rivedere
+                        raise ValueError("aaaaa") # inserire controllo
                 else:
                     df.loc[df['kmer'] == kmer,header] = None
-        completed_headers += 1
-        tempo = time.time() - start_time
-        print(f"Completamento: {completed_headers} su {total_header} - Tempo Impiegato {tempo:.2f} secondi")
     return df
+
+########## CREAZIONE SUB DF #############
+datasub = create_sub_df(kmer_subject_list)
+datasub.to_csv('sub.csv')
+
+############## CARICAMENTO DF SUB FILLATO
+data = tools.load_table('filled_sub_df.csv')
 
 def create_df_with_positions(query_df,subject_df,filename):
     result_df = pd.merge(query_df,subject_df,on='kmer',how='inner')
@@ -113,35 +118,12 @@ def create_df_with_positions(query_df,subject_df,filename):
         final_df = final_df.drop(columns=['kmer'])
     final_df.to_csv(filename +'.csv')
     return final_df
-
-########## CREAZIONE QUERY DF #############
-dataf1 = create_query_df(query_1)
-dataf1.to_csv('a.csv')
-dataf2 = create_query_df(query2)
-datafr1 = create_query_df(query1r)
-datafr2 = create_query_df(query2r)
-
-############## FASE DI FILL DEI QUERY DF ################
-dataf1_fill = fill_df_query(dataf1,"b6635d67cb594473ddba9f8cfba5d13d")
-dataf1_fill.to_csv('data1fill.csv')
-dataf2_fill = fill_df_query(dataf2,"4516aa60a483dd8c7bbc57098c45f1a5")
-datafr1_fill = fill_df_query(datafr1,"b6635d67cb594473ddba9f8cfba5d13d")
-datafr2_fill = fill_df_query(datafr2,"4516aa60a483dd8c7bbc57098c45f1a5")
-dataf2_fill.to_csv('data2fill.csv')
-
-########## CREAZIONE SUB DF #############
-datasub = create_sub_df(kmer_subject_list)
-
-############## CARICAMENTO DF SUB FILLATO
-data = tools.load_table('C:\\Users\\Melania\\Documents\\GitHub\\AlphaTeam\\Esame\\filled_sub_df.csv')
-
 ################ TABELLE PER RICERCA SEED #########################
 df_final_1 = create_df_with_positions(dataf1_fill,data,'final1_df')
 df_final_2 = create_df_with_positions(dataf2_fill,data,'final2_df')
 
 
 def find_seeds(df,filename,kmer_length=22):
-
     df = df.map(lambda x: x if isinstance(x, tuple) else None)
     seed_results = []
 
@@ -159,7 +141,6 @@ def find_seeds(df,filename,kmer_length=22):
                 query_end = query_start + kmer_length
                 subject_end = subject_start + kmer_length
 
-                # Aggiungi una lista uniforme con start e end
                 if prev_value is None and next_value is not None:
                     column_seeds.append([query_start, subject_start, None, None])
                 elif prev_value is not None and next_value is None:
@@ -652,16 +633,16 @@ def metrics_for_blast(best_alignment_df,query_partenza,list_partenza_subject):
 
 
 hsp_query,hsp_sub,score,col = extend_seed(seeds1,query_partenza,list_partenza_subject,6)
-hsp_query2,hsp_sub2,score2,col2 = extend_seed(seeds2,query_partenza,list_partenza_subject,6)
+hsp_query2,hsp_sub2,score2,col2 = extend_seed(seeds2,query_partenza2,list_partenza_subject,6)
 
 all_alignments_query1 = create_results_table(hsp_query,hsp_sub,score,col,'all_alignments_query1')
 all_alignments_query2 = create_results_table(hsp_query2,hsp_sub2,score2,col2,'all_alignments_query2')
 
 best_alignment_query_1 = all_alignments_query1.iloc[2:10].copy()
-best_alignment_query_2 = all_alignments_query2.iloc[2:10].copy()
+best_alignment_query_2 = all_alignments_query2.iloc[:10].copy()
 
 best_alignment_query_1p = best_alignment_query_1.to_csv('best_alignment_query_1.csv')
-best_alignment_query_2p = best_alignment_query_2.to_csv('best_alignment_query_2.csv')
+best_alignment_query_2p = best_alignment_query_2.to_csv('best_alignment_query_2c.csv')
 
 cov,e_value,identity = metrics_for_blast(best_alignment_query_2,query_partenza2,list_partenza_subject)
 

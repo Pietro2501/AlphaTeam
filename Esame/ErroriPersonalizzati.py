@@ -31,6 +31,6 @@ class EmptyDict(Exception):
     def __init__(self, message="Il dizionario è vuoto"):
         super().__init__(message)
 
-class NotADict(Exception):
-    def __init__(self, message="Questo non è un dizionario"):
+class NotAList(Exception):
+    def __init__(self, message="Questa non è una lista"):
         super().__init__(message)

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="63e50cce-a113-4f27-9cb7-391984044adf" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Esame/all_alignments_query2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Esame/all_alignments_query2.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Esame/best_alignment_query_1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Esame/best_alignment_query_2.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Esame/blast_result1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Esame/blast_result1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Esame/blast_result2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Esame/blast_result2.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Esame/dict_approach_blast.py" beforeDir="false" afterPath="$PROJECT_DIR$/Esame/dict_approach_blast.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Esame/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Esame/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/best_alignment_query_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/best_alignment_query_1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/best_alignment_query_2.csv" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2rTj85KcDwXwmZ6rl1YCf9WXSdd" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.Query.executor": "Run",
+    "Python.Sequence.executor": "Run",
+    "Python.Subject.executor": "Run",
+    "Python.dict_approach_blast.executor": "Run",
+    "Python.gap.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.parserFasta.executor": "Run",
+    "Python.tools.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "com.codeium.enabled": "true",
+    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
+    "database.data.extractors.current.id": "Comma-separated (CSV)_id",
+    "git-widget-placeholder": "main",
+    "ignore_missing_gitignore": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/Esame" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="AlphaTeam" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Esame" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Esame/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-PY-243.21565.199" />
+        <option value="bundled-python-sdk-cab1f2013843-4ae2d6a61b08-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.21565.199" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="63e50cce-a113-4f27-9cb7-391984044adf" name="Changes" comment="" />
+      <created>1736589796991</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1736589796991</updated>
+      <workItem from="1736589798194" duration="40000" />
+      <workItem from="1736589853008" duration="6448000" />
+      <workItem from="1736608411891" duration="424000" />
+      <workItem from="1736694879179" duration="10690000" />
+      <workItem from="1736840188692" duration="3134000" />
+      <workItem from="1736844450982" duration="736000" />
+      <workItem from="1736854829105" duration="8000" />
+      <workItem from="1736865784574" duration="1123000" />
+      <workItem from="1736960386367" duration="2261000" />
+      <workItem from="1737020301755" duration="256000" />
+      <workItem from="1737020560513" duration="290000" />
+      <workItem from="1737036668478" duration="1607000" />
+      <workItem from="1737041051789" duration="3492000" />
+      <workItem from="1737101782157" duration="12256000" />
+      <workItem from="1737361006445" duration="1266000" />
+      <workItem from="1737395069550" duration="41996000" />
+      <workItem from="1737534942811" duration="9000" />
+      <workItem from="1737534959786" duration="23744000" />
+      <workItem from="1737628514250" duration="5772000" />
+      <workItem from="1737676846119" duration="1083000" />
+      <workItem from="1737677935277" duration="13046000" />
+      <workItem from="1737797903759" duration="1000" />
+      <workItem from="1737797923482" duration="9909000" />
+      <workItem from="1737808067486" duration="5141000" />
+      <workItem from="1737821056119" duration="7102000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="Pool" />
+        <watch expression="Pool" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/AlphaTeam$Sequence.coverage" NAME="Sequence Coverage Results" MODIFIED="1737451008362" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Esame" />
+    <SUITE FILE_PATH="coverage/AlphaTeam$parserFasta.coverage" NAME="parserFasta Coverage Results" MODIFIED="1737449076530" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Esame" />
+    <SUITE FILE_PATH="coverage/esempioFASTA_fa$Subject.coverage" NAME="Subject Coverage Results" MODIFIED="1735549296083" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Esame" />
+    <SUITE FILE_PATH="coverage/AlphaTeam$Subject.coverage" NAME="Subject Coverage Results" MODIFIED="1737040132356" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Esame" />
+    <SUITE FILE_PATH="coverage/esempioFASTA_fa$Query.coverage" NAME="Query Coverage Results" MODIFIED="1735894724744" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Esame" />
+    <SUITE FILE_PATH="coverage/AlphaTeam$Query.coverage" NAME="Query Coverage Results" MODIFIED="1736842011064" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Esame" />
+    <SUITE FILE_PATH="coverage/AlphaTeam$dict_approach_blast.coverage" NAME="dict_approach_blast Coverage Results" MODIFIED="1737736282563" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Esame" />
+    <SUITE FILE_PATH="coverage/AlphaTeam$main.coverage" NAME="main Coverage Results" MODIFIED="1737827680642" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Esame" />
+    <SUITE FILE_PATH="coverage/esempioFASTA_fa$tools.coverage" NAME="tools Coverage Results" MODIFIED="1735826801592" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Esame" />
+    <SUITE FILE_PATH="coverage/AlphaTeam$gap.coverage" NAME="gap Coverage Results" MODIFIED="1737397305600" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Esame" />
+    <SUITE FILE_PATH="coverage/AlphaTeam$tools.coverage" NAME="tools Coverage Results" MODIFIED="1737450234192" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Esame" />
+  </component>
+</project>
