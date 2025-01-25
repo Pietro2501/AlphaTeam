@@ -421,6 +421,7 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
     contenitore_hsp_query = []
     contenitore_hsp_sub = []
     contenitore_score = []
+    contenitore_ref = []
 
     query_header = query_partenza[0]
     sequence_query = query_partenza[1]
@@ -458,6 +459,9 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
 
                 start_time_seed = time.time()  # Inizio del timer per il seed
 
+                start_q, start_s, end_q, end_s = map(int, current_seed)
+                print(start_q,start_s,end_q,end_s)
+                """
                 start_q, start_s, end_q, end_s = current_seed
 
                 # Assicurati che start_q, start_s, end_q, end_s siano interi
@@ -469,6 +473,8 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
                 except ValueError:
                     print(f"Errore: I valori di start_q, start_s, end_q, end_s devono essere interi. Seed: {current_seed}")
                     continue
+                """
+
 
                 hsp_query = sequence_query[start_q:end_q]
                 hsp_sub = sequence_sub[start_s:end_s]
@@ -605,11 +611,12 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
         contenitore_hsp_query.append(hsp_query_completo)
         contenitore_hsp_sub.append(hsp_sub_completo)
         contenitore_score.append(score_completo)
+        contenitore_ref.append(col)
 
         
 
     print("\nHo terminato l'elaborazione di tutte le colonne.")
-    return contenitore_hsp_query, contenitore_hsp_sub, contenitore_score
+    return contenitore_hsp_query, contenitore_hsp_sub, contenitore_score, contenitore_ref
 
 """
 # Aggiungi i seed estesi alla lista del dizionario
@@ -636,7 +643,7 @@ new_df.index = range(1, len(new_df) + 1)
 
 
 a = extend_seed(seeds1,query_partenza,list_partenza_subject,6)
-print(len(a[1]))
+#print(a[3])
 #b = extend_seed(seeds2, query_partenza2,list_partenza_subject,6)
 #print(b[2])
 
