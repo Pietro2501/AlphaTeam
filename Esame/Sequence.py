@@ -8,47 +8,44 @@ import parserFasta
 
 class Sequence:
     """
-    A class for handling and processing sequence files and 
-    generate k-mer indices for forward sequences and their complementary reverse. 
+    Una classe che gestisce e processa i file di sequenza e 
+    indicizza i k-mer per le sequenze forward e le loro complementari revertite. 
     Attributes
     ----------
     sequence_file: str
-        The path to the input sequence file (.fasta, .fa, or compressed .gz).
+        Il percorso del file della sequenza di input (.fasta, .fa, or compressed .gz).
 
     seq_list: list
-        Parsed sequences as a list of tuples. Default is None.
+        Parsa le sequenze come liste di tuple. Di default è None. 
 
     forward_kmers: list
-        Kmer indexed sequences from the forward strand. Default is None.
+        Sequenze indicizzate di k-mer del filamento forward. Di default è None.
 
     comp_rev_kmers: list
-        Kmer indexed sequences from the complementary reverse strand. Default is None.
+        Sequenze indicizzate di k-mer del filamento complementare revertito. Di default è None.
     Methods
     -------
         parse_file():
-            returns a parsed file.
+            Ritorna un file parsato. 
         kmer_indexing(k: int) -> list:
-            Generates kmer indices for forward sequences.
+            Genera i kmer indicizati per le sequenze forward.
         kmer_indexing_comp_rev(k: int) -> list:
-            Generates k-mer indices for complementary reverse sequences
+            Genera i kmer indicizati per le sequenze complementari reverite.
     """
 
     def __init__(self, sequence_file):
         """
-        Constructs all the necessary attributes for the Sequence object.
+        Costruisce tutti gli attributi necessari per l'oggetto Sequence. 
         Parameters
         ----------
         sequence_file: str
-            The path to the input sequence file (.fasta, .fa, or compressed .gz).
+            Il percorso (path) del file della sequenza di input (.fasta, .fa, or compressed .gz).
         seq_list: list
-            Parsed sequences as a list of tuples (ID, sequence). Default is None.
+            Parsa le sequenze come lista di tuple (ID, sequence). Di default è None.
         forward_kmers: list 
-            K-mer indexed sequences from the forward strand. Default is None.
+            Sequenze indicizzate di k-mer del filamento forward. Di default è None.
         comp_rev_kmers: list
-            K-mer indexed sequences from the complementary reverse strand. Default is None.
-        Raise
-        -----
-            FileNotFoundError: If the specified file does not exist.
+            Sequenze indicizzate di k-mer del filamento complementare revertito. Di default è None.
         """
         if not os.path.isfile(sequence_file):
            raise ErroriPersonalizzati.FileNotFoundError(f"File non trovato: {sequence_file}")
@@ -59,15 +56,11 @@ class Sequence:
 
     def parse_file(self):
         """
-        Parses the sequence file in FASTA and compressed files.
+        Parsa il file sequenza in formato FASTA o nei formati compressi.
         Return
         ------
         seq_list: list
-            A list of parsed sequences in the format [(ID, sequence)]       
-        Raise
-        -----
-        SequenceError: If an error occurs while extracting a compressed file.
-        FileTypeError: If the file is not a valid FASTA format (.fasta, .fa).
+            Una lista di sequenze parsate[(ID, sequence)] 
         """
         if self.sequence_file.endswith('.gz') or self.sequence_file.endswith('.gzip'):
             try:
@@ -81,18 +74,15 @@ class Sequence:
 
     def kmer_indexing(self, k: int) -> list:
         """
-        Generates k-mer indices for forward sequences.
+        Genera indici k-mer per le sequenze forward.
         Args
         ----
         k: int
-            The length of the k-mers.   
+            la lunghezza dei k-mers.   
         Return
         ------
         complete_list: list 
-            A list containing IDs and their corresponding k-mer sequences.
-        Raise
-        -----
-        FastaParsingError: If an error occurs while parsing the FASTA file.
+            Una lista contenente gli ID e le loro sequenze k-mer corrispondenti.
         """
         try:
             complete_list = []
@@ -107,18 +97,15 @@ class Sequence:
 
     def kmer_indexing_comp_rev(self, k: int) -> list:
         """
-        Generates k-mer indices for complementary reverse sequences.
+        Genera indici k-mer per le sequenze complementari revertite. 
         Args
         ----
         k: int
-            The length of the k-mers.
+            La lunghezza dei k-mers. 
         Return
         ------
         complete_list_comp_rev: list
-            A list containing IDs and their corresponding complementary reverse k-mer sequences.
-        Raise
-        -----
-        FastaParsingError: If an error occurs while parsing the FASTA file.
+            Una lista contenente gli ID e le loro sequenze k-mer complementari revertite corrispondenti.
         """
         try:
             complete_list_comp_rev = []
