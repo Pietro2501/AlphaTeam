@@ -1,8 +1,6 @@
 import argparse
 import time
 import pandas as pd
-from numpy.matlib import identity
-
 import tools
 from Sequence import Sequence
 import ErroriPersonalizzati
@@ -56,7 +54,7 @@ def fill_sub_df(df,kmer_subject_list):
                         index = kmer_list.index(kmer)
                         df.loc[df['kmer'] == kmer,header] = index
                     elif kmer_list.count(kmer) > 1:
-                        raise ErroriPersonalizzati.InvalidKmerCountError(kmer)
+                        raise ValueError("aaaaa") # inserire controllo
                 else:
                     df.loc[df['kmer'] == kmer,header] = None
     return df
@@ -66,10 +64,7 @@ def create_df_with_positions(query_df,subject_df,filename):
     query_position_col = [col for col in query_df.columns if col != "kmer"][0]
     for index, row in result_df.iterrows():
         kmer = row["kmer"]
-        try:
-            query_pos = int(row[query_position_col])
-        except:
-            raise ErroriPersonalizzati.SeedValueError(f"Valore di query pos non valido per kmer: {kmer}")
+        query_pos = int(row[query_position_col])
         for col in subject_df.columns[1:]:
             if not pd.isna(row[col]):
                 if kmer not in result:
@@ -135,6 +130,7 @@ def get_sequence(header, list_partenza_subject):
     for item in list_partenza_subject:
         if item[0] == header:
             return item[1]
+    return None
 def calculate_score(sequence_1,sequence_2):
     score = 0
     stop_calc = min(len(sequence_1),len(sequence_2))
@@ -164,8 +160,6 @@ def handle_gaps(finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub, finestra
     """
     La funzione gestisce i gap. Se sappiamo che sono sulla query, li aggiunge lì; se sono sulla subject, il contrario; altrimenti prova su entrambi.
     """
-    if gap_target not in [None,'query', 'subject']:
-        raise ErroriPersonalizzati.InvalidGapTargetError(gap_target)
     max_gap = 3
     sequence_query_list = []
     sequence_sub_list = []
@@ -337,10 +331,8 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
             for i, current_seed in enumerate(seeds):
                 if not current_seed:
                     continue
-                try:
-                    start_q, start_s, end_q, end_s = map(int, current_seed)
-                except:
-                    raise ErroriPersonalizzati.SeedValueError(current_seed)
+
+                start_q, start_s, end_q, end_s = map(int, current_seed)
 
                 hsp_query = sequence_query[start_q:end_q]
                 hsp_sub = sequence_sub[start_s:end_s]
@@ -351,56 +343,93 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
                     next_seed = seeds[i + 1]
                     if next_seed:
                         next_start_q, next_start_s, next_end_q, next_end_s = next_seed
-                        continue
 
-                    diff_q = int(next_start_q) - end_q
-                    diff_s = int(next_start_s) - end_s
+                        try:
+                            next_start_q = int(next_start_q)
+                            next_start_s = int(next_start_s)
+                            next_end_q = int(next_end_q)
+                            next_end_s = int(next_end_s)
+                        except ValueError:
+                            print(f"Errore: I valori di next_start_q, next_start_s, next_end_q, next_end_s devono essere interi. Seed: {next_seed}")
+                            continue
 
-                    if diff_q == diff_s:
-                        sequence_query_ext = sequence_query[end_q:next_start_q]
-                        sequence_sub_ext = sequence_sub[end_s:next_start_s]
+                        diff_q = next_start_q - end_q
+                        diff_s = next_start_s - end_s
 
-                        extension_right_query, extension_right_sub = extend_seed_right(
-                            sequence_query_ext,
-                            sequence_sub_ext,
-                            gap_size=0,
-                            gap_target=None,
-                            perform_gap=False,
-                            x_max=6,
-                        )
-
-                    else:
-                        if diff_q < diff_s:
-                            gap_size = diff_s - diff_q
-
+                        if diff_q == diff_s:
                             sequence_query_ext = sequence_query[end_q:next_start_q]
                             sequence_sub_ext = sequence_sub[end_s:next_start_s]
 
-                            extension_right_query,extension_right_sub = extend_seed_right(
+                            extension_right_query, extension_right_sub = extend_seed_right(
                                 sequence_query_ext,
                                 sequence_sub_ext,
-                                gap_size,
-                                gap_target='query',
-                                perform_gap=True,
-                                x_max = 6
-                                )
+                                gap_size=0,
+                                gap_target=None,
+                                perform_gap=False,
+                                x_max=6,
+                            )
+                            """
+                            new_start_q = end_q
+                            new_start_s = end_s
+                            new_end_q = end_q + len(extension_right_query)
+                            new_end_s = end_s + len(extension_right_sub)
+
+                            hsp_query += sequence_query[new_start_q:new_end_q]
+                            hsp_sub += sequence_sub[new_start_s:new_end_s]
+
+                            score_extension = calculate_score(extension_right_query, extension_right_sub)
+                            score += score_extension
+                            print(hsp_query,hsp_sub,score)
+                            """
 
                         else:
-                            #Gap nella subject
-                            gap_size = diff_q - diff_s
+                            if diff_q < diff_s:
+                                gap_size = diff_s - diff_q
 
-                            sequence_query_ext = sequence_query[end_q:next_start_q]
-                            sequence_sub_ext = sequence_sub[end_s:next_start_s]
+                                sequence_query_ext = sequence_query[end_q:next_start_q]
+                                sequence_sub_ext = sequence_sub[end_s:next_start_s]
 
-                            extension_right_query,extension_right_sub = extend_seed_right(
-                                sequence_query_ext,
-                                sequence_sub_ext,
-                                gap_size,
-                                gap_target='subject',
-                                perform_gap=True,
-                                x_max = 6
-                                )
+                                extension_right_query,extension_right_sub = extend_seed_right(
+                                    sequence_query_ext,
+                                    sequence_sub_ext,
+                                    gap_size,
+                                    gap_target='query',
+                                    perform_gap=True,
+                                    x_max = 6
+                                    )
+                                """
+                                # Aggiorna end_q e end_s
+                                hsp_query += extension_right_query
+                                hsp_sub += extension_right_sub
+                                
+                                score_extension = calculate_score(extension_right_query,extension_right_sub) 
+                                score += score_extension
+                                print(hsp_query,hsp_sub,score)
+                                """
+                            else:
+                                #Gap nella subject
+                                gap_size = diff_q - diff_s
 
+                                sequence_query_ext = sequence_query[end_q:next_start_q]
+                                sequence_sub_ext = sequence_sub[end_s:next_start_s]
+
+                                extension_right_query,extension_right_sub = extend_seed_right(
+                                    sequence_query_ext,
+                                    sequence_sub_ext,
+                                    gap_size,
+                                    gap_target='subject',
+                                    perform_gap=True,
+                                    x_max = 6
+                                    )
+                                """
+                                # Aggiorna end_q e end_s
+                                hsp_query += extension_right_query
+                                hsp_sub += extension_right_sub
+                                
+                                score_extension = calculate_score(extension_right_query,extension_right_sub) 
+                                score += score_extension
+                                print(hsp_query,hsp_sub,score)
+                                """
                         hsp_query += extension_right_query
                         hsp_sub += extension_right_sub
 
@@ -411,6 +440,9 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
                         list_inner_score.append(score)
 
                 else:
+                    #hsp_query += sequence_query[start_q:end_q]
+                    #hsp_sub += sequence_sub[start_s:end_s]
+                    #score = calculate_score(hsp_query, hsp_sub)
                     list_inner_hsp_q.append(hsp_query)
                     list_inner_hsp_s.append(hsp_sub)
                     list_inner_score.append(score)
@@ -441,8 +473,9 @@ def metrics_for_blast(best_alignment_df,query_partenza,list_partenza_subject):
     #E-value
     #E_value = len(query) * len(sbj_seqs) * 2 ** (-score)
     # Identità = quanti sono i match rispetto all'allineamento
-    query_cov_list,e_value_list,identity_list = [],[],[]
-
+    query_cov_list = []
+    e_value_list = []
+    identity_list = []
 
     query_col = best_alignment_df.columns[0]
     sub_col = best_alignment_df.columns[1]
@@ -453,6 +486,7 @@ def metrics_for_blast(best_alignment_df,query_partenza,list_partenza_subject):
         if len(q) == len(s):
             query_coverage = len(q) / len(query_partenza[1]) * 100
             query_cov_list.append(query_coverage)
+
             for base in range(len(q)):
                 query_char = q[base]
                 sub_char = s[base]
@@ -489,11 +523,11 @@ def print_alignment(best_alignment_df,output_file,result_df):
         for (index,row1), (index,row2) in zip(best_alignment_df.iterrows(),result_df.iterrows()):
             q = row1[query_hsp]
             s= row1[sub_hsp]
-            sub_header = row2.iloc[0]
-            score = row2.iloc[1]
-            query_coverage = row2.iloc[2]
-            e_value = row2.iloc[3]
-            max_identity = row2.iloc[4]
+            sub_header = row2[0]
+            score = row2[1]
+            query_coverage = row2[2]
+            e_value = row2[3]
+            max_identity = row2[4]
             f.write(
                 f"Subject: {sub_header}, Score: {score}, Coverage: {query_coverage:.2f}%, E-value: {e_value:.2e}, Max_identity:{max_identity:.2f}%\n")
 
@@ -522,13 +556,12 @@ def main():
     parser.add_argument("-s", "--subject", required=True, help="Path ddella Subject")
     parser.add_argument("-k", "--kmer_size", type=int, default=22, help="Lunghezza k-mer")
     args = parser.parse_args()
-
     query = Sequence(args.query)
     list_partenza_query =query.parse_file()
     kmer_query_list = query.kmer_indexing(22)
     kmer_comprev_query_list = query.kmer_indexing_comp_rev(22)
     if kmer_query_list is None and kmer_comprev_query_list is None:
-        raise ErroriPersonalizzati.EmptyList()
+        raise ErroriPersonalizzati.EmptyDict()
     if not isinstance(kmer_query_list,list) or not isinstance(kmer_comprev_query_list,list):
         raise ErroriPersonalizzati.NotAList()
 
@@ -547,25 +580,25 @@ def main():
     kmer_subject_list = sub.kmer_indexing(22)
     kmer_comprev_subject_list = sub.kmer_indexing_comp_rev(22)
 
-########## CREAZIONE QUERY DF #############
+    ########## CREAZIONE QUERY DF #############
     dataf1 = create_query_df(query_1)
     dataf2 = create_query_df(query2)
     datafr1 = create_query_df(query1r)
     datafr2 = create_query_df(query2r)
 
-############## FASE DI FILL DEI QUERY DF ################
+    ############## FASE DI FILL DEI QUERY DF ################
     dataf1_fill = fill_df_query(dataf1, "b6635d67cb594473ddba9f8cfba5d13d")
     dataf2_fill = fill_df_query(dataf2, "4516aa60a483dd8c7bbc57098c45f1a5")
     datafr1_fill = fill_df_query(datafr1, "b6635d67cb594473ddba9f8cfba5d13d")
     datafr2_fill = fill_df_query(datafr2, "4516aa60a483dd8c7bbc57098c45f1a5")
 
-########## CREAZIONE SUB DF #############
+    ########## CREAZIONE SUB DF #############
     datasub = create_sub_df(kmer_subject_list)
 
-############## CARICAMENTO DF SUB FILLATO
+    ############## CARICAMENTO DF SUB FILLATO
     data = tools.load_table('filled_sub_df.csv')
 
-################ TABELLE PER RICERCA SEED #########################
+    ################ TABELLE PER RICERCA SEED #########################
     df_final_1 = create_df_with_positions(dataf1_fill, data, 'final1_df')
     df_final_2 = create_df_with_positions(dataf2_fill, data, 'final2_df')
 
@@ -605,6 +638,7 @@ def main():
     print_alignment(worst_alignment_query_1, 'allineamento_flop5_query1.txt',blast_worst_result1)
     print_alignment(worst_alignment_query_2, 'allineamento_flop5_query2.txt',blast_worst_result2)
 
+    print('Esecuzione finita')
 
 if __name__ == '__main__':
     main()
