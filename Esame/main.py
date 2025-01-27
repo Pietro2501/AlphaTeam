@@ -25,12 +25,9 @@ def create_query_df(kmer_query_list):
     df = df.reset_index()
     df.columns.values[0] = 'kmer'
     return df
-
 def fill_df_query(df,nome_colonna):
     df[nome_colonna] = range(len(df))
     return df
-
-
 def create_sub_df(kmer_sub_list):
     headers = []
     kmers = set()
@@ -45,7 +42,6 @@ def create_sub_df(kmer_sub_list):
     df = df.reset_index()
     df.columns.values[0] = 'kmer'
     return df
-
 def fill_sub_df(df,kmer_subject_list):
     for i in range(0,len(kmer_subject_list),2):
         coppia = kmer_subject_list[i:i+2]
@@ -62,7 +58,6 @@ def fill_sub_df(df,kmer_subject_list):
                 else:
                     df.loc[df['kmer'] == kmer,header] = None
     return df
-
 def create_df_with_positions(query_df,subject_df,filename):
     result_df = pd.merge(query_df,subject_df,on='kmer',how='inner')
     result = {}
@@ -80,10 +75,6 @@ def create_df_with_positions(query_df,subject_df,filename):
         final_df = final_df.drop(columns=['kmer'])
     final_df.to_csv(filename +'.csv')
     return final_df
-
-
-
-
 def find_seeds(df,filename,kmer_length=22):
     df = df.map(lambda x: x if isinstance(x, tuple) else None)
     seed_results = []
@@ -125,10 +116,6 @@ def find_seeds(df,filename,kmer_length=22):
     return new_df
 
 
-
-
-
-
 def get_sequence(header, list_partenza_subject):
     """
     Recupera la sequenza corrispondente a un dato header.
@@ -144,7 +131,6 @@ def get_sequence(header, list_partenza_subject):
         if item[0] == header:
             return item[1] # Converti la stringa in lista di caratteri
     return None
-
 def calculate_score(sequence_1,sequence_2):
     score = 0
     stop_calc = min(len(sequence_1),len(sequence_2))
@@ -170,15 +156,11 @@ def calculate_score(sequence_1,sequence_2):
             elif query_char in trasversione and sub_char in trasversione[query_char]:
                 score -= 1
                 flag = 0
-        #print(f'score= {score}')
     return score
- 
-
-
 def handle_gaps(finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub, finestra_mismatch_query, finestra_mismatch_sub, gap_size, gap_target, x_max):
     """
     La funzione gestisce i gap. Se sappiamo che sono sulla query, li aggiunge lì; se sono sulla subject, il contrario; altrimenti prova su entrambi.
-    """   
+    """
     max_gap = 3
     sequence_query_list = []
     sequence_sub_list = []
@@ -219,10 +201,9 @@ def handle_gaps(finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub, finestra
             #print('i gap non riesco a migliorare')
             finestra_aggiunta_gap_sub = '*'
         #print(f'gap inseriti = {len(sequence_sub_list)}')
-        #print(f'sequenza con gap: {finestra_mismatch_query,finestra_mismatch_sub}')    
+        #print(f'sequenza con gap: {finestra_mismatch_query,finestra_mismatch_sub}')
 
     return finestra_aggiunta_gap_query,finestra_aggiunta_gap_sub
-
 def find_mismatch_window(sequence_query_ext, sequence_sub_ext, x_max):
 
     mismatch_consecutivi = 0
@@ -242,21 +223,19 @@ def find_mismatch_window(sequence_query_ext, sequence_sub_ext, x_max):
                 break
 
     return last_valid_index, mismatch_consecutivi
-
-
 def extend_seed_right(sequence_query_ext, sequence_sub_ext, gap_size,perform_gap,gap_target, x_max): ###FUNZIONA MA CERCHIAMO DI IMPLEMENTARLA
 
-    gap_used = 0 #conteggio dei gap usati   
+    gap_used = 0 #conteggio dei gap usati
 
     ####se bisogna inserire gap###
     if perform_gap:
-        
+
         while gap_used < gap_size:
-            #fa confronto 
+            #fa confronto
             last_valid_index, mismatch_consecutivi = find_mismatch_window(sequence_query_ext,sequence_sub_ext,x_max)
             ###se trova finestra
             if mismatch_consecutivi == x_max:
-                
+
                 #apre la finestra
                 finestra_mismatch_query = sequence_query_ext [last_valid_index - (x_max-1) : last_valid_index + 1]
                 finestra_mismatch_subject = sequence_sub_ext [last_valid_index - (x_max-1) : last_valid_index + 1]
@@ -265,7 +244,7 @@ def extend_seed_right(sequence_query_ext, sequence_sub_ext, gap_size,perform_gap
                 finestra_aggiunta_gap_query = sequence_query_ext [last_valid_index - (x_max-1) : ]
                 finestra_aggiunta_gap_sub = sequence_sub_ext [last_valid_index - (x_max-1) : ]
                 #print(finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub)
-                
+
 
                 #print(f"Finestra mismatch: {finestra_mismatch_query},{finestra_mismatch_subject}")
 
@@ -281,7 +260,7 @@ def extend_seed_right(sequence_query_ext, sequence_sub_ext, gap_size,perform_gap
                 else:
                     sequence_query_ext = sequence_query_ext[:last_valid_index - (x_max - 1)] + sequence_query
                     #print(f"Estensione query con gap: {sequence_query_ext}")
-                    
+
                     sequence_sub_ext = sequence_sub_ext[:last_valid_index - (x_max - 1)] + sequence_subject
                     #print(f"Estensione subject con gap: {sequence_sub_ext}")
 
@@ -306,15 +285,15 @@ def extend_seed_right(sequence_query_ext, sequence_sub_ext, gap_size,perform_gap
             gap_aggiunti = extension_right_query.count('_') + extension_right_sub.count('_')
             gap_used += gap_aggiunti
             #print(f'numero gap aggiunti: {gap_aggiunti}')
-    
-    
-    ###se NON bisogna inserire gap###    
+
+
+    ###se NON bisogna inserire gap###
     else:
         #fa confronto
         last_valid_index, mismatch_consecutivi = find_mismatch_window(sequence_query_ext,sequence_sub_ext,x_max)
         ### se incontra finestra
-        if mismatch_consecutivi == x_max:    
-            #si interrompe estensione    
+        if mismatch_consecutivi == x_max:
+            #si interrompe estensione
             extension_right_query = sequence_query_ext[:last_valid_index - (x_max - 1)]
             extension_right_sub = sequence_sub_ext[:last_valid_index - (x_max - 1)]
         ### se non incontra la finestra
@@ -326,7 +305,6 @@ def extend_seed_right(sequence_query_ext, sequence_sub_ext, gap_size,perform_gap
         #print(f"Estensione senza gap: {extension_withoutgap_right_query, extension_withoutgap_right_sub}")
 
     return extension_right_query, extension_right_sub
-
 def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
     contenitore_hsp_query = []
     contenitore_hsp_sub = []
@@ -430,13 +408,13 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
                             """
 
                         else:
-                            if diff_q < diff_s:                                
+                            if diff_q < diff_s:
                                 # Gap nella query
                                 gap_size = diff_s - diff_q
-                                
+
                                 sequence_query_ext = sequence_query[end_q:next_start_q]
-                                sequence_sub_ext = sequence_sub[end_s:next_start_s]                            
-                                
+                                sequence_sub_ext = sequence_sub[end_s:next_start_s]
+
                                 extension_right_query,extension_right_sub = extend_seed_right(
                                     sequence_query_ext,
                                     sequence_sub_ext,
@@ -457,10 +435,10 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
                             else:
                                 #Gap nella subject
                                 gap_size = diff_q - diff_s
-                                
+
                                 sequence_query_ext = sequence_query[end_q:next_start_q]
-                                sequence_sub_ext = sequence_sub[end_s:next_start_s]                            
-                                
+                                sequence_sub_ext = sequence_sub[end_s:next_start_s]
+
                                 extension_right_query,extension_right_sub = extend_seed_right(
                                     sequence_query_ext,
                                     sequence_sub_ext,
@@ -480,8 +458,8 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
                                 """
                         hsp_query += extension_right_query
                         hsp_sub += extension_right_sub
-                                
-                        score_extension = calculate_score(extension_right_query,extension_right_sub) 
+
+                        score_extension = calculate_score(extension_right_query,extension_right_sub)
                         score += score_extension
                         list_inner_hsp_q.append(hsp_query)
                         list_inner_hsp_s.append(hsp_sub)
@@ -506,6 +484,7 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
         contenitore_ref.append(col)
     return contenitore_hsp_query, contenitore_hsp_sub, contenitore_score, contenitore_ref
 
+
 def create_results_table(cont_hsp_query, cont_hsp_sub, cont_hsp_score, col,filename):
    data = {'hsp_query':cont_hsp_query,
                 'hsp_sub':cont_hsp_sub,
@@ -516,7 +495,6 @@ def create_results_table(cont_hsp_query, cont_hsp_sub, cont_hsp_score, col,filen
    results_df = results_df.sort_values(['hsp_score'], ascending=False)
    results_df.to_csv(filename + '.csv')
    return results_df
-
 def metrics_for_blast(best_alignment_df,query_partenza,list_partenza_subject):
     #coverage = lung allineamento / lung query * 100
     #E-value
@@ -554,9 +532,6 @@ def metrics_for_blast(best_alignment_df,query_partenza,list_partenza_subject):
         e_value_list.append(e_value)
 
     return query_cov_list,e_value_list,identity_list
-
-
-
 def blast_result_df(best_alignment_query,query_partenza,list_partenza_subject,filename):
     coverage_cont, e_value_cont, identity_cont = metrics_for_blast(best_alignment_query,query_partenza,list_partenza_subject)
     best_alignment_query = best_alignment_query.drop(['hsp_query','hsp_sub'],axis = 1)
@@ -567,13 +542,22 @@ def blast_result_df(best_alignment_query,query_partenza,list_partenza_subject,fi
     best_alignment_query.to_csv(filename + '.csv')
 
     return best_alignment_query
-
-def print_alignment(best_alignment_df,output_file):
+def print_alignment(best_alignment_df,output_file,result_df):
     query_hsp = best_alignment_df.columns[0]
     sub_hsp = best_alignment_df.columns[1]
- 
+
     with open(output_file, 'w') as f:
-        for q, s in zip(best_alignment_df[query_hsp].tolist(), best_alignment_df[sub_hsp].tolist()):  
+        for (index,row1), (index,row2) in zip(best_alignment_df.iterrows(),result_df.iterrows()):
+            q = row1[query_hsp]
+            s= row1[sub_hsp]
+            sub_header = row2[0]
+            score = row2[1]
+            query_coverage = row2[2]
+            e_value = row2[3]
+            max_identity = row2[4]
+            f.write(
+                f"Subject: {sub_header}, Score: {score}, Coverage: {query_coverage:.2f}%, E-value: {e_value:.2e}, Max_identity:{max_identity:.2f}%\n")
+
             middle_line = []
             length = max(len(q), len(s))
             for base in range(length):
@@ -592,9 +576,6 @@ def print_alignment(best_alignment_df,output_file):
             f.write(f"         {middle_str}\n")
             f.write(f"Subject: {s}\n")
             f.write('\n')
-
-
-
 
 def main():
     parser = argparse.ArgumentParser(description="BLAST script")
@@ -660,17 +641,29 @@ def main():
     best_alignment_query_1 = all_alignments_query1.iloc[:5].copy()
     best_alignment_query_2 = all_alignments_query2.iloc[:5].copy()
 
-    best_alignment_query_1p = best_alignment_query_1.to_csv('best_alignment_query_1.csv')
-    best_alignment_query_2p = best_alignment_query_2.to_csv('best_alignment_query_2.csv')
+    worst_alignment_query_1 = all_alignments_query1.iloc[-5:].copy()
+    worst_alignment_query_2 = all_alignments_query2.iloc[-5:].copy()
+
+
 
     metrics_query_1 = metrics_for_blast(best_alignment_query_1, query_partenza, list_partenza_subject)
     metrics_query_2 = metrics_for_blast(best_alignment_query_2, query_partenza2, list_partenza_subject)
 
+    metrics_worst_query_1 = metrics_for_blast(worst_alignment_query_1, query_partenza, list_partenza_subject)
+    metrics_worst_query_2 = metrics_for_blast(worst_alignment_query_2, query_partenza2, list_partenza_subject)
+
     blast_result1 = blast_result_df(best_alignment_query_1, query_partenza, list_partenza_subject, 'blast_result1')
     blast_result2 = blast_result_df(best_alignment_query_2, query_partenza2, list_partenza_subject, 'blast_result2')
 
-    print_alignment(best_alignment_query_1, 'prova_visual_query1.txt')
-    print_alignment(best_alignment_query_2, 'prova_visual_query2.txt')
+    blast_worst_result1 = blast_result_df(worst_alignment_query_1, query_partenza, list_partenza_subject, 'blast_worst_result1')
+    blast_worst_result2 = blast_result_df(worst_alignment_query_2,query_partenza2, list_partenza_subject, 'blast_worst_result2')
+
+
+    print_alignment(best_alignment_query_1, 'allineamento_top5_query1.txt',blast_result1)
+    print_alignment(best_alignment_query_2, 'allineamento_top5_query2.txt',blast_result2)
+
+    print_alignment(worst_alignment_query_1, 'allineamento_flop5_query1.txt',blast_worst_result1)
+    print_alignment(worst_alignment_query_2, 'allineamento_flop5_query2.txt',blast_worst_result2)
 
     print('Esecuzione finita')
 
