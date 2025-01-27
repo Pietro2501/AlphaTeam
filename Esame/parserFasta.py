@@ -1,4 +1,17 @@
 def parse_fasta(filepath):
+    """
+    Parses a FASTA file and returns a dictionary containing and associating among accession and biological sequence. 
+    Parameters
+    ----------
+    filepath: str
+        The path to the FASTA file to be parsed.
+    Return
+    ------
+    records: dict 
+        A dictionary where keys are sequence identifiers (headers -> str) and values are sequences (str). 
+        Sequences with ambiguous bases ('N') are removed from the result.
+     
+    """
 
     records = {}
     current_header = None
@@ -37,7 +50,7 @@ def parse_fasta(filepath):
             del records[current_header]
 
 
-        
+
     return records 
 
 #header=[]
