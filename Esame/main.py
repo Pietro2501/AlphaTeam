@@ -314,14 +314,10 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
 
     # Itera attraverso ogni colonna del DataFrame
     for col in df_seeds.columns:
-        seeds = df_seeds[col].dropna().tolist()  # Ottieni la lista di seed, escludendo None
-
-
-        start_time_col = time.time()  # Inizio del timer per la colonna
+        seeds = df_seeds[col].dropna().tolist()
 
         extended_seeds = []
 
-        # Recupera la sequenza del subject corrente utilizzando la funzione get_sequence
         sequence_sub = get_sequence(col, list_partenza_subject)
         if sequence_sub is None:
             extended_seeds_dict[col] = extended_seeds
@@ -336,24 +332,7 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
                 if not current_seed:
                     continue
 
-                start_time_seed = time.time()  # Inizio del timer per il seed
-
                 start_q, start_s, end_q, end_s = map(int, current_seed)
-                #print(start_q,start_s,end_q,end_s)
-                """
-                start_q, start_s, end_q, end_s = current_seed
-
-                # Assicurati che start_q, start_s, end_q, end_s siano interi
-                try:
-                    start_q = int(start_q)
-                    start_s = int(start_s)
-                    end_q = int(end_q)
-                    end_s = int(end_s)
-                except ValueError:
-                    print(f"Errore: I valori di start_q, start_s, end_q, end_s devono essere interi. Seed: {current_seed}")
-                    continue
-                """
-
 
                 hsp_query = sequence_query[start_q:end_q]
                 hsp_sub = sequence_sub[start_s:end_s]
@@ -405,7 +384,6 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
 
                         else:
                             if diff_q < diff_s:
-                                # Gap nella query
                                 gap_size = diff_s - diff_q
 
                                 sequence_query_ext = sequence_query[end_q:next_start_q]
@@ -469,7 +447,6 @@ def extend_seed(df_seeds, query_partenza, list_partenza_subject, x_max):
                     list_inner_hsp_s.append(hsp_sub)
                     list_inner_score.append(score)
 
-                end_time_seed = time.time()
         hsp_query_completo = ''.join(list_inner_hsp_q)
         hsp_sub_completo = ''.join(list_inner_hsp_s)
         score_completo = sum(list_inner_score)
