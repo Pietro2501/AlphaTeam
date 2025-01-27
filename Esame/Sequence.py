@@ -1,6 +1,5 @@
 import os
 import ErroriPersonalizzati
-from settings import nucleotides_scoring_matrix
 import tools, tools1
 import parserFasta
 
@@ -99,7 +98,7 @@ class Sequence:
             complete_list = []
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
-        for element in self.list:
+        for element in self.seq_list:
             kmer_seq = tools.divide_into_kmer(element[1], k)
             complete_list.append(element[0])
             complete_list.append(kmer_seq)
@@ -125,7 +124,7 @@ class Sequence:
             complete_list_comp_rev = []
         except Exception as e:
             raise ErroriPersonalizzati.FastaParsingError()
-        for element in self.list:
+        for element in self.seq_list:
             sequence_comp_rev = tools1.fn_comp_rev(element[1])[1]
             kmer_seq_comp_rev = tools.divide_into_kmer(sequence_comp_rev,k)
             complete_list_comp_rev.append(element[0])

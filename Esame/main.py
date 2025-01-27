@@ -129,7 +129,7 @@ def get_sequence(header, list_partenza_subject):
     """
     for item in list_partenza_subject:
         if item[0] == header:
-            return item[1] # Converti la stringa in lista di caratteri
+            return item[1]
     return None
 def calculate_score(sequence_1,sequence_2):
     score = 0
@@ -138,7 +138,6 @@ def calculate_score(sequence_1,sequence_2):
     for b in range(stop_calc):
         query_char = sequence_1[b]
         sub_char = sequence_2[b]
-        #print(b,query_char,sub_char)
         
         if query_char == sub_char:
             score += 1
@@ -165,20 +164,20 @@ def handle_gaps(finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub, finestra
     sequence_query_list = []
     sequence_sub_list = []
     score_list = []
-    gap_numbers = min(gap_size,max_gap)
+    gap_numbers = min(gap_size,max_gap) # viene calcolato in modo da capire quanti gap inserire, per limitarne l'espansione
 
     if gap_target == 'query':
         for a in range(gap_numbers):
-            sequence_finestra_gap = '_' * (a + 1) + finestra_mismatch_query  # Gap a sinistra (query)
+            sequence_finestra_gap = '_' * (a + 1) + finestra_mismatch_query # si inserisce un numero di gap all'inizio della finestra in cui abbiamo mismatch
             gap_score = calculate_score(sequence_finestra_gap, finestra_mismatch_sub)
-            if gap_score >= -x_max:
+            if gap_score >= -x_max: # se il nuovo punteggio è superiore possiamo usarlo
                 finestra_aggiunta_gap_query = '_' * (a + 1) + finestra_aggiunta_gap_query
                 gap_score = calculate_score(finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub)
                 sequence_query_list.append(finestra_aggiunta_gap_query)
                 score_list.append(gap_score)
         if len(score_list) > 0 and len(sequence_query_list) > 0:
             maximum = max(score_list)
-            i = score_list.index(maximum)
+            i = score_list.index(maximum) # prendo l'indice della sequenza con punteggio più alto
             finestra_aggiunta_gap_query = sequence_query_list[i]
         else:
             #print('i gap non riesco a migliorare')
@@ -186,11 +185,11 @@ def handle_gaps(finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub, finestra
 
     if gap_target == 'subject':
         for a in range(gap_numbers):
-            sequence_finestra_gap = '_' * (a + 1) + finestra_mismatch_sub   # Gap a destra (subject)
+            sequence_finestra_gap = '_' * (a + 1) + finestra_mismatch_sub
             gap_score = calculate_score(sequence_finestra_gap, finestra_mismatch_query)
             if gap_score >= -x_max:
                 finestra_aggiunta_gap_sub  = '_' * (a + 1) + finestra_aggiunta_gap_sub
-                gap_score = calculate_score(finestra_aggiunta_gap_sub , finestra_aggiunta_gap_query)
+                gap_score = calculate_score(finestra_aggiunta_gap_query , finestra_aggiunta_gap_sub)
                 sequence_sub_list.append(finestra_aggiunta_gap_sub )
                 score_list.append(gap_score)
         if len(score_list) > 0 and len(sequence_sub_list) > 0:
@@ -223,15 +222,12 @@ def find_mismatch_window(sequence_query_ext, sequence_sub_ext, x_max):
                 break
 
     return last_valid_index, mismatch_consecutivi
-def extend_seed_right(sequence_query_ext, sequence_sub_ext, gap_size,perform_gap,gap_target, x_max): ###FUNZIONA MA CERCHIAMO DI IMPLEMENTARLA
+def extend_seed_right(sequence_query_ext, sequence_sub_ext, gap_size,perform_gap,gap_target, x_max):
 
-    gap_used = 0 #conteggio dei gap usati
-
-    ####se bisogna inserire gap###
+    gap_used = 0
     if perform_gap:
 
         while gap_used < gap_size:
-            #fa confronto
             last_valid_index, mismatch_consecutivi = find_mismatch_window(sequence_query_ext,sequence_sub_ext,x_max)
             ###se trova finestra
             if mismatch_consecutivi == x_max:
