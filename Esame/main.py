@@ -20,8 +20,8 @@ def create_query_df(kmer_query_list: list) -> pd.DataFrame:
     Parameters
     ----------
      kmer_query_list (list): Lista alternata di intestazioni (index pari) e liste di k-mers (index dispari).
-    Returns
-    -------
+    Return
+    ------
      df (pd.DataFrame) : dataframe con relativi valori. 
     """
     headers = []
@@ -42,8 +42,8 @@ def fill_df_query(df: pd.DataFrame,nome_colonna: str) -> pd.DataFrame:
     ----------
      df (pd.DataFrame): dataframe di partenza.
      nome_colonna (str): intestazione della nuova colonna. 
-    Returns
-    -------
+    Return
+    ------
      df (pd.DataFrame): dataframe aggiornato con la nuova colonna e relativi valori.
     """
     df[nome_colonna] = range(len(df))
@@ -55,8 +55,8 @@ def create_sub_df(kmer_sub_list: list) -> pd.DataFrame:
     Parameters
     ----------
     kmer_sub_list (list): lista alternata di intestazioni delle sequenze e liste di k-mers relativi ad ogni sequenza.
-    Returns
-    -------
+    Return
+    ------
     df (pd.DataFrame): dataframe che ha come indici i k-mers unici e in ordine alfabetico e, come nomi delle colonne, le intestazioni delle sequenze subject.
     """
     headers = []
@@ -81,8 +81,8 @@ def fill_sub_df(df: pd.DataFrame,kmer_subject_list: list) -> pd.DataFrame:
     ----------
      df (pd.DataFrame): dataframe iniziale
      kmer_subject_list (list): lista alternata di intestazioni delle sequenze e liste di k-mers relativi ad ogni sequenza.
-    Returns
-    -------
+    Return
+    ------
      df (pd.DataFrame): dataframe completo di valori.
     """
     for i in range(0,len(kmer_subject_list),2):
@@ -109,8 +109,8 @@ def create_df_with_positions(query_df: pd.DataFrame,subject_df: pd.DataFrame ,fi
      query_df (pd.DataFrame): dataframe con i k-mers realtivi alla sequenza query e relative posizioni.
      subject_df (pd.DataFrame): dataframe con i k-mers realtivi alle sequenze subject e relative posizioni nella lista.
      filename (str): nome del file (senza estensione) in cui il dataframe risultante verrà salvato in formato .csv.
-    Returns
-    -------
+    Return
+    ------
      final_df (pd.DataFrame): dataframe risultante che mappa i k-mer con le posizioni della query e dei subject in tuple,
        salvato anche come file CSV.
     """
@@ -140,8 +140,8 @@ def find_seeds(df: pd.DataFrame,filename:str, kmer_length=22) -> pd.DataFrame:
      df (pd.DataFrame): dataframe con informazioni realtive alle posizioni dei k-mers in seqeunze query e subject.
      filename (str): nome del file (senza estensione) in cui il dataframe risultante verrà salvato in formato .csv.
      kmer_length (int): lunghezza dei k-mers
-    Returns
-    -------
+    Return
+    ------
      new_df (pd.DataFrame): dataframe con i seeds organizzati, dove ogni seed include posizioni iniziali e finali. 
         I risultati sono salvati anche nel file CSV specificato.
     """
@@ -185,17 +185,18 @@ def find_seeds(df: pd.DataFrame,filename:str, kmer_length=22) -> pd.DataFrame:
     return new_df
 
 
-def get_sequence(header: str, list_partenza_subject: list) :
+def get_sequence(header: str, list_partenza_subject: list) -> str|None :
     """
     Recupera la sequenza corrispondente a un dato header.
     Parameters
     ----------
      header (str): header del subject.
      list_partenza_subject (list): lista di tuple, ogni tupla composta da header e sequenza associata.
-    Returns
-    -------
-     item[1] (str): sequenza.
-     None se non trova niente.
+    Return
+    ------
+    str o None 
+    -item[1] (str): se trova corrispondenza
+    -None se non trova niente.
     """
     for item in list_partenza_subject:
         if item[0] == header:
@@ -208,8 +209,8 @@ def calculate_score(sequence_1: str,sequence_2: str) -> int:
     ----------
      sequence_1 (str): prima sequenza da confrontare.
      sequence_2 (str): seconda sequenza da confrontare.
-    Returns
-    -------
+    Return
+    ------
      score (int): punteggio di somiglianza.
     """
     score = 0
@@ -236,7 +237,7 @@ def calculate_score(sequence_1: str,sequence_2: str) -> int:
                 score -= 1
                 flag = 0
     return score
-def handle_gaps(finestra_aggiunta_gap_query: str, finestra_aggiunta_gap_sub:str, finestra_mismatch_query: str, finestra_mismatch_sub:str, gap_size: int, gap_target:str, x_max: int) -> str:
+def handle_gaps(finestra_aggiunta_gap_query: str, finestra_aggiunta_gap_sub:str, finestra_mismatch_query: str, finestra_mismatch_sub:str, gap_size: int, gap_target:str, x_max: int) -> tuple[str, str]:
     """
     La funzione gestisce i gap aggiungendoli nella sequenza individuata da gap_target.
     Parameters
@@ -248,10 +249,11 @@ def handle_gaps(finestra_aggiunta_gap_query: str, finestra_aggiunta_gap_sub:str,
      gap_size (int): numero massimo di gap consentiti durante l'estensione
      gap_target (str): specifica dove aggiungere i gap. Può essere 'query' o 'subject'.
      x_max (int) : valore massimo negativo del punteggio accettabile per le sequenze.
-    Returns
-    -------
-     finestra_aggiunta_gap_query (str): finestra di sequenza query con aggiunta dei gap.
-     finestra_aggiunta_gap_sub (str): finestra di sequenza subject con aggiunta dei gap.
+    Return
+    ------
+    tuple[str,str]: tupla composta da:
+     -finestra_aggiunta_gap_query (str): finestra di sequenza query con aggiunta dei gap, o '*' se i gap non migliorano il punteggio..
+     -finestra_aggiunta_gap_sub (str): finestra di sequenza subject con aggiunta dei gap, o '*' se i gap non migliorano il punteggio..
     """
     max_gap = 3
     sequence_query_list = []
@@ -294,9 +296,9 @@ def handle_gaps(finestra_aggiunta_gap_query: str, finestra_aggiunta_gap_sub:str,
             finestra_aggiunta_gap_sub = '*'
         #print(f'gap inseriti = {len(sequence_sub_list)}')
         #print(f'sequenza con gap: {finestra_mismatch_query,finestra_mismatch_sub}')
-
+    
     return finestra_aggiunta_gap_query,finestra_aggiunta_gap_sub
-def find_mismatch_window(sequence_query_ext: str, sequence_sub_ext:str, x_max: int):
+def find_mismatch_window(sequence_query_ext: str, sequence_sub_ext:str, x_max: int) -> tuple[int,int]:
     """
     La funzione confronta le basi nelle stesse posizioni delle sequenze in input assegnando un punteggio positivo ad ogni match.
     Ogni mismatch consecutivo incrementa un contatore. Se il numero di mismatch consecutivi raggiunge il valore soglia,
@@ -306,10 +308,11 @@ def find_mismatch_window(sequence_query_ext: str, sequence_sub_ext:str, x_max: i
      sequence_query_ext (str): sequenza estesa da query da confrontare.
      seqeunce_sub_ext (str): sequenza estesa da subject da confrontare.
      x_max (int): numero massimo di mismatch consecutivi consentiti prima di interrompere il confronto.
-    Returns
-    -------
-     last_valid_index (int): indice dell'ultima posizione valida prima dei mismatch consecutivi
-     mismatch_consecutivi (int): numero di mismatch consecutiviv rilevati.
+    Return
+    ------
+    tuple[int,int]: tupla composta da:
+     -last_valid_index (int): indice dell'ultima posizione valida prima dei mismatch consecutivi
+     -mismatch_consecutivi (int): numero di mismatch consecutiviv rilevati.
     """
     mismatch_consecutivi = 0
     last_valid_index = 0
@@ -328,7 +331,7 @@ def find_mismatch_window(sequence_query_ext: str, sequence_sub_ext:str, x_max: i
                 break
 
     return last_valid_index, mismatch_consecutivi
-def extend_seed_right(sequence_query_ext:str, sequence_sub_ext:str, gap_size:int,perform_gap:bool,gap_target:str, x_max:int): 
+def extend_seed_right(sequence_query_ext:str, sequence_sub_ext:str, gap_size:int,perform_gap:bool,gap_target:str, x_max:int) -> tuple[str,str]: 
     """
     Estende l'allineamento della query e delle sequenze subject da destra, inserisce i gap quando è necessario.
     Parameters
@@ -339,10 +342,11 @@ def extend_seed_right(sequence_query_ext:str, sequence_sub_ext:str, gap_size:int
     perform_gap (bool): se True, i gaps sono inseriti per ottimizzare l'allineamento quando i mismatches superano la soglia consentita.
     gap_target (str):specifica dove introdurre i gaps: “query” aggiunge i gaps alla sequenza query e “subject” li aggiunge alla sequenza subject. 
     x_max (int): threshold per i mismatches consecutivi necessari per attivare l'inserimento dei gaps o fermare l'estensione.  
-    Returns
-    -------
-    extension_right_query (str): sequenza query estesa. 
-    extension_right_sub (str): sequenze subject estese.
+    Return
+    ------
+    tuple[str,str]: tupla composta da:
+    -extension_right_query (str): sequenza query estesa. 
+    -extension_right_sub (str): sequenze subject estese.
     """
     gap_used = 0
     if perform_gap:
@@ -421,7 +425,7 @@ def extend_seed_right(sequence_query_ext:str, sequence_sub_ext:str, gap_size:int
         #print(f"Estensione senza gap: {extension_withoutgap_right_query, extension_withoutgap_right_sub}")
 
     return extension_right_query, extension_right_sub
-def extend_seed(df_seeds:pd.DataFrame, query_partenza: tuple, list_partenza_subject: list, x_max:int) :  
+def extend_seed(df_seeds:pd.DataFrame, query_partenza: tuple, list_partenza_subject: list, x_max:int) -> tuple[list,list,list,list]:  
     """
     Estende gli allineamenti dei seed iterando su di essi in un DataFrame fra la sequenza query e le molteplici sequenze subject per produrre degli high-scoring segment pairs (HSPs).  
     Gestisce i mismatches, i gaps, e gli allineamenti continui laddove possibile.
@@ -431,12 +435,13 @@ def extend_seed(df_seeds:pd.DataFrame, query_partenza: tuple, list_partenza_subj
     query_partenza (tuple): tupla contenente l'header della query e la sua sequenza.
     list_partenza_subject (list): lista di tuple, in cui ogni tupla contiene l'header della sequenza subject e la sequenza corrispondente. 
     x_max (int): numero massimo di mismatches consecutivi consentito prima dell'arresto dell'estensione dell'allineamento. 
-    Returns
-    ----------
-    contenitore_hsp_query (list): lista degli allineamenti della query. 
-    contenitore_hsp_sub (list): lista degli allineamenti delle subject estese. 
-    contenitore_score (list): lista degli scores per ogni allineamento esteso, in cui lo score si basa sulla lunghezza e sui matches.  
-    contenitore_ref (list): lista degli header dei subject del corrispettivo allineamento esteso.  
+    Return
+    ------
+    tuple[list,list,list,list]: tupla composta da:
+    -contenitore_hsp_query (list): lista degli allineamenti della query. 
+    -contenitore_hsp_sub (list): lista degli allineamenti delle subject estese. 
+    -contenitore_score (list): lista degli scores per ogni allineamento esteso, in cui lo score si basa sulla lunghezza e sui matches.  
+    -contenitore_ref (list): lista degli header dei subject del corrispettivo allineamento esteso.  
     """
     contenitore_hsp_query = []
     contenitore_hsp_sub = []
@@ -605,8 +610,8 @@ def create_results_table(cont_hsp_query: list, cont_hsp_sub: list, cont_hsp_scor
    cont_hsp_score (list):  lista di score corrispondente agli HSP.
    col (list): elenco di headers o identificatori per i risultati HSP.
    filename (str):nome del file (senza estensione) nel quale il result-table verrà salvato.
-   Returns
-   -------
+   Return
+   ------
    results_df (pd.DataFrame): salvato come file .csv.Un pandas DataFrame contenente
      i risultati degli HSP con le colonne 'hsp_query','hsp_sub','header','hsp_score'.
    """ 
@@ -619,7 +624,7 @@ def create_results_table(cont_hsp_query: list, cont_hsp_sub: list, cont_hsp_scor
    results_df = results_df.sort_values(['hsp_score'], ascending=False)
    results_df.to_csv(filename + '.csv')
    return results_df
-def metrics_for_blast(best_alignment_df:pd.DataFrame,query_partenza: tuple,list_partenza_subject:list):
+def metrics_for_blast(best_alignment_df:pd.DataFrame,query_partenza: tuple,list_partenza_subject:list) -> tuple[list,list,list]:
     """
     La funzione calcola le metriche degli allineamenti del BLAST, includendo query_coverage, E-value e la percentuale di identità. 
     Parameters
@@ -627,11 +632,12 @@ def metrics_for_blast(best_alignment_df:pd.DataFrame,query_partenza: tuple,list_
     best_alignment_df (pd.Dataframe): dataframe contenente gli allineamenti migliori.  
     query_partenza (tuple): tupla in cui il secondo elemento è una sequenza query usata per le analisi del BLAST.  
     list_partenza_subject (list): lista di sequenze subject che recupera la lunghezza dei subject per il calcolo dell' E-value. 
-    Returns
-    -------
-    query_cov_list (list): lista della copertura in percentuale della query per ogni allineamento.
-    e_value_list (list): lista degli E-values calcolato per ogni allineamento.
-    identity_list (list): lista dei valori in percentuale dell'identità per ogni allineamento,    
+    Return
+    ------
+    tuple[list,list,list]: tupla composta da:
+    -query_cov_list (list): lista della copertura in percentuale della query per ogni allineamento.
+    -e_value_list (list): lista degli E-values calcolato per ogni allineamento.
+    -identity_list (list): lista dei valori in percentuale dell'identità per ogni allineamento,    
     """
     #coverage = lung allineamento / lung query * 100
     #E-value
@@ -678,8 +684,8 @@ def blast_result_df(best_alignment_query:pd.DataFrame,query_partenza:tuple,list_
     query_partenza (tuple): tupla in cui il secondo elemento della query è la sequenza query usata per le analisi del BLAST. 
     list_partenza_subject (list): lista di sequenze subject che ritorna la lunghezza delle subject per il calcolo dell’E-value.
     filename (str): nome del file nel quale il dataframe verrà salvato.
-    Returns
-    -------
+    Return
+    ------
     best_alignment_query (pd.DataFrame): dataframe salvato in un file .csv con lo specifico filename.
     """
     coverage_cont, e_value_cont, identity_cont = metrics_for_blast(best_alignment_query,query_partenza,list_partenza_subject)
@@ -691,7 +697,7 @@ def blast_result_df(best_alignment_query:pd.DataFrame,query_partenza:tuple,list_
     best_alignment_query.to_csv(filename + '.csv')
 
     return best_alignment_query
-def print_alignment(best_alignment_df:pd.DataFrame,output_file :str,result_df:pd.DataFrame):
+def print_alignment(best_alignment_df:pd.DataFrame,output_file :str,result_df:pd.DataFrame) -> None:
     """
     La funzione rappresenta i risultati degli allineamenti in un file, includendo l'allineamento di sequenza, le metriche e le annotazioni.
     Parameters
@@ -699,8 +705,8 @@ def print_alignment(best_alignment_df:pd.DataFrame,output_file :str,result_df:pd
     best_alignment_df (pd.DataFrame): dataframe contenente i migliori allineamenti in cui nelle colonne inseriamo le query e le sequenze delle subject.
     output_file (str): percorso del file di output in cui verranno scritti i risultati dell'allineamento formattato.
     result_df (pd.DataFrame): dataframe contenente le metriche calcolate per ogni allineamento
-    Returns
-    -------
+    Return
+    ------
     None
         Scrive i dettagli dell'allineamento nello specifico output finale.
     """
