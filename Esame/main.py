@@ -100,7 +100,7 @@ def fill_sub_df(df: pd.DataFrame,kmer_subject_list: list) -> pd.DataFrame:
                 else:
                     df.loc[df['kmer'] == kmer,header] = None
     return df
-def create_df_with_positions(query_df: pd.DataFrame,subject_df: pd.DataFrame ,filename: str) -> pd.DataFrame:
+def create_df_with_positions(query_df: pd.DataFrame,subject_df: pd.DataFrame,filename: str) -> pd.DataFrame:
     """
     La funzione combina i due dataframe in input, tramite inner join, per generarne uno nuovo contenente posizioni corrispondenti
     di k-mer tra i due. Salva poi il risultato in un file CSV e restituisce il dataframe finale.
@@ -130,7 +130,7 @@ def create_df_with_positions(query_df: pd.DataFrame,subject_df: pd.DataFrame ,fi
         final_df = final_df.drop(columns=['kmer'])
     final_df.to_csv(filename +'.csv')
     return final_df
-def find_seeds(df: pd.DataFrame,filename:str, kmer_length=22) -> pd.DataFrame:
+def find_seeds(df: pd.DataFrame,filename:str, kmer_length:int =22) -> pd.DataFrame:
     """
     La funzione identifica regioni di interesse ("seeds") basandosi sulle tuple (query_start, subject_start) e sul valore kmer_length.
     Processa un dataframe contenente tuple rappresentanti posizioni iniziali di k-mer per creare un nuovo dataframe con "seeds"
@@ -139,7 +139,7 @@ def find_seeds(df: pd.DataFrame,filename:str, kmer_length=22) -> pd.DataFrame:
     ----------
      df (pd.DataFrame): dataframe con informazioni realtive alle posizioni dei k-mers in seqeunze query e subject.
      filename (str): nome del file (senza estensione) in cui il dataframe risultante verrà salvato in formato .csv.
-     kmer_length (int): lunghezza dei k-mers
+     kmer_length (int): lunghezza dei k-mers.
     Return
     ------
      new_df (pd.DataFrame): dataframe con i seeds organizzati, dove ogni seed include posizioni iniziali e finali. 
@@ -252,8 +252,8 @@ def handle_gaps(finestra_aggiunta_gap_query: str, finestra_aggiunta_gap_sub:str,
     Return
     ------
     tuple[str,str]: tupla composta da:
-     -finestra_aggiunta_gap_query (str): finestra di sequenza query con aggiunta dei gap, o '*' se i gap non migliorano il punteggio..
-     -finestra_aggiunta_gap_sub (str): finestra di sequenza subject con aggiunta dei gap, o '*' se i gap non migliorano il punteggio..
+     -finestra_aggiunta_gap_query (str): finestra di sequenza query con aggiunta dei gap, o '*' se i gap non migliorano il punteggio.
+     -finestra_aggiunta_gap_sub (str): finestra di sequenza subject con aggiunta dei gap, o '*' se i gap non migliorano il punteggio.
     """
     max_gap = 3
     sequence_query_list = []
@@ -637,7 +637,7 @@ def metrics_for_blast(best_alignment_df:pd.DataFrame,query_partenza: tuple,list_
     tuple[list,list,list]: tupla composta da:
     -query_cov_list (list): lista della copertura in percentuale della query per ogni allineamento.
     -e_value_list (list): lista degli E-values calcolato per ogni allineamento.
-    -identity_list (list): lista dei valori in percentuale dell'identità per ogni allineamento,    
+    -identity_list (list): lista dei valori in percentuale dell'identità per ogni allineamento.
     """
     #coverage = lung allineamento / lung query * 100
     #E-value
