@@ -1,0 +1,5 @@
+setup.py
+BioTools.egg-info/PKG-INFO
+BioTools.egg-info/SOURCES.txt
+BioTools.egg-info/dependency_links.txt
+BioTools.egg-info/top_level.txt

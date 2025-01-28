@@ -1,7 +1,6 @@
 import os
 import sys
 import gzip
-from Esame import ErroriPersonalizzati
 import pandas as pd
 
 def check_file(file_path: str) -> bool:
@@ -127,8 +126,6 @@ def fn_comp_rev(nameseq):
     return comp,comp_rev
 
 def divide_into_kmer(sequence,k):
-    if k <= 0:
-        raise ErroriPersonalizzati.KmerError()
     kmer_list = []
     for i in range(0, len(sequence)-k+1):
         kmer = sequence[i:i+k]
