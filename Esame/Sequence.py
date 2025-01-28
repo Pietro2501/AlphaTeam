@@ -1,7 +1,7 @@
 import os
 import ErroriPersonalizzati
-import tools, tools1
-import parserFasta
+import tools
+from BioTools import tools, parserFasta
 
 
 # OopCompanion:suppressRename
@@ -49,12 +49,18 @@ class Sequence:
         """
         if not os.path.isfile(sequence_file):
            raise ErroriPersonalizzati.FileNotFoundError(f"File non trovato: {sequence_file}")
+        self.query_partenza = None
+        self.query_partenza_2 = None
+        self.kmer_query1 = None
+        self.kmer_query2 = None
+        self.kmer_query1r = None
+        self.kmer_query2r = None
         self.sequence_file = sequence_file
         self.seq_list = None
         self.forward_kmers = None
         self.comp_rev_kmers = None
 
-    def parse_file(self):
+    def parse_file(self,num_sequences = None):
         """
         Parsa il file sequenza in formato FASTA o nei formati compressi.
         Return
@@ -70,6 +76,12 @@ class Sequence:
         elif not self.sequence_file.endswith('.fasta') and not self.sequence_file.endswith('.fa'):
             raise ErroriPersonalizzati.FileTypeError()
         self.seq_list = list(parserFasta.parse_fasta(self.sequence_file).items())
+        if num_sequences is not None and len(self.seq_list) != num_sequences:
+            raise ErroriPersonalizzati.SequenceError(f"Questo BLAST lavora con 2 sequenze ma in realtà ne sono state trovate: {len(self.seq_list)}")
+
+        if num_sequences == 2:
+            self.query_partenza = self.seq_list[0]
+            self.query_partenza_2 = self.seq_list[1]
         return self.seq_list
 
     def kmer_indexing(self, k: int) -> list:
@@ -84,10 +96,9 @@ class Sequence:
         complete_list: list 
             Una lista contenente gli ID e le loro sequenze k-mer corrispondenti.
         """
-        try:
-            complete_list = []
-        except Exception as e:
-            raise ErroriPersonalizzati.FastaParsingError()
+        if not self.seq_list:
+            raise ErroriPersonalizzati.SequenceError('Devi richiamare prima la funzione parse_file()')
+        complete_list = []
         for element in self.seq_list:
             kmer_seq = tools.divide_into_kmer(element[1], k)
             complete_list.append(element[0])
@@ -107,14 +118,24 @@ class Sequence:
         complete_list_comp_rev: list
             Una lista contenente gli ID e le loro sequenze k-mer complementari revertite corrispondenti.
         """
-        try:
-            complete_list_comp_rev = []
-        except Exception as e:
-            raise ErroriPersonalizzati.FastaParsingError()
+        if not self.seq_list:
+            raise ErroriPersonalizzati.SequenceError('Devi richiamare prima la funzione parse_file()')
+        complete_list_comp_rev = []
         for element in self.seq_list:
-            sequence_comp_rev = tools1.fn_comp_rev(element[1])[1]
+            sequence_comp_rev = tools.fn_comp_rev(element[1])[1]
             kmer_seq_comp_rev = tools.divide_into_kmer(sequence_comp_rev,k)
             complete_list_comp_rev.append(element[0])
             complete_list_comp_rev.append(kmer_seq_comp_rev)
             self.comp_rev_kmers = kmer_seq_comp_rev
         return complete_list_comp_rev
+
+    def slice_for_two_query(self):
+        if not self.forward_kmers or not self.comp_rev_kmers:
+            raise ErroriPersonalizzati.SequenceError(
+                'Devi richiamare prima la funzione di kmer indexing'
+            )
+        self.kmer_query1 = self.forward_kmers[0:2]
+        self.kmer_query2 = self.forward_kmers[2:4]
+
+        self.kmer_query1r = self.comp_rev_kmers[0:2]
+        self.kmer_query2r = self.comp_rev_kmers[2:4]
