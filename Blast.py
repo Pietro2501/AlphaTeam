@@ -1,3 +1,4 @@
+
 import pandas as pd
 
 transizione = {'A': 'G', 'G': 'A', 'C': 'T', 'T': 'C'}
