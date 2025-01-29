@@ -1,0 +1,228 @@
+\doxysection{Riferimenti per la classe Alpha\+Team.\+Sequence.\+Sequence}
+\hypertarget{class_alpha_team_1_1_sequence_1_1_sequence}{}\label{class_alpha_team_1_1_sequence_1_1_sequence}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection*{Membri pubblici}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_a90c16c11c8b8180cc5107d41222e144e}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_a4c5ca7e727e10c1ba83f3ca2eaaddfe3}{sequence\+\_\+file}})
+\item 
+\mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_a634a031d649f24b9f18cad0ca9c3f494}{parse\+\_\+file}} (self, num\+\_\+sequences=None)
+\item 
+list \mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_ab3c93b507251fee851a39d133ab4751c}{kmer\+\_\+indexing}} (self, int k)
+\item 
+list \mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_aca1a8d128b831c30d28eac24ebb5ad54}{kmer\+\_\+indexing\+\_\+comp\+\_\+rev}} (self, int k)
+\item 
+\mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_a672fce3b7520c82062011e62bed038b7}{slice\+\_\+for\+\_\+two\+\_\+query}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Attributi pubblici}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_abe50c58c7e34385efff1b783243093de}{query\+\_\+partenza}} = None
+\item 
+\mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_a9ed7687459323c89b4faff1252bb057e}{query\+\_\+partenza\+\_\+2}} = None
+\item 
+\mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_afd7f1bba785149e2d520011df5a8c1de}{kmer\+\_\+query1}} = None
+\item 
+\mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_a7b505c5367f1087e4251f6f842fbbcdb}{kmer\+\_\+query2}} = None
+\item 
+\mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_a010317d2c3b7bd8f3d2e02fb4ded22d3}{kmer\+\_\+query1r}} = None
+\item 
+\mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_a55baf67333f37aabd06266505d01eed5}{kmer\+\_\+query2r}} = None
+\item 
+\mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_a4c5ca7e727e10c1ba83f3ca2eaaddfe3}{sequence\+\_\+file}} = sequence\+\_\+file
+\item 
+\mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_a7ba7ba45b1dc1ed8ff39721e23924126}{seq\+\_\+list}} = None
+\item 
+\mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_a653fd7338047f245ef722d22dffa7806}{forward\+\_\+kmers}} = None
+\item 
+\mbox{\hyperlink{class_alpha_team_1_1_sequence_1_1_sequence_a33b1901e8d0f0658d10cb6f526207840}{comp\+\_\+rev\+\_\+kmers}} = None
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descrizione dettagliata}
+\begin{DoxyVerb}Una classe che gestisce e processa i file di sequenza e 
+indicizza i k-mer per le sequenze forward e le loro complementari revertite. 
+Attributes
+----------
+sequence_file: str
+    Il percorso del file della sequenza di input (.fasta, .fa, or compressed .gz).
+
+seq_list: list
+    Parsa le sequenze come liste di tuple. Di default è None. 
+
+forward_kmers: list
+    Sequenze indicizzate di k-mer del filamento forward. Di default è None.
+
+comp_rev_kmers: list
+    Sequenze indicizzate di k-mer del filamento complementare revertito. Di default è None.
+
+query_partenza e query_partenza_2 : list
+    Liste di query generate dalla funzione parse file. Di default impostate a None.
+
+kmer_query1 : list
+    Lista di kmer contenuti nella Query1. Di default impostata a None.
+
+kmer_query2 : list
+    Lista di kmer contenuti nella Query2. Di default impostata a None.
+
+kmer_query1r : list
+    Lista di kmer contenuti nella Query1 complementare revertita. Di default impostata a None.
+
+kmer_query2r : list
+    Lista di kmer contenuti nella Query2 complementare revertita. Di default impostata a None.
+
+Methods
+-------
+    parse_file():
+        Ritorna un file parsato. 
+    kmer_indexing(k: int) -> list:
+        Genera i kmer indicizati per le sequenze forward.
+    kmer_indexing_comp_rev(k: int) -> list:
+        Genera i kmer indicizati per le sequenze complementari reverite.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Documentazione dei costruttori e dei distruttori}
+\Hypertarget{class_alpha_team_1_1_sequence_1_1_sequence_a90c16c11c8b8180cc5107d41222e144e}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{class_alpha_team_1_1_sequence_1_1_sequence_a90c16c11c8b8180cc5107d41222e144e} 
+Alpha\+Team.\+Sequence.\+Sequence.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{sequence\+\_\+file}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Costruisce tutti gli attributi necessari per l'oggetto Sequence. 
+Parameters
+----------
+sequence_file: str
+    Il percorso (path) del file della sequenza di input (.fasta, .fa, or compressed .gz).
+seq_list: list
+    Parsa le sequenze come lista di tuple (ID, sequence). Di default è None.
+forward_kmers: list 
+    Sequenze indicizzate di k-mer del filamento forward. Di default è None.
+comp_rev_kmers: list
+    Sequenze indicizzate di k-mer del filamento complementare revertito. Di default è None.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Documentazione delle funzioni membro}
+\Hypertarget{class_alpha_team_1_1_sequence_1_1_sequence_ab3c93b507251fee851a39d133ab4751c}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}!kmer\_indexing@{kmer\_indexing}}
+\index{kmer\_indexing@{kmer\_indexing}!AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection{\texorpdfstring{kmer\_indexing()}{kmer\_indexing()}}
+{\footnotesize\ttfamily \label{class_alpha_team_1_1_sequence_1_1_sequence_ab3c93b507251fee851a39d133ab4751c} 
+ list Alpha\+Team.\+Sequence.\+Sequence.\+kmer\+\_\+indexing (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{int}]{k}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Genera indici k-mer per le sequenze forward.
+Args
+----
+k: int
+    la lunghezza dei k-mers.   
+Return
+------
+complete_list: list 
+    Una lista contenente gli ID e le loro sequenze k-mer corrispondenti.
+\end{DoxyVerb}
+ \Hypertarget{class_alpha_team_1_1_sequence_1_1_sequence_aca1a8d128b831c30d28eac24ebb5ad54}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}!kmer\_indexing\_comp\_rev@{kmer\_indexing\_comp\_rev}}
+\index{kmer\_indexing\_comp\_rev@{kmer\_indexing\_comp\_rev}!AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection{\texorpdfstring{kmer\_indexing\_comp\_rev()}{kmer\_indexing\_comp\_rev()}}
+{\footnotesize\ttfamily \label{class_alpha_team_1_1_sequence_1_1_sequence_aca1a8d128b831c30d28eac24ebb5ad54} 
+ list Alpha\+Team.\+Sequence.\+Sequence.\+kmer\+\_\+indexing\+\_\+comp\+\_\+rev (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{int}]{k}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Genera indici k-mer per le sequenze complementari revertite. 
+Args
+----
+k: int
+    La lunghezza dei k-mers. 
+Return
+------
+complete_list_comp_rev: list
+    Una lista contenente gli ID e le loro sequenze k-mer complementari revertite corrispondenti.
+\end{DoxyVerb}
+ \Hypertarget{class_alpha_team_1_1_sequence_1_1_sequence_a634a031d649f24b9f18cad0ca9c3f494}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}!parse\_file@{parse\_file}}
+\index{parse\_file@{parse\_file}!AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection{\texorpdfstring{parse\_file()}{parse\_file()}}
+{\footnotesize\ttfamily \label{class_alpha_team_1_1_sequence_1_1_sequence_a634a031d649f24b9f18cad0ca9c3f494} 
+Alpha\+Team.\+Sequence.\+Sequence.\+parse\+\_\+file (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{num\+\_\+sequences}{ = {\ttfamily None}}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Parsa il file sequenza in formato FASTA o nei formati compressi.
+
+Parameters
+----------
+num_sequences: int
+    Numero di sequenze da processare. Di default impostato a None.
+Return
+------
+seq_list: list
+    Una lista di sequenze parsate[(ID, sequence)] 
+\end{DoxyVerb}
+ \Hypertarget{class_alpha_team_1_1_sequence_1_1_sequence_a672fce3b7520c82062011e62bed038b7}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}!slice\_for\_two\_query@{slice\_for\_two\_query}}
+\index{slice\_for\_two\_query@{slice\_for\_two\_query}!AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection{\texorpdfstring{slice\_for\_two\_query()}{slice\_for\_two\_query()}}
+{\footnotesize\ttfamily \label{class_alpha_team_1_1_sequence_1_1_sequence_a672fce3b7520c82062011e62bed038b7} 
+Alpha\+Team.\+Sequence.\+Sequence.\+slice\+\_\+for\+\_\+two\+\_\+query (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Documentazione dei membri dato}
+\Hypertarget{class_alpha_team_1_1_sequence_1_1_sequence_a33b1901e8d0f0658d10cb6f526207840}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}!comp\_rev\_kmers@{comp\_rev\_kmers}}
+\index{comp\_rev\_kmers@{comp\_rev\_kmers}!AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection{\texorpdfstring{comp\_rev\_kmers}{comp\_rev\_kmers}}
+{\footnotesize\ttfamily \label{class_alpha_team_1_1_sequence_1_1_sequence_a33b1901e8d0f0658d10cb6f526207840} 
+Alpha\+Team.\+Sequence.\+Sequence.\+comp\+\_\+rev\+\_\+kmers = None}
+
+\Hypertarget{class_alpha_team_1_1_sequence_1_1_sequence_a653fd7338047f245ef722d22dffa7806}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}!forward\_kmers@{forward\_kmers}}
+\index{forward\_kmers@{forward\_kmers}!AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection{\texorpdfstring{forward\_kmers}{forward\_kmers}}
+{\footnotesize\ttfamily \label{class_alpha_team_1_1_sequence_1_1_sequence_a653fd7338047f245ef722d22dffa7806} 
+Alpha\+Team.\+Sequence.\+Sequence.\+forward\+\_\+kmers = None}
+
+\Hypertarget{class_alpha_team_1_1_sequence_1_1_sequence_afd7f1bba785149e2d520011df5a8c1de}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}!kmer\_query1@{kmer\_query1}}
+\index{kmer\_query1@{kmer\_query1}!AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection{\texorpdfstring{kmer\_query1}{kmer\_query1}}
+{\footnotesize\ttfamily \label{class_alpha_team_1_1_sequence_1_1_sequence_afd7f1bba785149e2d520011df5a8c1de} 
+Alpha\+Team.\+Sequence.\+Sequence.\+kmer\+\_\+query1 = None}
+
+\Hypertarget{class_alpha_team_1_1_sequence_1_1_sequence_a010317d2c3b7bd8f3d2e02fb4ded22d3}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}!kmer\_query1r@{kmer\_query1r}}
+\index{kmer\_query1r@{kmer\_query1r}!AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection{\texorpdfstring{kmer\_query1r}{kmer\_query1r}}
+{\footnotesize\ttfamily \label{class_alpha_team_1_1_sequence_1_1_sequence_a010317d2c3b7bd8f3d2e02fb4ded22d3} 
+Alpha\+Team.\+Sequence.\+Sequence.\+kmer\+\_\+query1r = None}
+
+\Hypertarget{class_alpha_team_1_1_sequence_1_1_sequence_a7b505c5367f1087e4251f6f842fbbcdb}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}!kmer\_query2@{kmer\_query2}}
+\index{kmer\_query2@{kmer\_query2}!AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection{\texorpdfstring{kmer\_query2}{kmer\_query2}}
+{\footnotesize\ttfamily \label{class_alpha_team_1_1_sequence_1_1_sequence_a7b505c5367f1087e4251f6f842fbbcdb} 
+Alpha\+Team.\+Sequence.\+Sequence.\+kmer\+\_\+query2 = None}
+
+\Hypertarget{class_alpha_team_1_1_sequence_1_1_sequence_a55baf67333f37aabd06266505d01eed5}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}!kmer\_query2r@{kmer\_query2r}}
+\index{kmer\_query2r@{kmer\_query2r}!AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection{\texorpdfstring{kmer\_query2r}{kmer\_query2r}}
+{\footnotesize\ttfamily \label{class_alpha_team_1_1_sequence_1_1_sequence_a55baf67333f37aabd06266505d01eed5} 
+Alpha\+Team.\+Sequence.\+Sequence.\+kmer\+\_\+query2r = None}
+
+\Hypertarget{class_alpha_team_1_1_sequence_1_1_sequence_abe50c58c7e34385efff1b783243093de}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}!query\_partenza@{query\_partenza}}
+\index{query\_partenza@{query\_partenza}!AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection{\texorpdfstring{query\_partenza}{query\_partenza}}
+{\footnotesize\ttfamily \label{class_alpha_team_1_1_sequence_1_1_sequence_abe50c58c7e34385efff1b783243093de} 
+Alpha\+Team.\+Sequence.\+Sequence.\+query\+\_\+partenza = None}
+
+\Hypertarget{class_alpha_team_1_1_sequence_1_1_sequence_a9ed7687459323c89b4faff1252bb057e}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}!query\_partenza\_2@{query\_partenza\_2}}
+\index{query\_partenza\_2@{query\_partenza\_2}!AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection{\texorpdfstring{query\_partenza\_2}{query\_partenza\_2}}
+{\footnotesize\ttfamily \label{class_alpha_team_1_1_sequence_1_1_sequence_a9ed7687459323c89b4faff1252bb057e} 
+Alpha\+Team.\+Sequence.\+Sequence.\+query\+\_\+partenza\+\_\+2 = None}
+
+\Hypertarget{class_alpha_team_1_1_sequence_1_1_sequence_a7ba7ba45b1dc1ed8ff39721e23924126}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}!seq\_list@{seq\_list}}
+\index{seq\_list@{seq\_list}!AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection{\texorpdfstring{seq\_list}{seq\_list}}
+{\footnotesize\ttfamily \label{class_alpha_team_1_1_sequence_1_1_sequence_a7ba7ba45b1dc1ed8ff39721e23924126} 
+Alpha\+Team.\+Sequence.\+Sequence.\+seq\+\_\+list = None}
+
+\Hypertarget{class_alpha_team_1_1_sequence_1_1_sequence_a4c5ca7e727e10c1ba83f3ca2eaaddfe3}\index{AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}!sequence\_file@{sequence\_file}}
+\index{sequence\_file@{sequence\_file}!AlphaTeam.Sequence.Sequence@{AlphaTeam.Sequence.Sequence}}
+\doxysubsubsection{\texorpdfstring{sequence\_file}{sequence\_file}}
+{\footnotesize\ttfamily \label{class_alpha_team_1_1_sequence_1_1_sequence_a4c5ca7e727e10c1ba83f3ca2eaaddfe3} 
+Alpha\+Team.\+Sequence.\+Sequence.\+sequence\+\_\+file = sequence\+\_\+file}
+
+
+
+La documentazione per questa classe è stata generata a partire dal seguente file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_sequence_8py}{Sequence.\+py}}\end{DoxyCompactItemize}

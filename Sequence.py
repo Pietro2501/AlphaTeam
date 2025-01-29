@@ -23,6 +23,22 @@ class Sequence:
 
     comp_rev_kmers: list
         Sequenze indicizzate di k-mer del filamento complementare revertito. Di default è None.
+
+    query_partenza e query_partenza_2 : list
+        Liste di query generate dalla funzione parse file. Di default impostate a None.
+
+    kmer_query1 : list
+        Lista di kmer contenuti nella Query1. Di default impostata a None.
+
+    kmer_query2 : list
+        Lista di kmer contenuti nella Query2. Di default impostata a None.
+
+    kmer_query1r : list
+        Lista di kmer contenuti nella Query1 complementare revertita. Di default impostata a None.
+
+    kmer_query2r : list
+        Lista di kmer contenuti nella Query2 complementare revertita. Di default impostata a None.
+
     Methods
     -------
         parse_file():
@@ -63,6 +79,11 @@ class Sequence:
     def parse_file(self,num_sequences = None):
         """
         Parsa il file sequenza in formato FASTA o nei formati compressi.
+
+        Parameters
+        ----------
+        num_sequences: int
+            Numero di sequenze da processare. Di default impostato a None.
         Return
         ------
         seq_list: list

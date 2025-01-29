@@ -1,0 +1,361 @@
+\doxysection{Riferimenti per il namespace Alpha\+Team.\+Blast}
+\hypertarget{namespace_alpha_team_1_1_blast}{}\label{namespace_alpha_team_1_1_blast}\index{AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a499288aca0f87577a7d3b9b79493d000}{create\+\_\+query\+\_\+df}} (list kmer\+\_\+query\+\_\+list)
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a452a11d85bde784062f483f79e20e4b2}{fill\+\_\+df\+\_\+query}} (pd.\+Data\+Frame df, str nome\+\_\+colonna)
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a489f875fe627f835d8a347fb48026724}{create\+\_\+sub\+\_\+df}} (list kmer\+\_\+sub\+\_\+list)
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a5f717f0433e8e56f94fcc1c1e24276d9}{fill\+\_\+sub\+\_\+df}} (pd.\+Data\+Frame df, list kmer\+\_\+subject\+\_\+list)
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a8eec237cc8167008e26f320421c293a4}{create\+\_\+df\+\_\+with\+\_\+positions}} (pd.\+Data\+Frame query\+\_\+df, pd.\+Data\+Frame subject\+\_\+df, str filename)
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a6d1af01c5322feaa9a13f02c982266f3}{find\+\_\+seeds}} (pd.\+Data\+Frame df, str filename, int kmer\+\_\+length=22)
+\item 
+str or None \mbox{\hyperlink{namespace_alpha_team_1_1_blast_aa4962b11f3e284d94c46cfcb57b30267}{get\+\_\+sequence}} (str header, list list\+\_\+partenza\+\_\+subject)
+\item 
+int \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a7dc6c2a636bd37afb9d5fd43f43b4a50}{calculate\+\_\+score}} (str sequence\+\_\+1, str sequence\+\_\+2)
+\item 
+tuple\mbox{[}str, str\mbox{]} \mbox{\hyperlink{namespace_alpha_team_1_1_blast_ae829cb8bf744e1043fad158eceac4013}{handle\+\_\+gaps}} (str finestra\+\_\+aggiunta\+\_\+gap\+\_\+query, str finestra\+\_\+aggiunta\+\_\+gap\+\_\+sub, str finestra\+\_\+mismatch\+\_\+query, str finestra\+\_\+mismatch\+\_\+sub, int gap\+\_\+size, str gap\+\_\+target, int x\+\_\+max)
+\item 
+tuple\mbox{[}int, int\mbox{]} \mbox{\hyperlink{namespace_alpha_team_1_1_blast_aa8c320028e060a24fbdc616861572cf3}{find\+\_\+mismatch\+\_\+window}} (str sequence\+\_\+query\+\_\+ext, str sequence\+\_\+sub\+\_\+ext, int x\+\_\+max)
+\item 
+tuple\mbox{[}str, str\mbox{]} \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a15327dc117b6fa95b85cd8a6835110c8}{extend\+\_\+seed\+\_\+right}} (str sequence\+\_\+query\+\_\+ext, str sequence\+\_\+sub\+\_\+ext, int gap\+\_\+size, bool perform\+\_\+gap, str gap\+\_\+target, int x\+\_\+max)
+\item 
+tuple\mbox{[}list, list, list, list\mbox{]} \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a1d14c9a4e6e88e6b6fdc057f0a03f681}{extend\+\_\+seed}} (pd.\+Data\+Frame df\+\_\+seeds, tuple query\+\_\+partenza, list list\+\_\+partenza\+\_\+subject, int x\+\_\+max)
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a8a9b00de9ac817edc5ab991c7c580ce3}{create\+\_\+results\+\_\+table}} (list cont\+\_\+hsp\+\_\+query, list cont\+\_\+hsp\+\_\+sub, list cont\+\_\+hsp\+\_\+score, list col, str filename)
+\item 
+tuple\mbox{[}list, list, list\mbox{]} \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a34b1dfafa0b8b0aa87857bf1cdaf0484}{metrics\+\_\+for\+\_\+blast}} (pd.\+Data\+Frame best\+\_\+alignment\+\_\+df, tuple query\+\_\+partenza, list list\+\_\+partenza\+\_\+subject)
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_aaa731dd1718fc10b4cea874b87f54c52}{blast\+\_\+result\+\_\+df}} (pd.\+Data\+Frame best\+\_\+alignment\+\_\+query, tuple query\+\_\+partenza, list list\+\_\+partenza\+\_\+subject, str filename)
+\item 
+None \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a883b22dfa70ab239df4b9a28a18606d9}{print\+\_\+alignment}} (pd.\+Data\+Frame best\+\_\+alignment\+\_\+df, str output\+\_\+file, pd.\+Data\+Frame result\+\_\+df)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variabili}
+\begin{DoxyCompactItemize}
+\item 
+dict \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a6c922b4e0d82efb03d3ac4711d63cbca}{transizione}} = \{\textquotesingle{}A\textquotesingle{}\+: \textquotesingle{}G\textquotesingle{}, \textquotesingle{}G\textquotesingle{}\+: \textquotesingle{}A\textquotesingle{}, \textquotesingle{}C\textquotesingle{}\+: \textquotesingle{}T\textquotesingle{}, \textquotesingle{}T\textquotesingle{}\+: \textquotesingle{}C\textquotesingle{}\}
+\item 
+dict \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a2b1378a493295838c500aeb73bdbac36}{trasversione}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Documentazione delle funzioni}
+\Hypertarget{namespace_alpha_team_1_1_blast_aaa731dd1718fc10b4cea874b87f54c52}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!blast\_result\_df@{blast\_result\_df}}
+\index{blast\_result\_df@{blast\_result\_df}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{blast\_result\_df()}{blast\_result\_df()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_aaa731dd1718fc10b4cea874b87f54c52} 
+ pd.\+Data\+Frame Alpha\+Team.\+Blast.\+blast\+\_\+result\+\_\+df (\begin{DoxyParamCaption}\item[{pd.\+Data\+Frame}]{best\+\_\+alignment\+\_\+query}{, }\item[{tuple}]{query\+\_\+partenza}{, }\item[{list}]{list\+\_\+partenza\+\_\+subject}{, }\item[{str}]{filename}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}La funzione migliora un dataframe di allineamento BLAST con le metriche calcolate e le salva in un DataFrame come file .csv.
+Parameters
+----------
+best_alignment_query (pd.DataFrame): dataframe contenente i migliori allineamenti.
+query_partenza (tuple): tupla in cui il secondo elemento della query è la sequenza query usata per le analisi del BLAST. 
+list_partenza_subject (list): lista di sequenze subject che ritorna la lunghezza delle subject per il calcolo dell’E-value.
+filename (str): nome del file nel quale il dataframe verrà salvato.
+Return
+------
+best_alignment_query (pd.DataFrame): dataframe salvato in un file .csv con lo specifico filename.
+\end{DoxyVerb}
+ \Hypertarget{namespace_alpha_team_1_1_blast_a7dc6c2a636bd37afb9d5fd43f43b4a50}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!calculate\_score@{calculate\_score}}
+\index{calculate\_score@{calculate\_score}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{calculate\_score()}{calculate\_score()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a7dc6c2a636bd37afb9d5fd43f43b4a50} 
+ int Alpha\+Team.\+Blast.\+calculate\+\_\+score (\begin{DoxyParamCaption}\item[{str}]{sequence\+\_\+1}{, }\item[{str}]{sequence\+\_\+2}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}La funzione calcola il punteggio di somiglianza tra due sequenze in base a regole specifiche di corrispondenza e penalità.
+Parameters
+----------
+ sequence_1 (str): prima sequenza da confrontare.
+ sequence_2 (str): seconda sequenza da confrontare.
+Return
+------
+ score (int): punteggio di somiglianza.
+\end{DoxyVerb}
+ \Hypertarget{namespace_alpha_team_1_1_blast_a8eec237cc8167008e26f320421c293a4}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!create\_df\_with\_positions@{create\_df\_with\_positions}}
+\index{create\_df\_with\_positions@{create\_df\_with\_positions}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{create\_df\_with\_positions()}{create\_df\_with\_positions()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a8eec237cc8167008e26f320421c293a4} 
+ pd.\+Data\+Frame Alpha\+Team.\+Blast.\+create\+\_\+df\+\_\+with\+\_\+positions (\begin{DoxyParamCaption}\item[{pd.\+Data\+Frame}]{query\+\_\+df}{, }\item[{pd.\+Data\+Frame}]{subject\+\_\+df}{, }\item[{str}]{filename}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}La funzione combina i due dataframe in input, tramite inner join, per generarne uno nuovo contenente posizioni corrispondenti
+di k-mer tra i due. Salva poi il risultato in un file CSV e restituisce il dataframe finale.
+Parameters
+----------
+ query_df (pd.DataFrame): dataframe con i k-mers realtivi alla sequenza query e relative posizioni.
+ subject_df (pd.DataFrame): dataframe con i k-mers realtivi alle sequenze subject e relative posizioni nella lista.
+ filename (str): nome del file (senza estensione) in cui il dataframe risultante verrà salvato in formato .csv.
+Return
+------
+ final_df (pd.DataFrame): dataframe risultante che mappa i k-mer con le posizioni della query e dei subject in tuple,
+   salvato anche come file CSV.
+\end{DoxyVerb}
+ \Hypertarget{namespace_alpha_team_1_1_blast_a499288aca0f87577a7d3b9b79493d000}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!create\_query\_df@{create\_query\_df}}
+\index{create\_query\_df@{create\_query\_df}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{create\_query\_df()}{create\_query\_df()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a499288aca0f87577a7d3b9b79493d000} 
+ pd.\+Data\+Frame Alpha\+Team.\+Blast.\+create\+\_\+query\+\_\+df (\begin{DoxyParamCaption}\item[{list}]{kmer\+\_\+query\+\_\+list}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}La funzione prende una lista di input (kmer_query_list) e costruisce un dataframe Pandas 
+organizzato in modo specifico con intestazioni e indici derivati dalla lista. 
+Parameters
+----------
+ kmer_query_list (list): Lista alternata di intestazioni (index pari) e liste di k-mers (index dispari).
+Return
+------
+ df (pd.DataFrame) : dataframe con relativi valori. 
+\end{DoxyVerb}
+ \Hypertarget{namespace_alpha_team_1_1_blast_a8a9b00de9ac817edc5ab991c7c580ce3}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!create\_results\_table@{create\_results\_table}}
+\index{create\_results\_table@{create\_results\_table}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{create\_results\_table()}{create\_results\_table()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a8a9b00de9ac817edc5ab991c7c580ce3} 
+ pd.\+Data\+Frame Alpha\+Team.\+Blast.\+create\+\_\+results\+\_\+table (\begin{DoxyParamCaption}\item[{list}]{cont\+\_\+hsp\+\_\+query}{, }\item[{list}]{cont\+\_\+hsp\+\_\+sub}{, }\item[{list}]{cont\+\_\+hsp\+\_\+score}{, }\item[{list}]{col}{, }\item[{str}]{filename}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Crea una result table dagli HSP (High-scoring Segment Pair) data e li salva in un file .csv. 
+La tabella include query sequence, subject sequences, headers e gli scores, ordinati in modo decrescente. 
+Parameters
+----------
+cont_hsp_query (list): lista delle sequenze query derivate dall'analisi dell'HSP.
+cont_hsp_sub (list): lista delle sequenze subject derivate dall'analisi dell'HSP.
+cont_hsp_score (list): lista di score corrispondente agli HSP.
+col (list): elenco di headers o identificatori per i risultati HSP.
+filename (str):nome del file (senza estensione) nel quale il result-table verrà salvato.
+Return
+------
+results_df (pd.DataFrame): salvato come file .csv.Un pandas DataFrame contenente
+  i risultati degli HSP con le colonne 'hsp_query','hsp_sub','header','hsp_score'.
+\end{DoxyVerb}
+ \Hypertarget{namespace_alpha_team_1_1_blast_a489f875fe627f835d8a347fb48026724}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!create\_sub\_df@{create\_sub\_df}}
+\index{create\_sub\_df@{create\_sub\_df}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{create\_sub\_df()}{create\_sub\_df()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a489f875fe627f835d8a347fb48026724} 
+ pd.\+Data\+Frame Alpha\+Team.\+Blast.\+create\+\_\+sub\+\_\+df (\begin{DoxyParamCaption}\item[{list}]{kmer\+\_\+sub\+\_\+list}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}La funzione  costruisce un DataFrame Pandas organizzato in modo specifico con intestazioni e indici derivati dalla lista in input.
+In particolare, gli indici sono unici e disposti in ordine alfabetico.
+Parameters
+----------
+kmer_sub_list (list): lista alternata di intestazioni delle sequenze e liste di k-mers relativi ad ogni sequenza.
+Return
+------
+df (pd.DataFrame): dataframe che ha come indici i k-mers unici e in ordine alfabetico e, come nomi delle colonne, le intestazioni delle sequenze subject.
+\end{DoxyVerb}
+ \Hypertarget{namespace_alpha_team_1_1_blast_a1d14c9a4e6e88e6b6fdc057f0a03f681}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!extend\_seed@{extend\_seed}}
+\index{extend\_seed@{extend\_seed}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{extend\_seed()}{extend\_seed()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a1d14c9a4e6e88e6b6fdc057f0a03f681} 
+ tuple\mbox{[}list,list,list,list\mbox{]} Alpha\+Team.\+Blast.\+extend\+\_\+seed (\begin{DoxyParamCaption}\item[{pd.\+Data\+Frame}]{df\+\_\+seeds}{, }\item[{tuple}]{query\+\_\+partenza}{, }\item[{list}]{list\+\_\+partenza\+\_\+subject}{, }\item[{int}]{x\+\_\+max}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Estende gli allineamenti dei seed iterando su di essi in un DataFrame fra la sequenza query e le molteplici sequenze subject per produrre degli high-scoring segment pairs (HSPs).  
+Gestisce i mismatches, i gaps, e gli allineamenti continui laddove possibile.
+Parameters
+----------
+df_seeds (pd.DataFrame): dataframe contenente i seeds per ogni colonna delle sequenze dei subject. 
+query_partenza (tuple): tupla contenente l'header della query e la sua sequenza.
+list_partenza_subject (list): lista di tuple, in cui ogni tupla contiene l'header della sequenza subject e la sequenza corrispondente. 
+x_max (int): numero massimo di mismatches consecutivi consentito prima dell'arresto dell'estensione dell'allineamento. 
+Return
+------
+tuple[list,list,list,list]: tupla composta da:
+-contenitore_hsp_query (list): lista degli allineamenti della query. 
+-contenitore_hsp_sub (list): lista degli allineamenti delle subject estese. 
+-contenitore_score (list): lista degli scores per ogni allineamento esteso, in cui lo score si basa sulla lunghezza e sui matches.  
+-contenitore_ref (list): lista degli header dei subject del corrispettivo allineamento esteso.  
+\end{DoxyVerb}
+ \Hypertarget{namespace_alpha_team_1_1_blast_a15327dc117b6fa95b85cd8a6835110c8}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!extend\_seed\_right@{extend\_seed\_right}}
+\index{extend\_seed\_right@{extend\_seed\_right}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{extend\_seed\_right()}{extend\_seed\_right()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a15327dc117b6fa95b85cd8a6835110c8} 
+ tuple\mbox{[}str,str\mbox{]} Alpha\+Team.\+Blast.\+extend\+\_\+seed\+\_\+right (\begin{DoxyParamCaption}\item[{str}]{sequence\+\_\+query\+\_\+ext}{, }\item[{str}]{sequence\+\_\+sub\+\_\+ext}{, }\item[{int}]{gap\+\_\+size}{, }\item[{bool}]{perform\+\_\+gap}{, }\item[{str}]{gap\+\_\+target}{, }\item[{int}]{x\+\_\+max}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Estende l'allineamento della query e delle sequenze subject da destra, inserisce i gap quando è necessario.
+Parameters
+----------
+sequence_query_ext (str): sequenza query da estendere.
+sequence_sub_ext (str): sequenza subject da estendere.
+gap_size (int): numero massimo di gaps consentiti durante l'estensione.  
+perform_gap (bool): se True, i gaps sono inseriti per ottimizzare l'allineamento quando i mismatches superano la soglia consentita.
+gap_target (str):specifica dove introdurre i gaps: “query” aggiunge i gaps alla sequenza query e “subject” li aggiunge alla sequenza subject. 
+x_max (int): threshold per i mismatches consecutivi necessari per attivare l'inserimento dei gaps o fermare l'estensione.  
+Return
+------
+tuple[str,str]: tupla composta da:
+-extension_right_query (str): sequenza query estesa. 
+-extension_right_sub (str): sequenze subject estese.
+\end{DoxyVerb}
+ \Hypertarget{namespace_alpha_team_1_1_blast_a452a11d85bde784062f483f79e20e4b2}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!fill\_df\_query@{fill\_df\_query}}
+\index{fill\_df\_query@{fill\_df\_query}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{fill\_df\_query()}{fill\_df\_query()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a452a11d85bde784062f483f79e20e4b2} 
+ pd.\+Data\+Frame Alpha\+Team.\+Blast.\+fill\+\_\+df\+\_\+query (\begin{DoxyParamCaption}\item[{pd.\+Data\+Frame}]{df}{, }\item[{str}]{nome\+\_\+colonna}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}La funzione prende in input un dataframe esistente e aggiorna la colonna presa in input, riempiendone le celle
+Parameters
+----------
+ df (pd.DataFrame): dataframe di partenza.
+ nome_colonna (str): intestazione della colonna.
+Return
+------
+ df (pd.DataFrame): dataframe aggiornato sulla base della colonna con i suoi valori.
+\end{DoxyVerb}
+ \Hypertarget{namespace_alpha_team_1_1_blast_a5f717f0433e8e56f94fcc1c1e24276d9}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!fill\_sub\_df@{fill\_sub\_df}}
+\index{fill\_sub\_df@{fill\_sub\_df}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{fill\_sub\_df()}{fill\_sub\_df()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a5f717f0433e8e56f94fcc1c1e24276d9} 
+ pd.\+Data\+Frame Alpha\+Team.\+Blast.\+fill\+\_\+sub\+\_\+df (\begin{DoxyParamCaption}\item[{pd.\+Data\+Frame}]{df}{, }\item[{list}]{kmer\+\_\+subject\+\_\+list}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}La funzione prende in input un dataframe pre-esistente e ne riempie le celle ricavando informazioni dalla lista in input.
+In particolare, essa verifica se ogni K-mer è presente nella lista dei k-mers associata ad ogni colonna e inserisce nelle celle 
+l'indice che il k-mer occupa nella lista se esso è presente in quest'ultima.
+Parameters
+----------
+ df (pd.DataFrame): dataframe iniziale
+ kmer_subject_list (list): lista alternata di intestazioni delle sequenze e liste di k-mers relativi ad ogni sequenza.
+Return
+------
+ df (pd.DataFrame): dataframe completo di valori.
+\end{DoxyVerb}
+ \Hypertarget{namespace_alpha_team_1_1_blast_aa8c320028e060a24fbdc616861572cf3}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!find\_mismatch\_window@{find\_mismatch\_window}}
+\index{find\_mismatch\_window@{find\_mismatch\_window}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{find\_mismatch\_window()}{find\_mismatch\_window()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_aa8c320028e060a24fbdc616861572cf3} 
+ tuple\mbox{[}int,int\mbox{]} Alpha\+Team.\+Blast.\+find\+\_\+mismatch\+\_\+window (\begin{DoxyParamCaption}\item[{str}]{sequence\+\_\+query\+\_\+ext}{, }\item[{str}]{sequence\+\_\+sub\+\_\+ext}{, }\item[{int}]{x\+\_\+max}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}La funzione confronta le basi nelle stesse posizioni delle sequenze in input assegnando un punteggio positivo ad ogni match.
+Ogni mismatch consecutivo incrementa un contatore. Se il numero di mismatch consecutivi raggiunge il valore soglia,
+il ciclo si interrompe.
+Parameters
+----------
+ sequence_query_ext (str): sequenza estesa da query da confrontare.
+ sequence_sub_ext (str): sequenza estesa da subject da confrontare.
+ x_max (int): numero massimo di mismatch consecutivi consentiti prima di interrompere il confronto.
+Return
+------
+tuple[int,int]: tupla composta da:
+ -last_valid_index (int): indice dell'ultima posizione valida prima dei mismatch consecutivi
+ -mismatch_consecutivi (int): numero di mismatch consecutivi rilevati.
+\end{DoxyVerb}
+ \Hypertarget{namespace_alpha_team_1_1_blast_a6d1af01c5322feaa9a13f02c982266f3}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!find\_seeds@{find\_seeds}}
+\index{find\_seeds@{find\_seeds}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{find\_seeds()}{find\_seeds()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a6d1af01c5322feaa9a13f02c982266f3} 
+ pd.\+Data\+Frame Alpha\+Team.\+Blast.\+find\+\_\+seeds (\begin{DoxyParamCaption}\item[{pd.\+Data\+Frame}]{df}{, }\item[{str}]{filename}{, }\item[{int }]{kmer\+\_\+length}{ = {\ttfamily 22}}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}La funzione identifica regioni di interesse ("seeds") basandosi sulle tuple (query_start, subject_start) e sul valore kmer_length.
+Processa un dataframe contenente tuple rappresentanti posizioni iniziali di k-mer per creare un nuovo dataframe con "seeds"
+che includono le posizioni iniziali e finali. I risultati vengono salvati in un file CSV.
+Parameters
+----------
+ df (pd.DataFrame): dataframe con informazioni realtive alle posizioni dei k-mers in seqeunze query e subject.
+ filename (str): nome del file (senza estensione) in cui il dataframe risultante verrà salvato in formato .csv.
+ kmer_length (int): lunghezza dei k-mers.
+Return
+------
+ new_df (pd.DataFrame): dataframe con i seeds organizzati, dove ogni seed include posizioni iniziali e finali. 
+    I risultati sono salvati anche nel file CSV specificato.
+\end{DoxyVerb}
+ \Hypertarget{namespace_alpha_team_1_1_blast_aa4962b11f3e284d94c46cfcb57b30267}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!get\_sequence@{get\_sequence}}
+\index{get\_sequence@{get\_sequence}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{get\_sequence()}{get\_sequence()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_aa4962b11f3e284d94c46cfcb57b30267} 
+ str or None  Alpha\+Team.\+Blast.\+get\+\_\+sequence (\begin{DoxyParamCaption}\item[{str}]{header}{, }\item[{list}]{list\+\_\+partenza\+\_\+subject}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Recupera la sequenza corrispondente a un dato header.
+Parameters
+----------
+ header (str): header del subject.
+ list_partenza_subject (list): lista di tuple, ogni tupla composta da header e sequenza associata.
+Return
+------
+str o None 
+-item[1] (str): se trova corrispondenza
+-None se non trova niente.
+\end{DoxyVerb}
+ \Hypertarget{namespace_alpha_team_1_1_blast_ae829cb8bf744e1043fad158eceac4013}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!handle\_gaps@{handle\_gaps}}
+\index{handle\_gaps@{handle\_gaps}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{handle\_gaps()}{handle\_gaps()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_ae829cb8bf744e1043fad158eceac4013} 
+ tuple\mbox{[}str, str\mbox{]} Alpha\+Team.\+Blast.\+handle\+\_\+gaps (\begin{DoxyParamCaption}\item[{str}]{finestra\+\_\+aggiunta\+\_\+gap\+\_\+query}{, }\item[{str}]{finestra\+\_\+aggiunta\+\_\+gap\+\_\+sub}{, }\item[{str}]{finestra\+\_\+mismatch\+\_\+query}{, }\item[{str}]{finestra\+\_\+mismatch\+\_\+sub}{, }\item[{int}]{gap\+\_\+size}{, }\item[{str}]{gap\+\_\+target}{, }\item[{int}]{x\+\_\+max}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}La funzione gestisce i gap aggiungendoli nella sequenza individuata da gap_target.
+Parameters
+----------
+ finestra_aggiunta_gap_query (str):  sequenza della query dove aggiungere i gap.
+ finestra_aggiunta_gap_sub (str): sequenza della subject dove aggiungere i gap.
+ finestra_mismatch_query (str): finestra della query che presenta mismatch.
+ finestra_mismatch_sub (str): finestra della subject che presenta mismatch.
+ gap_size (int): numero massimo di gap consentiti durante l'estensione
+ gap_target (str): specifica dove aggiungere i gap. Può essere 'query' o 'subject'.
+ x_max (int) : valore massimo negativo del punteggio accettabile per le sequenze.
+Return
+------
+tuple[str,str]: tupla composta da:
+ -finestra_aggiunta_gap_query (str): finestra di sequenza query con aggiunta dei gap, o '*' se i gap non migliorano il punteggio.
+ -finestra_aggiunta_gap_sub (str): finestra di sequenza subject con aggiunta dei gap, o '*' se i gap non migliorano il punteggio.
+\end{DoxyVerb}
+ \Hypertarget{namespace_alpha_team_1_1_blast_a34b1dfafa0b8b0aa87857bf1cdaf0484}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!metrics\_for\_blast@{metrics\_for\_blast}}
+\index{metrics\_for\_blast@{metrics\_for\_blast}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{metrics\_for\_blast()}{metrics\_for\_blast()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a34b1dfafa0b8b0aa87857bf1cdaf0484} 
+ tuple\mbox{[}list,list,list\mbox{]} Alpha\+Team.\+Blast.\+metrics\+\_\+for\+\_\+blast (\begin{DoxyParamCaption}\item[{pd.\+Data\+Frame}]{best\+\_\+alignment\+\_\+df}{, }\item[{tuple}]{query\+\_\+partenza}{, }\item[{list}]{list\+\_\+partenza\+\_\+subject}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}La funzione calcola le metriche degli allineamenti del BLAST, includendo query_coverage, E-value e la percentuale di identità. 
+Parameters
+----------
+best_alignment_df (pd.Dataframe): dataframe contenente gli allineamenti migliori.  
+query_partenza (tuple): tupla in cui il secondo elemento è una sequenza query usata per le analisi del BLAST.  
+list_partenza_subject (list): lista di sequenze subject che recupera la lunghezza dei subject per il calcolo dell' E-value. 
+Return
+------
+tuple[list,list,list]: tupla composta da:
+-query_cov_list (list): lista della copertura in percentuale della query per ogni allineamento.
+-e_value_list (list): lista degli E-values calcolato per ogni allineamento.
+-identity_list (list): lista dei valori in percentuale dell'identità per ogni allineamento.
+\end{DoxyVerb}
+ \Hypertarget{namespace_alpha_team_1_1_blast_a883b22dfa70ab239df4b9a28a18606d9}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!print\_alignment@{print\_alignment}}
+\index{print\_alignment@{print\_alignment}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{print\_alignment()}{print\_alignment()}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a883b22dfa70ab239df4b9a28a18606d9} 
+ None Alpha\+Team.\+Blast.\+print\+\_\+alignment (\begin{DoxyParamCaption}\item[{pd.\+Data\+Frame}]{best\+\_\+alignment\+\_\+df}{, }\item[{str}]{output\+\_\+file}{, }\item[{pd.\+Data\+Frame}]{result\+\_\+df}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}La funzione rappresenta i risultati degli allineamenti in un file, includendo l'allineamento di sequenza, le metriche e le annotazioni.
+Parameters
+----------
+best_alignment_df (pd.DataFrame): dataframe contenente i migliori allineamenti in cui nelle colonne inseriamo le query e le sequenze delle subject.
+output_file (str): percorso del file di output in cui verranno scritti i risultati dell'allineamento formattato.
+result_df (pd.DataFrame): dataframe contenente le metriche calcolate per ogni allineamento
+Return
+------
+None
+    Scrive i dettagli dell'allineamento nello specifico output finale.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Documentazione delle variabili}
+\Hypertarget{namespace_alpha_team_1_1_blast_a6c922b4e0d82efb03d3ac4711d63cbca}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!transizione@{transizione}}
+\index{transizione@{transizione}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{transizione}{transizione}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a6c922b4e0d82efb03d3ac4711d63cbca} 
+dict Alpha\+Team.\+Blast.\+transizione = \{\textquotesingle{}A\textquotesingle{}\+: \textquotesingle{}G\textquotesingle{}, \textquotesingle{}G\textquotesingle{}\+: \textquotesingle{}A\textquotesingle{}, \textquotesingle{}C\textquotesingle{}\+: \textquotesingle{}T\textquotesingle{}, \textquotesingle{}T\textquotesingle{}\+: \textquotesingle{}C\textquotesingle{}\}}
+
+\Hypertarget{namespace_alpha_team_1_1_blast_a2b1378a493295838c500aeb73bdbac36}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!trasversione@{trasversione}}
+\index{trasversione@{trasversione}!AlphaTeam.Blast@{AlphaTeam.Blast}}
+\doxysubsubsection{\texorpdfstring{trasversione}{trasversione}}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a2b1378a493295838c500aeb73bdbac36} 
+dict Alpha\+Team.\+Blast.\+trasversione}
+
+{\bfseries Valore iniziale\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ \{}
+\DoxyCodeLine{00002\ \ \ \ \ \textcolor{stringliteral}{'A'}:\ [\textcolor{stringliteral}{'C'},\ \textcolor{stringliteral}{'T'}],}
+\DoxyCodeLine{00003\ \ \ \ \ \textcolor{stringliteral}{'C'}:\ [\textcolor{stringliteral}{'A'},\ \textcolor{stringliteral}{'G'}],}
+\DoxyCodeLine{00004\ \ \ \ \ \textcolor{stringliteral}{'G'}:\ [\textcolor{stringliteral}{'C'},\ \textcolor{stringliteral}{'T'}],}
+\DoxyCodeLine{00005\ \ \ \ \ \textcolor{stringliteral}{'T'}:\ [\textcolor{stringliteral}{'A'},\ \textcolor{stringliteral}{'G'}]}
+\DoxyCodeLine{00006\ \}}
+
+\end{DoxyCode}

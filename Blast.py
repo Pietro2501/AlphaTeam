@@ -33,14 +33,14 @@ def create_query_df(kmer_query_list: list) -> pd.DataFrame:
     return df
 def fill_df_query(df: pd.DataFrame,nome_colonna: str) -> pd.DataFrame:
     """
-    La funzione prende in input un dataframe esistente e aggiunge una nuova colonna e ne riempie le celle. 
+    La funzione prende in input un dataframe esistente e aggiorna la colonna presa in input, riempiendone le celle
     Parameters
     ----------
      df (pd.DataFrame): dataframe di partenza.
-     nome_colonna (str): intestazione della nuova colonna. 
+     nome_colonna (str): intestazione della colonna.
     Return
     ------
-     df (pd.DataFrame): dataframe aggiornato con la nuova colonna e relativi valori.
+     df (pd.DataFrame): dataframe aggiornato sulla base della colonna con i suoi valori.
     """
     df[nome_colonna] = range(len(df))
     return df
@@ -259,19 +259,18 @@ def handle_gaps(finestra_aggiunta_gap_query: str, finestra_aggiunta_gap_sub:str,
 
     if gap_target == 'query':
         for a in range(gap_numbers):
-            sequence_finestra_gap = '_' * (a + 1) + finestra_mismatch_query # si inserisce un numero di gap all'inizio della finestra in cui abbiamo mismatch
+            sequence_finestra_gap = '_' * (a + 1) + finestra_mismatch_query
             gap_score = calculate_score(sequence_finestra_gap, finestra_mismatch_sub)
-            if gap_score >= -x_max: # se il nuovo punteggio è superiore possiamo usarlo
+            if gap_score >= -x_max:
                 finestra_aggiunta_gap_query = '_' * (a + 1) + finestra_aggiunta_gap_query
                 gap_score = calculate_score(finestra_aggiunta_gap_query, finestra_aggiunta_gap_sub)
                 sequence_query_list.append(finestra_aggiunta_gap_query)
                 score_list.append(gap_score)
         if len(score_list) > 0 and len(sequence_query_list) > 0:
             maximum = max(score_list)
-            i = score_list.index(maximum) # prendo l'indice della sequenza con punteggio più alto
+            i = score_list.index(maximum)
             finestra_aggiunta_gap_query = sequence_query_list[i]
         else:
-            #print('i gap non riesco a migliorare')
             finestra_aggiunta_gap_query = '*'
 
     if gap_target == 'subject':
@@ -288,10 +287,7 @@ def handle_gaps(finestra_aggiunta_gap_query: str, finestra_aggiunta_gap_sub:str,
             i = score_list.index(maximum)
             finestra_aggiunta_gap_sub = sequence_sub_list[i]
         else:
-            #print('i gap non riesco a migliorare')
             finestra_aggiunta_gap_sub = '*'
-        #print(f'gap inseriti = {len(sequence_sub_list)}')
-        #print(f'sequenza con gap: {finestra_mismatch_query,finestra_mismatch_sub}')
     
     return finestra_aggiunta_gap_query,finestra_aggiunta_gap_sub
 def find_mismatch_window(sequence_query_ext: str, sequence_sub_ext:str, x_max: int) -> tuple[int,int]:
@@ -302,13 +298,13 @@ def find_mismatch_window(sequence_query_ext: str, sequence_sub_ext:str, x_max: i
     Parameters
     ----------
      sequence_query_ext (str): sequenza estesa da query da confrontare.
-     seqeunce_sub_ext (str): sequenza estesa da subject da confrontare.
+     sequence_sub_ext (str): sequenza estesa da subject da confrontare.
      x_max (int): numero massimo di mismatch consecutivi consentiti prima di interrompere il confronto.
     Return
     ------
     tuple[int,int]: tupla composta da:
      -last_valid_index (int): indice dell'ultima posizione valida prima dei mismatch consecutivi
-     -mismatch_consecutivi (int): numero di mismatch consecutiviv rilevati.
+     -mismatch_consecutivi (int): numero di mismatch consecutivi rilevati.
     """
     mismatch_consecutivi = 0
     last_valid_index = 0
@@ -541,7 +537,7 @@ def create_results_table(cont_hsp_query: list, cont_hsp_sub: list, cont_hsp_scor
    ----------
    cont_hsp_query (list): lista delle sequenze query derivate dall'analisi dell'HSP.
    cont_hsp_sub (list): lista delle sequenze subject derivate dall'analisi dell'HSP.
-   cont_hsp_score (list):  lista di score corrispondente agli HSP.
+   cont_hsp_score (list): lista di score corrispondente agli HSP.
    col (list): elenco di headers o identificatori per i risultati HSP.
    filename (str):nome del file (senza estensione) nel quale il result-table verrà salvato.
    Return

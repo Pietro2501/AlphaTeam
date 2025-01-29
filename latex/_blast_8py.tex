@@ -1,0 +1,51 @@
+\doxysection{Riferimenti per il file Blast.\+py}
+\hypertarget{_blast_8py}{}\label{_blast_8py}\index{Blast.py@{Blast.py}}
+\doxysubsubsection*{Namespace}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_alpha_team}{Alpha\+Team}}
+\item 
+namespace \mbox{\hyperlink{namespace_alpha_team_1_1_blast}{Alpha\+Team.\+Blast}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a499288aca0f87577a7d3b9b79493d000}{Alpha\+Team.\+Blast.\+create\+\_\+query\+\_\+df}} (list kmer\+\_\+query\+\_\+list)
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a452a11d85bde784062f483f79e20e4b2}{Alpha\+Team.\+Blast.\+fill\+\_\+df\+\_\+query}} (pd.\+Data\+Frame df, str nome\+\_\+colonna)
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a489f875fe627f835d8a347fb48026724}{Alpha\+Team.\+Blast.\+create\+\_\+sub\+\_\+df}} (list kmer\+\_\+sub\+\_\+list)
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a5f717f0433e8e56f94fcc1c1e24276d9}{Alpha\+Team.\+Blast.\+fill\+\_\+sub\+\_\+df}} (pd.\+Data\+Frame df, list kmer\+\_\+subject\+\_\+list)
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a8eec237cc8167008e26f320421c293a4}{Alpha\+Team.\+Blast.\+create\+\_\+df\+\_\+with\+\_\+positions}} (pd.\+Data\+Frame query\+\_\+df, pd.\+Data\+Frame subject\+\_\+df, str filename)
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a6d1af01c5322feaa9a13f02c982266f3}{Alpha\+Team.\+Blast.\+find\+\_\+seeds}} (pd.\+Data\+Frame df, str filename, int kmer\+\_\+length=22)
+\item 
+str or None \mbox{\hyperlink{namespace_alpha_team_1_1_blast_aa4962b11f3e284d94c46cfcb57b30267}{Alpha\+Team.\+Blast.\+get\+\_\+sequence}} (str header, list list\+\_\+partenza\+\_\+subject)
+\item 
+int \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a7dc6c2a636bd37afb9d5fd43f43b4a50}{Alpha\+Team.\+Blast.\+calculate\+\_\+score}} (str sequence\+\_\+1, str sequence\+\_\+2)
+\item 
+tuple\mbox{[}str, str\mbox{]} \mbox{\hyperlink{namespace_alpha_team_1_1_blast_ae829cb8bf744e1043fad158eceac4013}{Alpha\+Team.\+Blast.\+handle\+\_\+gaps}} (str finestra\+\_\+aggiunta\+\_\+gap\+\_\+query, str finestra\+\_\+aggiunta\+\_\+gap\+\_\+sub, str finestra\+\_\+mismatch\+\_\+query, str finestra\+\_\+mismatch\+\_\+sub, int gap\+\_\+size, str gap\+\_\+target, int x\+\_\+max)
+\item 
+tuple\mbox{[}int, int\mbox{]} \mbox{\hyperlink{namespace_alpha_team_1_1_blast_aa8c320028e060a24fbdc616861572cf3}{Alpha\+Team.\+Blast.\+find\+\_\+mismatch\+\_\+window}} (str sequence\+\_\+query\+\_\+ext, str sequence\+\_\+sub\+\_\+ext, int x\+\_\+max)
+\item 
+tuple\mbox{[}str, str\mbox{]} \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a15327dc117b6fa95b85cd8a6835110c8}{Alpha\+Team.\+Blast.\+extend\+\_\+seed\+\_\+right}} (str sequence\+\_\+query\+\_\+ext, str sequence\+\_\+sub\+\_\+ext, int gap\+\_\+size, bool perform\+\_\+gap, str gap\+\_\+target, int x\+\_\+max)
+\item 
+tuple\mbox{[}list, list, list, list\mbox{]} \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a1d14c9a4e6e88e6b6fdc057f0a03f681}{Alpha\+Team.\+Blast.\+extend\+\_\+seed}} (pd.\+Data\+Frame df\+\_\+seeds, tuple query\+\_\+partenza, list list\+\_\+partenza\+\_\+subject, int x\+\_\+max)
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a8a9b00de9ac817edc5ab991c7c580ce3}{Alpha\+Team.\+Blast.\+create\+\_\+results\+\_\+table}} (list cont\+\_\+hsp\+\_\+query, list cont\+\_\+hsp\+\_\+sub, list cont\+\_\+hsp\+\_\+score, list col, str filename)
+\item 
+tuple\mbox{[}list, list, list\mbox{]} \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a34b1dfafa0b8b0aa87857bf1cdaf0484}{Alpha\+Team.\+Blast.\+metrics\+\_\+for\+\_\+blast}} (pd.\+Data\+Frame best\+\_\+alignment\+\_\+df, tuple query\+\_\+partenza, list list\+\_\+partenza\+\_\+subject)
+\item 
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_aaa731dd1718fc10b4cea874b87f54c52}{Alpha\+Team.\+Blast.\+blast\+\_\+result\+\_\+df}} (pd.\+Data\+Frame best\+\_\+alignment\+\_\+query, tuple query\+\_\+partenza, list list\+\_\+partenza\+\_\+subject, str filename)
+\item 
+None \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a883b22dfa70ab239df4b9a28a18606d9}{Alpha\+Team.\+Blast.\+print\+\_\+alignment}} (pd.\+Data\+Frame best\+\_\+alignment\+\_\+df, str output\+\_\+file, pd.\+Data\+Frame result\+\_\+df)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variabili}
+\begin{DoxyCompactItemize}
+\item 
+dict \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a6c922b4e0d82efb03d3ac4711d63cbca}{Alpha\+Team.\+Blast.\+transizione}} = \{\textquotesingle{}A\textquotesingle{}\+: \textquotesingle{}G\textquotesingle{}, \textquotesingle{}G\textquotesingle{}\+: \textquotesingle{}A\textquotesingle{}, \textquotesingle{}C\textquotesingle{}\+: \textquotesingle{}T\textquotesingle{}, \textquotesingle{}T\textquotesingle{}\+: \textquotesingle{}C\textquotesingle{}\}
+\item 
+dict \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a2b1378a493295838c500aeb73bdbac36}{Alpha\+Team.\+Blast.\+trasversione}}
+\end{DoxyCompactItemize}
