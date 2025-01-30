@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="63e50cce-a113-4f27-9cb7-391984044adf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BioTools/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/BioTools/tools.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Blast.py" beforeDir="false" afterPath="$PROJECT_DIR$/Blast.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sequence.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sequence.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blast_results/all_alignments_query1.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/blast_results/all_alignments_query2.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/blast_results/allineamento_flop10_query1.txt" beforeDir="false" />
@@ -23,84 +21,21 @@
       <change beforePath="$PROJECT_DIR$/blast_results/final2_df.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/blast_results/query1seeds.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/blast_results/query2seeds.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/bc_s.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/bc_sd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/clipboard.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/closed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/cookie.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/doc.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/docd.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/doxygen.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/doxygen.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/doxygen_crawl.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/dynsections.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/folderclosed.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/folderclosedd.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/folderopen.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/folderopend.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/jquery.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/minus.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/minusd.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/namespace_alpha_team_1_1_blast.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/namespacemembers.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/namespacemembers_func.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/namespaces.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/namespaces_dup.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/nav_f.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/nav_fd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/nav_g.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/nav_h.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/nav_hd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/navtree.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/navtree.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/navtreedata.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/navtreeindex0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/open.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/plus.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/plusd.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/resize.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/all_0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/all_1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/all_2.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/all_3.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/all_4.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/all_5.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/all_6.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/all_7.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/all_8.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/close.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/functions_0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/functions_1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/functions_2.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/functions_3.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/functions_4.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/functions_5.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/functions_6.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/functions_7.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/mag.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/mag_d.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/mag_sel.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/mag_seld.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/namespaces_0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/search.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/search.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/search/searchdata.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/splitbar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/splitbard.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/sync_off.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/sync_on.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/tab_a.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/tab_ad.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/tab_b.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/tab_bd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/tab_h.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/tab_hd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/tab_s.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/tab_sd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/tabs.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html_documentation/_blast_8py.html" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/_blast_8py.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html_documentation/_blast_8py.js" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/_blast_8py.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html_documentation/doxygen_crawl.html" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/doxygen_crawl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html_documentation/namespace_alpha_team.js" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/namespace_alpha_team.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html_documentation/namespace_alpha_team_1_1_blast.html" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/namespace_alpha_team_1_1_blast.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html_documentation/namespacemembers.html" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/namespacemembers.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html_documentation/namespacemembers_func.html" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/namespacemembers_func.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html_documentation/navtreeindex0.js" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/navtreeindex0.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html_documentation/search/all_3.js" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/search/all_3.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html_documentation/search/all_5.js" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/search/all_5.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html_documentation/search/functions_2.js" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/search/functions_2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html_documentation/search/functions_4.js" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/search/functions_4.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/latex/_blast_8py.tex" beforeDir="false" afterPath="$PROJECT_DIR$/latex/_blast_8py.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/latex/namespace_alpha_team_1_1_blast.tex" beforeDir="false" afterPath="$PROJECT_DIR$/latex/namespace_alpha_team_1_1_blast.tex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/onlyBlastFile" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -241,6 +176,8 @@
       <workItem from="1738080916905" duration="6068000" />
       <workItem from="1738141024386" duration="855000" />
       <workItem from="1738141885589" duration="4381000" />
+      <workItem from="1738263397586" duration="2027000" />
+      <workItem from="1738277141563" duration="623000" />
     </task>
     <servers />
   </component>

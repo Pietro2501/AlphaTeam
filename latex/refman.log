@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.28)  29 JAN 2025 15:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.28)  30 JAN 2025 23:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -913,303 +913,310 @@ Capitolo 3.
 ]
 Capitolo 4.
 (./namespace_alpha_team.tex) (./namespace_alpha_team_1_1_blast.tex
-Underfull \hbox (badness 1360) in paragraph at lines 26--28
+Underfull \hbox (badness 1360) in paragraph at lines 24--26
 []\T1/phv/m/n/10 tuple[]str, str[] [] (str sequence[]_[]query[]_[]ext, str sequ
 ence[]_[]sub[]_[]ext, int gap[]_[]size, bool
  []
 
 
-Underfull \hbox (badness 1215) in paragraph at lines 34--36
+Underfull \hbox (badness 1215) in paragraph at lines 32--34
 []\T1/phv/m/n/10 pd.[]Data[]Frame [] (pd.[]Data[]Frame best[]_[]alignment[]_[]q
 uery, tu-ple query[]_[]partenza, li-st list[]_[]
  []
 
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 10.79993pt on input line 47.
+(Font)              scaled to size 10.79993pt on input line 45.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 7.19995pt on input line 51.
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 51
+(Font)              scaled to size 7.19995pt on input line 49.
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 49
 .
 (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <8> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 52.
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 50.
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <7> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 52.
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 50.
  [7]
-Overfull \hbox (139.95627pt too wide) in paragraph at lines 54--54
+Overfull \hbox (139.95627pt too wide) in paragraph at lines 52--52
 []\T1/pcr/m/n/8 La funzione migliora un dataframe di allineamento BLAST con le 
 metriche calcolate e le salva in un DataFrame come file .csv. 
  []
 
 
-Overfull \hbox (120.75626pt too wide) in paragraph at lines 58--58
+Overfull \hbox (120.75626pt too wide) in paragraph at lines 56--56
 []\T1/pcr/m/n/8 query_partenza (tuple): tupla in cui il secondo elemento della 
 query è la sequenza query usata per le analisi del BLAST.[] 
  []
 
 
-Overfull \hbox (135.15627pt too wide) in paragraph at lines 59--59
+Overfull \hbox (135.15627pt too wide) in paragraph at lines 57--57
 []\T1/pcr/m/n/8 list_partenza_subject (list): lista di sequenze subject che rit
 orna la lunghezza delle subject per il calcolo dell'E-value.[] 
  []
 
 
-Overfull \hbox (130.35626pt too wide) in paragraph at lines 71--71
+Overfull \hbox (130.35626pt too wide) in paragraph at lines 69--69
 []\T1/pcr/m/n/8 La funzione calcola il punteggio di somiglianza tra due sequenz
 e in base a regole specifiche di corrispondenza e penalità. 
  []
 
 
-Overfull \hbox (144.75627pt too wide) in paragraph at lines 86--86
+Overfull \hbox (144.75627pt too wide) in paragraph at lines 84--84
 []\T1/pcr/m/n/8 La funzione combina i due dataframe in input, tramite inner joi
 n, per generarne uno nuovo contenente posizioni corrispondenti 
  []
 
 
-Overfull \hbox (19.95619pt too wide) in paragraph at lines 90--90
+Overfull \hbox (19.95619pt too wide) in paragraph at lines 88--88
 [] \T1/pcr/m/n/8 query_df (pd.DataFrame): dataframe con i k-mers realtivi alla 
 sequenza query e relative posizioni.[] 
  []
 
 
-Overfull \hbox (96.75624pt too wide) in paragraph at lines 91--91
+Overfull \hbox (96.75624pt too wide) in paragraph at lines 89--89
 [] \T1/pcr/m/n/8 subject_df (pd.DataFrame): dataframe con i k-mers realtivi all
 e sequenze subject e relative posizioni nella lista.[] 
  []
 
 
-Overfull \hbox (77.55623pt too wide) in paragraph at lines 92--92
+Overfull \hbox (77.55623pt too wide) in paragraph at lines 90--90
 [] \T1/pcr/m/n/8 filename (str): nome del file (senza estensione) in cui il dat
 aframe risultante verrà salvato in formato .csv.[] 
  []
 
 
-Overfull \hbox (106.35625pt too wide) in paragraph at lines 95--95
+Overfull \hbox (106.35625pt too wide) in paragraph at lines 93--93
 [] \T1/pcr/m/n/8 final_df (pd.DataFrame): dataframe risultante che mappa i k-me
 r con le posizioni della query e dei subject in tuple,[] 
  []
 
 [8]
-Overfull \hbox (43.9562pt too wide) in paragraph at lines 108--108
+Overfull \hbox (240.75633pt too wide) in paragraph at lines 103--103
+[]\T1/pcr/m/n/8 organizzato in modo specifico con intestazioni e indici derivat
+i dalla lista. Inoltre riempie il df creato con gli indici nel quale trova i km
+er.[] 
+ []
+
+
+Overfull \hbox (43.9562pt too wide) in paragraph at lines 106--106
 [] \T1/pcr/m/n/8 kmer_query_list (list): Lista alternata di intestazioni (index
  pari) e liste di k-mers (index dispari).[] 
  []
 
 
-Overfull \hbox (48.75621pt too wide) in paragraph at lines 120--120
+Overfull \hbox (15.15619pt too wide) in paragraph at lines 107--107
+[] \T1/pcr/m/n/8 nome_colonna (str): Nome di colonna di intestazione da ricerca
+re nel df, per capirne la lunghezza[] 
+ []
+
+
+Overfull \hbox (48.75621pt too wide) in paragraph at lines 119--119
 []\T1/pcr/m/n/8 La tabella include query sequence, subject sequences, headers e
  gli scores, ordinati in modo decrescente.[] 
  []
 
 
-Overfull \hbox (168.75629pt too wide) in paragraph at lines 139--139
+Overfull \hbox (168.75629pt too wide) in paragraph at lines 138--138
 []\T1/pcr/m/n/8 La funzione  costruisce un DataFrame Pandas organizzato in modo
  specifico con intestazioni e indici derivati dalla lista in input. 
  []
 
 
-Overfull \hbox (87.15623pt too wide) in paragraph at lines 143--143
+Overfull \hbox (87.15623pt too wide) in paragraph at lines 142--142
 []\T1/pcr/m/n/8 kmer_sub_list (list): lista alternata di intestazioni delle seq
 uenze e liste di k-mers relativi ad ogni sequenza.[] 
  []
 
 
-Overfull \hbox (279.15636pt too wide) in paragraph at lines 146--146
+Overfull \hbox (279.15636pt too wide) in paragraph at lines 145--145
 []\T1/pcr/m/n/8 df (pd.DataFrame): dataframe che ha come indici i k-mers unici 
 e in ordine alfabetico e, come nomi delle colonne, le intestazioni delle sequen
 ze subject.[] 
  []
 
 
-Overfull \hbox (399.15643pt too wide) in paragraph at lines 154--154
+Overfull \hbox (399.15643pt too wide) in paragraph at lines 153--153
 []\T1/pcr/m/n/8 Estende gli allineamenti dei seed iterando su di essi in un Dat
 aFrame fra la sequenza query e le molteplici sequenze subject per produrre degl
 i high-scoring segment pairs (HSPs). 
  []
 
-
-Overfull \hbox (15.15619pt too wide) in paragraph at lines 158--158
+[9]
+Overfull \hbox (15.15619pt too wide) in paragraph at lines 157--157
 []\T1/pcr/m/n/8 df_seeds (pd.DataFrame): dataframe contenente i seeds per ogni 
 colonna delle sequenze dei subject.[] 
  []
 
-[9]
-Overfull \hbox (187.9563pt too wide) in paragraph at lines 160--160
+
+Overfull \hbox (187.9563pt too wide) in paragraph at lines 159--159
 []\T1/pcr/m/n/8 list_partenza_subject (list): lista di tuple, in cui ogni tupla
  contiene l'header della sequenza subject e la sequenza corrispondente.[] 
  []
 
 
-Overfull \hbox (111.15625pt too wide) in paragraph at lines 161--161
+Overfull \hbox (111.15625pt too wide) in paragraph at lines 160--160
 []\T1/pcr/m/n/8 x_max (int): numero massimo di mismatches consecutivi consentit
 o prima dell'arresto dell'estensione dell'allineamento.[] 
  []
 
 
-Overfull \hbox (168.75629pt too wide) in paragraph at lines 167--167
+Overfull \hbox (168.75629pt too wide) in paragraph at lines 166--166
 []\T1/pcr/m/n/8 -contenitore_score (list): lista degli scores per ogni allineam
 ento esteso, in cui lo score si basa sulla lunghezza e sui matches.[] 
  []
 
 
-Overfull \hbox (58.35622pt too wide) in paragraph at lines 176--176
+Overfull \hbox (58.35622pt too wide) in paragraph at lines 175--175
 []\T1/pcr/m/n/8 Estende l'allineamento della query e delle sequenze subject da 
 destra, inserisce i gap quando è necessario. 
  []
 
 
-Overfull \hbox (173.55629pt too wide) in paragraph at lines 182--182
+Overfull \hbox (173.55629pt too wide) in paragraph at lines 181--181
 []\T1/pcr/m/n/8 perform_gap (bool): se True, i gaps sono inseriti per ottimizza
 re l'allineamento quando i mismatches superano la soglia consentita.[] 
  []
 
 
-Overfull \hbox (221.55632pt too wide) in paragraph at lines 183--183
+Overfull \hbox (221.55632pt too wide) in paragraph at lines 182--182
 []\T1/pcr/m/n/8 gap_target (str):specifica dove introdurre i gaps: ^^Pquery^^Q 
 aggiunge i gaps alla sequenza query e ^^Psubject^^Q li aggiunge alla sequenza s
 ubject.[] 
  []
 
 
-Overfull \hbox (125.55626pt too wide) in paragraph at lines 184--184
+Overfull \hbox (125.55626pt too wide) in paragraph at lines 183--183
 []\T1/pcr/m/n/8 x_max (int): threshold per i mismatches consecutivi necessari p
 er attivare l'inserimento dei gaps o fermare l'estensione.[] 
  []
 
 
-Overfull \hbox (72.75623pt too wide) in paragraph at lines 197--197
-[]\T1/pcr/m/n/8 La funzione prende in input un dataframe esistente e aggiorna l
-a colonna presa in input, riempiendone le celle 
- []
-
-[10]
-Overfull \hbox (125.55626pt too wide) in paragraph at lines 212--212
+Overfull \hbox (125.55626pt too wide) in paragraph at lines 196--196
 []\T1/pcr/m/n/8 La funzione prende in input un dataframe pre-esistente e ne rie
 mpie le celle ricavando informazioni dalla lista in input. 
  []
 
 
-Overfull \hbox (154.35628pt too wide) in paragraph at lines 213--213
+Overfull \hbox (154.35628pt too wide) in paragraph at lines 197--197
 []\T1/pcr/m/n/8 In particolare, essa verifica se ogni K-mer è presente nella li
 sta dei k-mers associata ad ogni colonna e inserisce nelle celle[] 
  []
 
 
-Overfull \hbox (111.15625pt too wide) in paragraph at lines 218--218
+Overfull \hbox (111.15625pt too wide) in paragraph at lines 202--202
 [] \T1/pcr/m/n/8 kmer_subject_list (list): lista alternata di intestazioni dell
 e sequenze e liste di k-mers relativi ad ogni sequenza.[] 
  []
 
-
-Overfull \hbox (139.95627pt too wide) in paragraph at lines 229--229
+[10]
+Overfull \hbox (139.95627pt too wide) in paragraph at lines 213--213
 []\T1/pcr/m/n/8 La funzione confronta le basi nelle stesse posizioni delle sequ
 enze in input assegnando un punteggio positivo ad ogni match. 
  []
 
 
-Overfull \hbox (96.75624pt too wide) in paragraph at lines 230--230
+Overfull \hbox (96.75624pt too wide) in paragraph at lines 214--214
 []\T1/pcr/m/n/8 Ogni mismatch consecutivo incrementa un contatore. Se il numero
  di mismatch consecutivi raggiunge il valore soglia,[] 
  []
 
 
-Overfull \hbox (19.95619pt too wide) in paragraph at lines 236--236
+Overfull \hbox (19.95619pt too wide) in paragraph at lines 220--220
 [] \T1/pcr/m/n/8 x_max (int): numero massimo di mismatch consecutivi consentiti
  prima di interrompere il confronto.[] 
  []
 
 
-Overfull \hbox (168.75629pt too wide) in paragraph at lines 249--249
+Overfull \hbox (168.75629pt too wide) in paragraph at lines 233--233
 []\T1/pcr/m/n/8 La funzione identifica regioni di interesse ("seeds") basandosi
  sulle tuple (query_start, subject_start) e sul valore kmer_length. 
  []
 
 
-Overfull \hbox (135.15627pt too wide) in paragraph at lines 250--250
+Overfull \hbox (135.15627pt too wide) in paragraph at lines 234--234
 []\T1/pcr/m/n/8 Processa un dataframe contenente tuple rappresentanti posizioni
  iniziali di k-mer per creare un nuovo dataframe con "seeds"[] 
  []
 
 
-Overfull \hbox (72.75623pt too wide) in paragraph at lines 254--254
+Overfull \hbox (72.75623pt too wide) in paragraph at lines 238--238
 [] \T1/pcr/m/n/8 df (pd.DataFrame): dataframe con informazioni realtive alle po
 sizioni dei k-mers in seqeunze query e subject.[] 
  []
 
 
-Overfull \hbox (77.55623pt too wide) in paragraph at lines 255--255
+Overfull \hbox (77.55623pt too wide) in paragraph at lines 239--239
 [] \T1/pcr/m/n/8 filename (str): nome del file (senza estensione) in cui il dat
 aframe risultante verrà salvato in formato .csv.[] 
  []
 
 
-Overfull \hbox (72.75623pt too wide) in paragraph at lines 259--259
+Overfull \hbox (72.75623pt too wide) in paragraph at lines 243--243
 [] \T1/pcr/m/n/8 new_df (pd.DataFrame): dataframe con i seeds organizzati, dove
  ogni seed include posizioni iniziali e finali.[] 
  []
 
-[11]
-Overfull \hbox (15.15619pt too wide) in paragraph at lines 272--272
+
+Overfull \hbox (15.15619pt too wide) in paragraph at lines 256--256
 [] \T1/pcr/m/n/8 list_partenza_subject (list): lista di tuple, ogni tupla compo
 sta da header e sequenza associata.[] 
  []
 
-
-Overfull \hbox (163.95628pt too wide) in paragraph at lines 298--298
+[11]
+Overfull \hbox (163.95628pt too wide) in paragraph at lines 282--282
 [] \T1/pcr/m/n/8 -finestra_aggiunta_gap_query (str): finestra di sequenza query
  con aggiunta dei gap, o '*' se i gap non migliorano il punteggio.[] 
  []
 
 
-Overfull \hbox (163.95628pt too wide) in paragraph at lines 299--299
+Overfull \hbox (163.95628pt too wide) in paragraph at lines 283--283
 [] \T1/pcr/m/n/8 -finestra_aggiunta_gap_sub (str): finestra di sequenza subject
  con aggiunta dei gap, o '*' se i gap non migliorano il punteggio.[] 
  []
 
 
-Overfull \hbox (149.55627pt too wide) in paragraph at lines 307--307
+Overfull \hbox (149.55627pt too wide) in paragraph at lines 291--291
 []\T1/pcr/m/n/8 La funzione calcola le metriche degli allineamenti del BLAST, i
 ncludendo query_coverage, E-value e la percentuale di identità. 
  []
 
 
-Overfull \hbox (67.95622pt too wide) in paragraph at lines 311--311
+Overfull \hbox (67.95622pt too wide) in paragraph at lines 295--295
 []\T1/pcr/m/n/8 query_partenza (tuple): tupla in cui il secondo elemento è una 
 sequenza query usata per le analisi del BLAST.[] 
  []
 
 
-Overfull \hbox (135.15627pt too wide) in paragraph at lines 312--312
+Overfull \hbox (135.15627pt too wide) in paragraph at lines 296--296
 []\T1/pcr/m/n/8 list_partenza_subject (list): lista di sequenze subject che rec
 upera la lunghezza dei subject per il calcolo dell' E-value.[] 
  []
 
-[12]
-Overfull \hbox (192.7563pt too wide) in paragraph at lines 326--326
+
+Overfull \hbox (192.7563pt too wide) in paragraph at lines 310--310
 []\T1/pcr/m/n/8 La funzione rappresenta i risultati degli allineamenti in un fi
 le, includendo l'allineamento di sequenza, le metriche e le annotazioni. 
  []
 
 
-Overfull \hbox (250.35634pt too wide) in paragraph at lines 329--329
+Overfull \hbox (250.35634pt too wide) in paragraph at lines 313--313
 []\T1/pcr/m/n/8 best_alignment_df (pd.DataFrame): dataframe contenente i miglio
 ri allineamenti in cui nelle colonne inseriamo le query e le sequenze delle sub
 ject.[] 
  []
 
 
-Overfull \hbox (82.35623pt too wide) in paragraph at lines 330--330
+Overfull \hbox (82.35623pt too wide) in paragraph at lines 314--314
 []\T1/pcr/m/n/8 output_file (str): percorso del file di output in cui verranno 
 scritti i risultati dell'allineamento formattato.[] 
  []
 
 LaTeX Font Info:    Trying to load font information for TS1+pcr on input line 3
-44.
+28.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1pcr.fd
 File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
-))
+) [12])
 (./namespace_alpha_team_1_1_sequence.tex) [13] [14
 
 ]
@@ -1217,7 +1224,7 @@ Capitolo 5.
 (./class_alpha_team_1_1_sequence_1_1_sequence.tex [15] [16] [17]) [18]
 Capitolo 6.
 (./_blast_8py.tex
-Underfull \hbox (badness 3514) in paragraph at lines 41--43
+Underfull \hbox (badness 3514) in paragraph at lines 39--41
 []\T1/phv/m/n/10 pd.[]Data[]Frame [] (pd.[]Data[]Frame best[]_[]alignment[]_[]q
 uery, tu-ple query[]_[]
  []
@@ -1232,13 +1239,13 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
 Package rerunfilecheck Info: File `refman.out' has not changed.
-(rerunfilecheck)             Checksum: 66A0F1CC4CC5F9D01A2E9CB65DC81928;11607.
+(rerunfilecheck)             Checksum: 8C66F3BAB6336BF13ABAA75709280A46;11399.
  ) 
 Here is how much of TeX's memory you used:
- 19062 strings out of 474116
- 310299 string characters out of 5743682
+ 19058 strings out of 474116
+ 310123 string characters out of 5743682
  1958187 words of memory out of 5000000
- 40957 multiletter control sequences out of 15000+600000
+ 40955 multiletter control sequences out of 15000+600000
  594513 words of font info for 79 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  101i,15n,117p,522b,654s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1248,10 +1255,10 @@ usr/local/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/loca
 l/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrro8a.pfb></usr/local/texli
 ve/2024/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2024
 /texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on refman.pdf (24 pages, 104678 bytes).
+Output written on refman.pdf (24 pages, 104076 bytes).
 PDF statistics:
- 561 PDF objects out of 1000 (max. 8388607)
- 517 compressed objects within 6 object streams
- 126 named destinations out of 1000 (max. 500000)
- 433 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 553 PDF objects out of 1000 (max. 8388607)
+ 509 compressed objects within 6 object streams
+ 124 named destinations out of 1000 (max. 500000)
+ 425 words of extra memory for PDF output out of 10000 (max. 10000000)
 

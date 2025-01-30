@@ -111,10 +111,8 @@ $(function(){initNavTree('namespace_alpha_team_1_1_blast.html',''); initResizabl
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Funzioni</h2></td></tr>
-<tr class="memitem:a499288aca0f87577a7d3b9b79493d000" id="r_a499288aca0f87577a7d3b9b79493d000"><td class="memItemLeft" align="right" valign="top">pd.DataFrame&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a499288aca0f87577a7d3b9b79493d000">create_query_df</a> (list kmer_query_list)</td></tr>
-<tr class="separator:a499288aca0f87577a7d3b9b79493d000"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a452a11d85bde784062f483f79e20e4b2" id="r_a452a11d85bde784062f483f79e20e4b2"><td class="memItemLeft" align="right" valign="top">pd.DataFrame&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a452a11d85bde784062f483f79e20e4b2">fill_df_query</a> (pd.DataFrame df, str nome_colonna)</td></tr>
-<tr class="separator:a452a11d85bde784062f483f79e20e4b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00df7e048ef17d1b3399234a6f1923e8" id="r_a00df7e048ef17d1b3399234a6f1923e8"><td class="memItemLeft" align="right" valign="top">pd.DataFrame&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00df7e048ef17d1b3399234a6f1923e8">create_query_df</a> (list kmer_query_list, str nome_colonna)</td></tr>
+<tr class="separator:a00df7e048ef17d1b3399234a6f1923e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a489f875fe627f835d8a347fb48026724" id="r_a489f875fe627f835d8a347fb48026724"><td class="memItemLeft" align="right" valign="top">pd.DataFrame&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a489f875fe627f835d8a347fb48026724">create_sub_df</a> (list kmer_sub_list)</td></tr>
 <tr class="separator:a489f875fe627f835d8a347fb48026724"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f717f0433e8e56f94fcc1c1e24276d9" id="r_a5f717f0433e8e56f94fcc1c1e24276d9"><td class="memItemLeft" align="right" valign="top">pd.DataFrame&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f717f0433e8e56f94fcc1c1e24276d9">fill_sub_df</a> (pd.DataFrame df, list kmer_subject_list)</td></tr>
@@ -259,8 +257,8 @@ Return
 </pre> 
 </div>
 </div>
-<a id="a499288aca0f87577a7d3b9b79493d000" name="a499288aca0f87577a7d3b9b79493d000"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a499288aca0f87577a7d3b9b79493d000">&#9670;&#160;</a></span>create_query_df()</h2>
+<a id="a00df7e048ef17d1b3399234a6f1923e8" name="a00df7e048ef17d1b3399234a6f1923e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00df7e048ef17d1b3399234a6f1923e8">&#9670;&#160;</a></span>create_query_df()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -268,16 +266,21 @@ Return
         <tr>
           <td class="memname"> pd.DataFrame AlphaTeam.Blast.create_query_df </td>
           <td>(</td>
-          <td class="paramtype">list</td>          <td class="paramname"><span class="paramname"><em>kmer_query_list</em></span></td><td>)</td>
+          <td class="paramtype">list</td>          <td class="paramname"><span class="paramname"><em>kmer_query_list</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">str</td>          <td class="paramname"><span class="paramname"><em>nome_colonna</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <pre class="fragment">La funzione prende una lista di input (kmer_query_list) e costruisce un dataframe Pandas 
-organizzato in modo specifico con intestazioni e indici derivati dalla lista. 
+organizzato in modo specifico con intestazioni e indici derivati dalla lista. Inoltre riempie il df creato con gli indici nel quale trova i kmer.
 Parameters
 ----------
  kmer_query_list (list): Lista alternata di intestazioni (index pari) e liste di k-mers (index dispari).
+ nome_colonna (str): Nome di colonna di intestazione da ricercare nel df, per capirne la lunghezza
 Return
 ------
  df (pd.DataFrame) : dataframe con relativi valori. 
@@ -456,35 +459,6 @@ Return
 tuple[str,str]: tupla composta da:
 -extension_right_query (str): sequenza query estesa. 
 -extension_right_sub (str): sequenze subject estese.
-</pre> 
-</div>
-</div>
-<a id="a452a11d85bde784062f483f79e20e4b2" name="a452a11d85bde784062f483f79e20e4b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a452a11d85bde784062f483f79e20e4b2">&#9670;&#160;</a></span>fill_df_query()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"> pd.DataFrame AlphaTeam.Blast.fill_df_query </td>
-          <td>(</td>
-          <td class="paramtype">pd.DataFrame</td>          <td class="paramname"><span class="paramname"><em>df</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">str</td>          <td class="paramname"><span class="paramname"><em>nome_colonna</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">La funzione prende in input un dataframe esistente e aggiorna la colonna presa in input, riempiendone le celle
-Parameters
-----------
- df (pd.DataFrame): dataframe di partenza.
- nome_colonna (str): intestazione della colonna.
-Return
-------
- df (pd.DataFrame): dataframe aggiornato sulla base della colonna con i suoi valori.
 </pre> 
 </div>
 </div>

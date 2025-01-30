@@ -3,9 +3,7 @@
 \doxysubsubsection*{Funzioni}
 \begin{DoxyCompactItemize}
 \item 
-pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a499288aca0f87577a7d3b9b79493d000}{create\+\_\+query\+\_\+df}} (list kmer\+\_\+query\+\_\+list)
-\item 
-pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a452a11d85bde784062f483f79e20e4b2}{fill\+\_\+df\+\_\+query}} (pd.\+Data\+Frame df, str nome\+\_\+colonna)
+pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a00df7e048ef17d1b3399234a6f1923e8}{create\+\_\+query\+\_\+df}} (list kmer\+\_\+query\+\_\+list, str nome\+\_\+colonna)
 \item 
 pd.\+Data\+Frame \mbox{\hyperlink{namespace_alpha_team_1_1_blast_a489f875fe627f835d8a347fb48026724}{create\+\_\+sub\+\_\+df}} (list kmer\+\_\+sub\+\_\+list)
 \item 
@@ -95,17 +93,18 @@ Return
  final_df (pd.DataFrame): dataframe risultante che mappa i k-mer con le posizioni della query e dei subject in tuple,
    salvato anche come file CSV.
 \end{DoxyVerb}
- \Hypertarget{namespace_alpha_team_1_1_blast_a499288aca0f87577a7d3b9b79493d000}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!create\_query\_df@{create\_query\_df}}
+ \Hypertarget{namespace_alpha_team_1_1_blast_a00df7e048ef17d1b3399234a6f1923e8}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!create\_query\_df@{create\_query\_df}}
 \index{create\_query\_df@{create\_query\_df}!AlphaTeam.Blast@{AlphaTeam.Blast}}
 \doxysubsubsection{\texorpdfstring{create\_query\_df()}{create\_query\_df()}}
-{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a499288aca0f87577a7d3b9b79493d000} 
- pd.\+Data\+Frame Alpha\+Team.\+Blast.\+create\+\_\+query\+\_\+df (\begin{DoxyParamCaption}\item[{list}]{kmer\+\_\+query\+\_\+list}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a00df7e048ef17d1b3399234a6f1923e8} 
+ pd.\+Data\+Frame Alpha\+Team.\+Blast.\+create\+\_\+query\+\_\+df (\begin{DoxyParamCaption}\item[{list}]{kmer\+\_\+query\+\_\+list}{, }\item[{str}]{nome\+\_\+colonna}{}\end{DoxyParamCaption})}
 
 \begin{DoxyVerb}La funzione prende una lista di input (kmer_query_list) e costruisce un dataframe Pandas 
-organizzato in modo specifico con intestazioni e indici derivati dalla lista. 
+organizzato in modo specifico con intestazioni e indici derivati dalla lista. Inoltre riempie il df creato con gli indici nel quale trova i kmer.
 Parameters
 ----------
  kmer_query_list (list): Lista alternata di intestazioni (index pari) e liste di k-mers (index dispari).
+ nome_colonna (str): Nome di colonna di intestazione da ricercare nel df, per capirne la lunghezza
 Return
 ------
  df (pd.DataFrame) : dataframe con relativi valori. 
@@ -187,21 +186,6 @@ Return
 tuple[str,str]: tupla composta da:
 -extension_right_query (str): sequenza query estesa. 
 -extension_right_sub (str): sequenze subject estese.
-\end{DoxyVerb}
- \Hypertarget{namespace_alpha_team_1_1_blast_a452a11d85bde784062f483f79e20e4b2}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!fill\_df\_query@{fill\_df\_query}}
-\index{fill\_df\_query@{fill\_df\_query}!AlphaTeam.Blast@{AlphaTeam.Blast}}
-\doxysubsubsection{\texorpdfstring{fill\_df\_query()}{fill\_df\_query()}}
-{\footnotesize\ttfamily \label{namespace_alpha_team_1_1_blast_a452a11d85bde784062f483f79e20e4b2} 
- pd.\+Data\+Frame Alpha\+Team.\+Blast.\+fill\+\_\+df\+\_\+query (\begin{DoxyParamCaption}\item[{pd.\+Data\+Frame}]{df}{, }\item[{str}]{nome\+\_\+colonna}{}\end{DoxyParamCaption})}
-
-\begin{DoxyVerb}La funzione prende in input un dataframe esistente e aggiorna la colonna presa in input, riempiendone le celle
-Parameters
-----------
- df (pd.DataFrame): dataframe di partenza.
- nome_colonna (str): intestazione della colonna.
-Return
-------
- df (pd.DataFrame): dataframe aggiornato sulla base della colonna con i suoi valori.
 \end{DoxyVerb}
  \Hypertarget{namespace_alpha_team_1_1_blast_a5f717f0433e8e56f94fcc1c1e24276d9}\index{AlphaTeam.Blast@{AlphaTeam.Blast}!fill\_sub\_df@{fill\_sub\_df}}
 \index{fill\_sub\_df@{fill\_sub\_df}!AlphaTeam.Blast@{AlphaTeam.Blast}}

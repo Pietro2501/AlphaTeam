@@ -48,36 +48,28 @@ def main():
         time.sleep(1)
 
         ########## CREAZIONE QUERY DF #############
-        print("\033[1;34m📊 Creazione DataFrame della query...\033[0m")
+        print("\033[1;34m📊 Creazione e Fill DataFrame della query...\033[0m")
         time.sleep(0.5)
-        dataf1 = Blast.create_query_df(query.kmer_query1)
-        dataf2 = Blast.create_query_df(query.kmer_query2)
-        datafr1 = Blast.create_query_df(query.kmer_query1r)
-        datafr2 = Blast.create_query_df(query.kmer_query1r)
-        print("\033[1;32m✅ DataFrame query creato con successo!\033[0m")
-        time.sleep(1)
-
-        ############## FASE DI FILL DEI QUERY DF ################
-        print("\033[1;34m📈 Riempimento dei DataFrame della query...\033[0m")
-        time.sleep(0.5)
-        dataf1_fill = Blast.fill_df_query(dataf1, "b6635d67cb594473ddba9f8cfba5d13d")
-        dataf2_fill = Blast.fill_df_query(dataf2, "4516aa60a483dd8c7bbc57098c45f1a5")
-        datafr1_fill = Blast.fill_df_query(datafr1, "b6635d67cb594473ddba9f8cfba5d13d")
-        datafr2_fill = Blast.fill_df_query(datafr2, "4516aa60a483dd8c7bbc57098c45f1a5")
-        print("\033[1;32m✅ DataFrame query riempiti con successo!\033[0m")
+        dataf1 = Blast.create_query_df(query.kmer_query1,"b6635d67cb594473ddba9f8cfba5d13d")
+        dataf2 = Blast.create_query_df(query.kmer_query2,"4516aa60a483dd8c7bbc57098c45f1a5")
+        datafr1 = Blast.create_query_df(query.kmer_query1r,"b6635d67cb594473ddba9f8cfba5d13d")
+        datafr2 = Blast.create_query_df(query.kmer_query1r,"4516aa60a483dd8c7bbc57098c45f1a5")
+        print("\033[1;32m✅ DataFrame query creati e riempiti con successo!\033[0m")
         time.sleep(1)
 
         ########## CREAZIONE SUB DF #############
         print("\033[1;34m📊 Creazione DataFrame del subject...\033[0m")
         time.sleep(1)
         datasub = Blast.create_sub_df(kmer_subject_list)
+        print("\033[1;32m✅ DataFrame del subject creati con successo\033[0m")
+        time.sleep(1)
 
         ############## CARICAMENTO DF SUB FILLATO
         data = tools.load_table('filled_sub_df.csv')
 
         ################ TABELLE PER RICERCA SEED #########################
-        df_final_1 = Blast.create_df_with_positions(dataf1_fill, data, os.path.join(output_folder, 'final1_df'))
-        df_final_2 = Blast.create_df_with_positions(dataf2_fill, data, os.path.join(output_folder,'final2_df'))
+        df_final_1 = Blast.create_df_with_positions(dataf1, data, os.path.join(output_folder, 'final1_df'))
+        df_final_2 = Blast.create_df_with_positions(dataf2, data, os.path.join(output_folder,'final2_df'))
 
         print("\033[1;34m🔍 Ricerca dei seed nei DataFrame...\033[0m")
         time.sleep(0.5)

@@ -19,14 +19,13 @@
 \contentsline {subsubsection}{\numberline {4.2.1.6}create\_sub\_df()}{9}{subsubsection.4.2.1.6}%
 \contentsline {subsubsection}{\numberline {4.2.1.7}extend\_seed()}{10}{subsubsection.4.2.1.7}%
 \contentsline {subsubsection}{\numberline {4.2.1.8}extend\_seed\_right()}{10}{subsubsection.4.2.1.8}%
-\contentsline {subsubsection}{\numberline {4.2.1.9}fill\_df\_query()}{10}{subsubsection.4.2.1.9}%
-\contentsline {subsubsection}{\numberline {4.2.1.10}fill\_sub\_df()}{11}{subsubsection.4.2.1.10}%
-\contentsline {subsubsection}{\numberline {4.2.1.11}find\_mismatch\_window()}{11}{subsubsection.4.2.1.11}%
-\contentsline {subsubsection}{\numberline {4.2.1.12}find\_seeds()}{11}{subsubsection.4.2.1.12}%
-\contentsline {subsubsection}{\numberline {4.2.1.13}get\_sequence()}{12}{subsubsection.4.2.1.13}%
-\contentsline {subsubsection}{\numberline {4.2.1.14}handle\_gaps()}{12}{subsubsection.4.2.1.14}%
-\contentsline {subsubsection}{\numberline {4.2.1.15}metrics\_for\_blast()}{12}{subsubsection.4.2.1.15}%
-\contentsline {subsubsection}{\numberline {4.2.1.16}print\_alignment()}{13}{subsubsection.4.2.1.16}%
+\contentsline {subsubsection}{\numberline {4.2.1.9}fill\_sub\_df()}{10}{subsubsection.4.2.1.9}%
+\contentsline {subsubsection}{\numberline {4.2.1.10}find\_mismatch\_window()}{11}{subsubsection.4.2.1.10}%
+\contentsline {subsubsection}{\numberline {4.2.1.11}find\_seeds()}{11}{subsubsection.4.2.1.11}%
+\contentsline {subsubsection}{\numberline {4.2.1.12}get\_sequence()}{11}{subsubsection.4.2.1.12}%
+\contentsline {subsubsection}{\numberline {4.2.1.13}handle\_gaps()}{12}{subsubsection.4.2.1.13}%
+\contentsline {subsubsection}{\numberline {4.2.1.14}metrics\_for\_blast()}{12}{subsubsection.4.2.1.14}%
+\contentsline {subsubsection}{\numberline {4.2.1.15}print\_alignment()}{12}{subsubsection.4.2.1.15}%
 \contentsline {subsection}{\numberline {4.2.2}Documentazione delle variabili}{13}{subsection.4.2.2}%
 \contentsline {subsubsection}{\numberline {4.2.2.1}transizione}{13}{subsubsection.4.2.2.1}%
 \contentsline {subsubsection}{\numberline {4.2.2.2}trasversione}{13}{subsubsection.4.2.2.2}%

@@ -9,13 +9,14 @@ trasversione = {
     'T': ['A', 'G']
 }
 
-def create_query_df(kmer_query_list: list) -> pd.DataFrame:
+def create_query_df(kmer_query_list: list,nome_colonna:str) -> pd.DataFrame:
     """
     La funzione prende una lista di input (kmer_query_list) e costruisce un dataframe Pandas 
-    organizzato in modo specifico con intestazioni e indici derivati dalla lista. 
+    organizzato in modo specifico con intestazioni e indici derivati dalla lista. Inoltre riempie il df creato con gli indici nel quale trova i kmer.
     Parameters
     ----------
      kmer_query_list (list): Lista alternata di intestazioni (index pari) e liste di k-mers (index dispari).
+     nome_colonna (str): Nome di colonna di intestazione da ricercare nel df, per capirne la lunghezza
     Return
     ------
      df (pd.DataFrame) : dataframe con relativi valori. 
@@ -30,20 +31,11 @@ def create_query_df(kmer_query_list: list) -> pd.DataFrame:
     df = pd.DataFrame('', index=kmers, columns=headers)
     df = df.reset_index()
     df.columns.values[0] = 'kmer'
+
+    if nome_colonna in df.columns:
+        df[nome_colonna] = range(len(df))
     return df
-def fill_df_query(df: pd.DataFrame,nome_colonna: str) -> pd.DataFrame:
-    """
-    La funzione prende in input un dataframe esistente e aggiorna la colonna presa in input, riempiendone le celle
-    Parameters
-    ----------
-     df (pd.DataFrame): dataframe di partenza.
-     nome_colonna (str): intestazione della colonna.
-    Return
-    ------
-     df (pd.DataFrame): dataframe aggiornato sulla base della colonna con i suoi valori.
-    """
-    df[nome_colonna] = range(len(df))
-    return df
+
 def create_sub_df(kmer_sub_list: list) -> pd.DataFrame:
     """
     La funzione  costruisce un DataFrame Pandas organizzato in modo specifico con intestazioni e indici derivati dalla lista in input.
