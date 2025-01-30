@@ -424,9 +424,6 @@ def extend_seed(df_seeds:pd.DataFrame, query_partenza: tuple, list_partenza_subj
         extended_seeds = []
 
         sequence_sub = get_sequence(col, list_partenza_subject)
-        if sequence_sub is None:
-            extended_seeds_dict[col] = extended_seeds
-            continue
 
         list_inner_hsp_q = []
         list_inner_hsp_s = []
@@ -446,16 +443,7 @@ def extend_seed(df_seeds:pd.DataFrame, query_partenza: tuple, list_partenza_subj
                 if i < len(seeds)-1:
                     next_seed = seeds[i + 1]
                     if next_seed:
-                        next_start_q, next_start_s, next_end_q, next_end_s = next_seed
-
-                        try:
-                            next_start_q = int(next_start_q)
-                            next_start_s = int(next_start_s)
-                            next_end_q = int(next_end_q)
-                            next_end_s = int(next_end_s)
-                        except ValueError:
-                            print(f"Errore: I valori di next_start_q, next_start_s, next_end_q, next_end_s devono essere interi. Seed: {next_seed}")
-                            continue
+                        next_start_q, next_start_s, next_end_q, next_end_s = map(int, next_seed)
 
                         diff_q = next_start_q - end_q
                         diff_s = next_start_s - end_s
@@ -658,9 +646,9 @@ def print_alignment(best_alignment_df:pd.DataFrame,output_file :str,result_df:pd
             middle_line = []
             length = max(len(q), len(s))
             for base in range(length):
-                query_char = q[base] if base < len(q) else '-'
-                sub_char = s[base] if base < len(s) else '-'
-                if query_char == '_' or sub_char == '_' or query_char == '-' or sub_char == '-':
+                query_char = q[base] 
+                sub_char = s[base] 
+                if query_char == '_' or sub_char == '_':
                     middle_line.append(' ')
                 elif query_char == sub_char:
                     middle_line.append('|')
