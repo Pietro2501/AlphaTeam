@@ -7,35 +7,6 @@
     <list default="true" id="63e50cce-a113-4f27-9cb7-391984044adf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Blast.py" beforeDir="false" afterPath="$PROJECT_DIR$/Blast.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blast_results/all_alignments_query1.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blast_results/all_alignments_query2.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blast_results/allineamento_flop10_query1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blast_results/allineamento_flop10_query2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blast_results/allineamento_top10_query1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blast_results/allineamento_top10_query2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blast_results/blast_result1.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blast_results/blast_result2.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blast_results/blast_worst_result1.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blast_results/blast_worst_result2.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blast_results/final1_df.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blast_results/final2_df.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blast_results/query1seeds.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blast_results/query2seeds.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/html_documentation/_blast_8py.html" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/_blast_8py.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html_documentation/_blast_8py.js" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/_blast_8py.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html_documentation/doxygen_crawl.html" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/doxygen_crawl.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html_documentation/namespace_alpha_team.js" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/namespace_alpha_team.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html_documentation/namespace_alpha_team_1_1_blast.html" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/namespace_alpha_team_1_1_blast.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html_documentation/namespacemembers.html" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/namespacemembers.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html_documentation/namespacemembers_func.html" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/namespacemembers_func.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html_documentation/navtreeindex0.js" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/navtreeindex0.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html_documentation/search/all_3.js" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/search/all_3.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html_documentation/search/all_5.js" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/search/all_5.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html_documentation/search/functions_2.js" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/search/functions_2.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html_documentation/search/functions_4.js" beforeDir="false" afterPath="$PROJECT_DIR$/html_documentation/search/functions_4.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latex/_blast_8py.tex" beforeDir="false" afterPath="$PROJECT_DIR$/latex/_blast_8py.tex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/latex/namespace_alpha_team_1_1_blast.tex" beforeDir="false" afterPath="$PROJECT_DIR$/latex/namespace_alpha_team_1_1_blast.tex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

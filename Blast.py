@@ -118,7 +118,7 @@ def create_df_with_positions(query_df: pd.DataFrame,subject_df: pd.DataFrame,fil
         final_df = final_df.drop(columns=['kmer'])
     final_df.to_csv(filename +'.csv')
     return final_df
-def find_seeds(df: pd.DataFrame,filename:str, kmer_length:int =22) -> pd.DataFrame:
+def find_seeds(df: pd.DataFrame,filename:str) -> pd.DataFrame:
     """
     La funzione identifica regioni di interesse ("seeds") basandosi sulle tuple (query_start, subject_start) e sul valore kmer_length.
     Processa un dataframe contenente tuple rappresentanti posizioni iniziali di k-mer per creare un nuovo dataframe con "seeds"
@@ -153,6 +153,7 @@ def find_seeds(df: pd.DataFrame,filename:str, kmer_length:int =22) -> pd.DataFra
                 if prev_value is None and next_value is not None:
                     column_seeds.append([query_start, subject_start, None, None])
                 elif prev_value is not None and next_value is None:
+                    query_end, subject_end = current_value
                     if column_seeds and column_seeds[-1][2:] == [None, None]:
                         column_seeds[-1][2:] = [query_end, subject_end]
                 elif prev_value is None and next_value is None:
